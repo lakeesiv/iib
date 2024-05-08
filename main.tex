@@ -6,7 +6,9 @@
 \usepackage{subfiles}
 
 % \providecommand{\topdir}{.}
-\addglobalbib{ref.bib}
+\addglobalbib{./ref.bib}
+\myexternaldocument{np}{./chapters/neural-process/neural-process}
+\myexternaldocument{transformer}{./chapters/transformer/transformer}
 
 % Uncomment to remove dark mode
 % \darkmode 
@@ -22,10 +24,10 @@
 
 
 
-\subfile{transformer}
-\subfile{neural-process}
-\subfile{tnp}
-\subfile{convcnp}
+\subfile{chapters/neural-process/neural-process.tex}
+\subfile{chapters/transformer/transformer.tex}
+\subfile{chapters/tnp/tnp.tex}
+\subfile{chapters/convcnp/convcnp.tex}
 
 
 \printbibliography[heading=bibintoc]{}

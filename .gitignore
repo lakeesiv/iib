@@ -10,9 +10,12 @@
 **/*.bbl
 **/*.bcf
 **/*.run.xml
-convcnp
+# convcnp
 **/*.ttf
 .obsidian
 figures/**/*.md
 PDF
 **/*.synctex(busy)
+._*
+output-subdoc
+chapters/**/*.pdf

@@ -2,7 +2,7 @@
 \newcommand{\crsid}{ls914}
 \newcommand{\labgroup}{46}
 \newcommand{\college}{Emmanuel College}
-\newcommand{\logodir}{./logo/Emmanuel.pdf}
+\newcommand{\logodir}{./utils/logo/Emmanuel.pdf}
 
 \newcommand{\tikzcolor}{black}
 \newcommand{\tikzcoloropposite}{white}
@@ -44,6 +44,8 @@
 \usepackage{tabularx}
 \usepackage{multicol}
 \usepackage{bm}
+\usepackage{xr}
+
 \usepackage[
 backend=biber,
 style=alphabetic,
@@ -212,3 +214,24 @@ style=alphabetic,
 \end{center}
 }
 
+\makeatletter
+\newcommand*{\addFileDependency}[1]{% argument=file name and extension
+\typeout{(#1)}% latexmk will find this if $recorder=0
+% however, in that case, it will ignore #1 if it is a .aux or 
+% .pdf file etc and it exists! If it doesn't exist, it will appear 
+% in the list of dependents regardless)
+%
+% Write the following if you want it to appear in \listfiles 
+% --- although not really necessary and latexmk doesn't use this
+%
+\@addtofilelist{#1}
+%
+% latexmk will find this message if #1 doesn't exist (yet)
+\IfFileExists{#1}{}{\typeout{No file #1.}}
+}\makeatother
+
+\newcommand*{\myexternaldocument}[2]{%
+\externaldocument[#1-]{#2}%
+\addFileDependency{#2.tex}%
+\addFileDependency{#2.aux}%
+}

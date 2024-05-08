@@ -1,10 +1,11 @@
-\documentclass[main.tex]{subfiles}
+\documentclass[../../main.tex]{subfiles}
 
 \begin{document}
 
 
 \section{Neural Processes}
 
+\autoref{transformer-pe}
 Neural Processes are an expansion of Gaussian Processes using Neural Networks introduced in \cite{garnelo2018neural} they are trained on a context dataset which is. Neural processes are a meta-learning algorithm that can be used for few-shot learning. They are trained on a context dataset which is a set of input-output pairs $\mathcal{D} = \{ (x_i, y_i) \}_{i=1}^N$. 
 
 \subsection{Meta Learning}
@@ -39,12 +40,13 @@ The overall architecture is shown in Figure \ref{fig:cnp-architecture}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textwidth]{./figures/np/cnp.png}
+	\includegraphics[height=0.3\textwidth]{./cnp.png}
 	\caption{CNP Architecture}
 	\label{fig:cnp-architecture}
 \end{figure}
 
 \subsection{Neural Processes vs Gaussian Processes}
+\label{aaa}
 
 From this, it is clear that NPs achieve a \emph{prediction} map, $\pi$ which maps the context set to the target set into a posterior distribution over the outputs. 
 
@@ -108,7 +110,7 @@ The full model is shown in Figure \ref{fig:lnp-architecture}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textwidth]{./figures/np/lnp.png}
+	\includegraphics[height=0.3\textwidth]{./lnp.png}
 	\caption{LNP Architecture}
 	\label{fig:lnp-architecture}
 \end{figure}
@@ -123,9 +125,9 @@ The likelihood of the target points is then given by the marginal likelihood of 
 
 We can see that we express the conditional distribution over the target points conditioned on the latent representation $\mathbf{z}$ as a factorized (a) product of Gaussians (b), this may seem like we are making the same factorization assumption as CNPs. However, the difference is that we are not making this assumption conditioned on the latent variable instead of the context set. This integral models an \emph{infinite mixture} of Gaussians which allows us to model \emph{any} distribution over the target points.  The downside is that the likelihood is intractable and we need to use approximate inference methods such as Variational Inference (VI) or Sample Estimation using Monte Carlo (MC) methods to train the model which typically leads to biased estimates of the likelihood with high variance, thus we require more samples to train the model.
 
-\ifSubfilesClassLoaded{%
-    \printbibliography{}
-}{} 
+% \ifSubfilesClassLoaded{%
+%     \printbibliography{}
+% }{} 
 
 
 \end{document}

@@ -10,13 +10,16 @@
     "**/*.blg": true,
     "**/*.bbl": true,
     "**/*.bcf": true,
+    "**/*/._word*": true,
+    "._word*": true,
     "**/*.run.xml": true,
+    "chapters/**/*.pdf": true,
     "sections/*.pdf": true,
-    "logo": true,
+    "latexmkrc": true,
     "report\\logo": true,
     ".obsidian": true,
     "cmbx12.ttf": true
-  },
+  }
   // "latex-workshop.view.pdf.color.dark.pageColorsBackground": "#171717", // For Dark Viewwer
   // "latex-workshop.view.pdf.color.dark.pageColorsForeground": "#FFFFFF", // For Dark Viewer
   // "latex-workshop.view.pdf.color.dark.backgroundColor": "#171717", // For Dark Viewer

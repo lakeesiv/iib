@@ -38,11 +38,11 @@
           "*.run.xml" // Added Manually
         ],
         // Edit the following property to change export directory
-        "latex-workshop.latex.outDir": "./pdf",
+        // "latex-workshop.latex.outDir": "./pdf",
         "latex-workshop.latex.autoClean.run": "onBuilt",
         "latex-workshop.latex.build.forceRecipeUsage": false,
         "latex-workshop.synctex.afterBuild.enabled": true,
-        "latex-workshop.view.pdf.viewer": "tab",
+        "latex-workshop.view.pdf.viewer": "browser",
         "latex-workshop.latex.clean.subfolder.enabled": true,
         "latex-workshop.latex.magic.args": [
           "-output-directory=pdf", // to change the output directory
