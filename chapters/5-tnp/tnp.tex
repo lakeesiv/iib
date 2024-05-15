@@ -4,18 +4,24 @@
 
 \section{Transformer Neural Processes}
 
-\subsection{Introduction}
+\subsection{Vanilla Transformer Neural Process}
 
-Transformer Neural Processes (TNPs) \cite{nguyen2023transformer} were introduced to overcome the limitations of the Latent Neural Process (LNP) \cite{garnelo2018neural} which have the following limitations:
+An Attention based encoder for the Neural Process was investigated in \cite{kim2019attentive}, though the results were impressive, the model fails to perform at larger scale and `tends to make overconfident predictions and have poor performance on sequential decision-making problems' \cite{nguyen2023transformer}. It is natural to think that the Transformer \cite{vaswani2017attention} could be used to improve the performance of the Neural Process, as Transformers have been proven to effectively model large scale data using attention mechanisms. \cite{nguyen2023transformer} introduced the Transformer Neural Process (TNP) which uses an \emph{encoder-only} Transformer to learn the relationships between the context and target points via self-attention with appropriate masking. 
 
-\begin{itemize}
-	\item LNPs have intracatable likelihoods hence they have to be trained using variational inference by optimizing for the ELBO. It has been shown that the ELBO can be a poor approximation of the true likelihood hence the model can be poorly trained.
-	\item LNPs tend to underfit the data and are unable to capture the complexity of the data.
-\end{itemize}
+\subsubsection{Model Architecture}
 
-TNPs overcome these limitations by using the Transformer \cite{vaswani2017attention} to utilize attention to learn the relationships between the context points. This allows the model to capture the complexity of the data and also allows the model to be trained using maximum likelihood estimation (MLE) instead of variational inference as the likelihood is tractable.
+Similar to the standard Neural Process architecture we are required to encode datapoints within the context set into a vector representation / tokens. Where the TNP differs is that it also encodes the target points along which is padded with zeros to represent the lack of value for the target data points. We introduce a flag bit to indicate whether the token is a context or target token. Consider the context dataset $\mathcal{C} = \{(\bm{x_i}, \bm{y_i})\}_{i=1}^{N_c}$ and target set $\mathcal{T} = \{(\bm{x_i})\}_{i=N_c+1}^{N}$, the model will encode a datapoint into a token $\bm{t_i}$ as follows:
 
-Attention has already been implemented before \cite{nguyen2023transformer} in \cite{kim2019attentive} however according to \cite{nguyen2023transformer} the attention mechanism used in \cite{kim2019attentive} tends to make overconfident predictions and have poor performance on sequential decision-making problems.
+\[
+	\bm{t_i} = \begin{cases}
+		\text{MLP}(\texttt{cat}[\bm{x_i},  0, \bm{y_i}]) & \text{if } i \leq N_c \\
+		\text{MLP}(\texttt{cat}[\bm{x_i},  1, \bm{ 0}]) & \text{if } i > N_c
+	\end{cases}
+\]
+
+Where we use a flag bit of 0 to indicate a context token and 1 to indicate a target token. Now that the datapoints are tokenized we can pass them through the Transformer encoder to learn the relationships between the context and target points. Importantly the Transformer encoder is masked such that the target tokens can only attend to the context tokens and previous target tokens
+
+\todo{ADD FIGURE OF MASKING}
 
 \subsection{Requirements}
 
