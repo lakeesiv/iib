@@ -12,6 +12,7 @@
     "**/*.bcf": true,
     "**/*/._word*": true,
     "._word*": true,
+    "**/output-*": true,
     "**/*.run.xml": true,
     "chapters/**/*.pdf": true,
     "sections/*.pdf": true,
