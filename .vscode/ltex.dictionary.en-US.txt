@@ -1,0 +1,6 @@
+ConvNP
+sawtooth
+non-linearities
+Equivariance
+Equivariant
+TETNP

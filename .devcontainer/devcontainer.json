@@ -75,7 +75,7 @@
         // Uncomment the line below if you do not want LanguageTool Support
         // "valentjn.vscode-ltex",
         // Remove the line below if you do not want Grammarly
-        "znck.grammarly"
+        "valentjn.vscode-ltex"
       ]
     }
   }

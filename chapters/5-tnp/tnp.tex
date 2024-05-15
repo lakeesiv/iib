@@ -9,11 +9,11 @@ An Attention based encoder for the Neural Process was investigated in \cite{kim2
 
 \subsection{Model Architecture}
 
-Similar to the standard Neural Process architecture we are required to encode datapoints within the context set into a vector representation, in language modelling literature we refer to this as tokenization. The tokenization is done by using a simple Multi-Layer Perceptron (MLP) to encode the datapoints into vector tokens with a configurable token dimension, $D_{em}$.
+Similar to the standard Neural Process architecture we are required to encode data points within the context set into a vector representation, in language modelling literature we refer to this as tokenization. The tokenization is done by using a simple Multi-Layer Perceptron (MLP) to encode the data points into vector tokens with a configurable token dimension, $D_{em}$.
 
 Where the TNP differs is that it also encodes the target points which is padded with zeros to represent the lack of value for the target data points, then both context and target tokens are passed into the transformer at the same time instead of computing a context representation and then passing the target points as in the standard NP.
 
-A flag bit is introduced into the tokens to indicate whether the token is a context or target token. Consider the context dataset $\mathcal{C} = \{(\bm{x_i}, \bm{y_i})\}_{i=1}^{N_c}$ and target set $\mathcal{T} = \{(\bm{x_i})\}_{i=N_c+1}^{N}$, the model will encode a datapoint into a token $\bm{t_i}$ as follows:
+A flag bit is introduced into the tokens to indicate whether the token is a context or target token. Consider the context dataset $\mathcal{C} = \{(\bm{x_i}, \bm{y_i})\}_{i=1}^{N_c}$ and target set $\mathcal{T} = \{(\bm{x_i})\}_{i=N_c+1}^{N}$, the model will encode a data point into a token $\bm{t_i}$ as follows:
 
 \[
 	\bm{t_i} = \begin{cases}
@@ -24,33 +24,34 @@ A flag bit is introduced into the tokens to indicate whether the token is a cont
 
 Where we use a flag bit of 0 to indicate a context token and 1 to indicate a target token, $\texttt{cat}$ is the concatenation operation and $\bm{0}$ is a vector of zeros of the same dimension as $\bm{y_i}$.
 
-Now that the datapoints are tokenized we can pass them through the Transformer encoder to learn the relationships between the context and target points. Importantly the Transformer encoder is masked such that the target tokens can only attend to the context tokens and previous target tokens
+Now that the data points are tokenized we can pass them through the Transformer encoder to learn the relationships between the context and target points. Importantly the Transformer encoder is masked such that the target tokens can only attend to the context tokens and previous target tokens
 
 \todo{ADD FIGURE OF MASKING}
 
-With the correct masking inplace, we can now pass the tokens through the Transformer encoder layer several times to learn the relationships between the context and target points and generate a vector output. The output of the Transformer encoder is then passed through a Multi-Layer Perceptron (MLP) to generate the mean and variance of the predictive distribution of the target points. 
+With the correct masking in place, we can now pass the tokens through the Transformer encoder layer several times to learn the relationships between the context and target points and generate a vector output. The output of the Transformer encoder is then passed through a Multi-Layer Perceptron (MLP) to generate the mean and variance of the predictive distribution of the target points. 
 
 \todo{ADD FIGURE OF TRANSFORMER NEURAL PROCESS}
 
 \subsection{Performance}
 
-One of the key benefits of Transfromers (and attention) is the ability to have a global view of the data, analgous to an `infinite repective field' in Convolutional Neural Networks. This allows the model to learn very complicated relationships across many length scales in the data. However this can be a double edged sword as the model can overfit to the data within its training region and fail to generalise to unseen data. 
+One of the key benefits of Transformers (and attention) is the ability to have a global view of the data, analogous to an `infinite receptive field' in Convolutional Neural Networks. This allows the model to learn very complicated relationships across many length scales in the data. However, this can be a double-edged sword as the model can overfit to the data within its training region and fail to generalize to unseen data. 
 
-Translation Equivariance is a key property behind CNNs which allow them to generalise excellently to unseen data by learning features irrespective of their position in the data. Such feature learning is critical to modelling real world data where the postions of the data do not matter as much as the relative relationships between the data points, e.g in image classification the position of the object in the image does not matter as much as the features of the object itself. Transformers lack this property, causing them to generate random predictions when the data is shifted. 
+Translation Equivariance is a key property behind CNNs which allow them to generalize excellently to unseen data by learning features irrespective of their position in the data. Such feature learning is critical to modelling real world data where the positions of the data do not matter as much as the relative relationships between the data points, e.g. in image classification the position of the object in the image does not matter as much as the features of the object itself. Transformers lack this property, causing them to generate random predictions when the data is shifted. 
 
 \todo{Add a figure showing the effect of shifting the data on the predictions of the TNP}
 
-\emph{What if we could combine the best of both worlds?} Could we create a Translation Equivariant Transformer Neural Process (TETNP) which possesses the global view of the Transformer and the generalisation properties of the CNN.
+\emph{What if we could combine the best of both worlds?} Could we create a Translation Equivariant Transformer Neural Process (TETNP) which possesses the global view of the Transformer and the generalization properties of the CNN.
 
 
-\section{Efficent Transformer Neural Process}
+\section{Efficient Transformer Neural Process}
 
 \todo{Add a section on the Efficient Transformer Neural Process}
 
 
 \section{Translation Equivariant Transformer Neural Process}
+\label{sec:tetnp}
 
-Recall, Translation Equivariance requires the model to to yield the same output when the input is shifted. Such property must imply that the model only learns the relative distances between the data points ($\bm{x_i} - \bm{x_j}$) and \emph{not} the absolute positions of the data points. How could one enforce such a property in the Transformer Neural Process? The solution used is very simple, we add an additonal term to the attention mechanisms in the Transformer to enforce the Translation Equivariance property!
+Recall, Translation Equivariance requires the model to yield the same output when the input is shifted. Such property must imply that the model only learns the relative distances between the data points ($\bm{x_i} - \bm{x_j}$) and \emph{not} the absolute positions of the data points. How could one enforce such a property in the Transformer Neural Process? The solution used is very simple, we add a term to the attention mechanisms in the Transformer to enforce the Translation Equivariance property!
 
 Consider the standard attention mechanism in the Transformer, the attention weights are computed as:
 
@@ -60,7 +61,7 @@ Consider the standard attention mechanism in the Transformer, the attention weig
 	 \quad \bm{E_{ij}} &= \frac{\bm{q_i} \cdot \bm{k_j}}{\sqrt{d_k}}
 \end{align}
 
-To create a Translation Equivariant Attention mechanism we add an additional term to the attention weights which enforces the Translation Equivariance property. The new attention weights are computed with the following equation:
+To create a Translation Equivariant Attention mechanism we add a term to the attention weights which enforces the Translation Equivariance property. The new attention weights are computed with the following equation:
 
 \begin{align}
 	\text{Attention}(\bm{Q}, \bm{K}, \bm{V}, \bm{X}) &= \text{softmax}\left(\bm{E} + \bm{\Delta} \right) \bm{V}\\
@@ -84,7 +85,7 @@ Importantly since we are enforcing the Transformer to learn the relative distanc
 
 \todo{Highlight diffeerence in the encoding of the data points between TNP and TETNP}
 
-A benefit of removing the $\bm{x}$ values from the tokenization is that the tokens only need to encode the $\bm{y}$ values, reducing the dimensionality of the tokens whilst also seperating the encoding for $\bm{x}$ and $\bm{y}$ values which could be beneficial for the model as in the vanilla TNP the model loses distinction between the $\bm{x}$ and $\bm{y}$ values since they are embedded together.
+A benefit of removing the $\bm{x}$ values from the tokenization is that the tokens only need to encode the $\bm{y}$ values, reducing the dimensionality of the tokens whilst also separating the encoding for $\bm{x}$ and $\bm{y}$ values which could be beneficial for the model as in the vanilla TNP the model loses distinction between the $\bm{x}$ and $\bm{y}$ values since they are embedded together.
 
 
 

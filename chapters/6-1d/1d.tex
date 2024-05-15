@@ -2,15 +2,58 @@
 
 \begin{document}
 
+We will use 1D datasets to firstly optimize the hyperparameters of the TNP models and use this to compare the performance of the TNP and ConvNP models. The metric used to compare the models is the validation loss of the models on unseen data. Furthermore, we will look at the plots of the predictions to observe the behavior of the models especially in the regions outside the training data.
+
 
 \section{Datasets}
 
 \subsection{Gaussian Process}
+
+We will use samples from a Gaussian Process to generate the data. The aim will be for our model to learn the underlying function of the Gaussian Process and fit the data just like the original Gaussian Process. The Gaussian Process is defined as:
+
+\begin{equation}
+	f(x) \sim \mathcal{GP}(0, k(x, x'))
+\end{equation}
+
+Where we use the squared exponential kernel:
+
+\begin{equation}
+	k(x, x') = \exp\left(-\frac{(x - x')^2}{2l^2}\right)
+\end{equation}
+
+With length scales being sampled from a uniform distribution $l \sim \mathcal{U}(\log(-0.101), \log(0.101))$. We choose to sample $N_c$ context points from the Gaussian Process and use these as the training data for our models. We then sample $N_t$ target points from the Gaussian Process and use these as the validation data for our models. Depending on the specific task we will either fix or vary the number of context points $N_c$ and target points $N_t$.
+
+
 \subsection{Sawtooth}
+
+Whilst the GP is useful for testing the models on a smooth function, we also want to test the models on a more complex function, particularly one with discontinuities. We will use the sawtooth function for this purpose. The sawtooth function with period $T$ is defined as:
+
+\begin{equation}
+	f(x) = x - T \left\lfloor \frac{x}{T} \right\rfloor + n
+\end{equation}
+
+Where $n$ is some random noise which is sampled from a normal distribution $n \sim \mathcal{N}(0, 0.1)$.
+We will sample $N_c$ context points from the sawtooth function and use these as the training data for our models. We then sample $N_t$ target points from the sawtooth function and use these as the validation data for our models. Depending on the specific task we will either fix or vary the number of context points $N_c$ and target points $N_t$.
+
 
 \section{Relative Attention Function}
 
+As mentioned in \autoref{sec:tetnp} we need to pass the matrix of differences ($\bm{\Delta}$) between $x$ values through a function $F$ to apply non-linearities to the differences acting as hyperparameter of our mode. We will investigate using a simple linear function with no bias and gradient 1 (`identity') as a baseline. For non-linear functions, we will consider using a Gaussian Radial Basis Function (RBF) and a Multi-Layer Perceptron (MLP). The functions are defined below:
+
+\begin{align}
+	F_{\text{identity}}(\Delta) &= \Delta&
+	F_{\text{RBF}}(\Delta) &= \exp\left(-\frac{\Delta^2}{2\sigma^2}\right)&
+	F_{\text{MLP}}(\Delta) &= \text{MLP}(\Delta)
+\end{align}
+
+Where $\sigma$ is a hyperparameter of the RBF function and $\text{MLP}(\Delta)$ is a 2-layer MLP with ReLU activation functions.
+
+\todo{Add results}
+
 \section{Optimizing Hyperparameters}
+
+
+
 
 \section{TNP vs ConvNP}
 
