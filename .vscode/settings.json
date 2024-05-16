@@ -14,8 +14,6 @@
     "._word*": true,
     "**/output-*": true,
     "**/*.run.xml": true,
-    "chapters/**/*.pdf": true,
-    "sections/*.pdf": true,
     "latexmkrc": true,
     "report\\logo": true,
     ".obsidian": true,

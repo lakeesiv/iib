@@ -18,4 +18,3 @@ PDF
 **/*.synctex(busy)
 ._*
 output-subdoc
-chapters/**/*.pdf
