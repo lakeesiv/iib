@@ -65,12 +65,12 @@ To create a Translation Equivariant Attention mechanism we add a term to the att
 
 \begin{align}
 	\label{eq:relative-attention}
-	\text{Attention}(\bm{Q}, \bm{K}, \bm{V}, \bm{X}) &= \text{softmax}\left(\bm{E} + \bm{\Delta} \right) \bm{V}\\
+	\text{Attention}(\bm{Q}, \bm{K}, \bm{V}, \bm{X}) &= \text{softmax}\left(\bm{E} + F(\bm{\Delta}) \right) \bm{V}\\
 	\quad \bm{E_{ij}} &= \frac{\bm{q_i} \cdot \bm{k_j}}{\sqrt{d_k}}\\
-	 \quad \bm{\Delta_{ij}} &= F(\bm{x_i} - \bm{x_j})
+	 \quad \bm{\Delta_{ij}} &= \bm{x_i} - \bm{x_j}
 \end{align}
 
-Where $F$ is some function that introduces non-linearity into the attention weights, we will investigate the effect of different functions in the experiments later on. It is clear to see that if all the input locations are shifted by a constant $\bm{\tau}$, the $\bm{\Delta}$ term will remain the same $\bm{\Delta_{ij}} = F(\bm{x_i} + \bm{\tau} - \bm{x_j} - \bm{\tau}) = F(\bm{x_i} - \bm{x_j})$ and the attention weights will remain the same.
+Where $F$ is some function that introduces non-linearity into the attention weights and is applied to each entry of the matrix independently ($F(\bm{\Delta})_{ij} = F(\bm{\Delta_{ij}})$), we will investigate the effect of different functions in the experiments later on. It is clear to see that if all the input locations are shifted by a constant $\bm{\tau}$, the relative term will remain the same $\bm{F(\Delta_{ij})} = F(\bm{x_i} + \bm{\tau} - \bm{x_j} - \bm{\tau}) = F(\bm{x_i} - \bm{x_j})$ and the attention weights will remain the same.
 
 Importantly since we are enforcing the Transformer to learn the relative distances between the data points, we must remove the $\bm{x}$ values from the tokenization of the data points. The tokenization of the data points is now:
 
