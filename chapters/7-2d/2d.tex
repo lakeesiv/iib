@@ -46,19 +46,44 @@ Where
 \end{align}
 
 
-We will investigate the performance of the TETNP with the `Post Relative Attention Function' compared to the original `Pre Relative Attention Function'.
-
-\todo{Add Results}
+We will investigate the performance of the TETNP with the `Post Relative Attention Function' compared to the original `Pre Relative Attention Function'. We choose to use the Sawtooth dataset as it is more diffucult to learn than the Gaussian Process dataset and will show the differences between the two models more clearly. 
 
 
-\section{ConvNP vs TNP}
+\todo{Graphs of vals loss between relative attn functions}
+
+The results show that the TETNP with the `Post Relative Attention Function' outperforms the TETNP with the `Pre Relative Attention Function' by quite a large margin. Trivially this makes a lot of sense as the Post function can further refine the dot product attention through the MLP whilst in the `Pre' function the MLP is \emph{only} applied to the $\bm{delta}$ matrix. The computational complexity of these two functions are not too different as the MLP are small and applied to the same size matrices. 
+
+
+\section{ConvNP vs TETNP}
+
+We have discovered in the 1D section that the TETNP outperforms the vanilla TNP in all cases, hence for the 2D experiments we will only compare the ConvNP to the TETNP. When performing our experiments we will use models which are both 1 million parameters in size, to ensure a fair comparison.
 
 \subsection{Gaussian Process}
 
+As mentioned previously, the Gaussian Process dataset is not very difficult to learn and the ConvNP and TETNP both perform very well on this dataset. 
+
+\todo{Graph of VAL loss of TETNP vs ConvNP}
+\todo{Plot of samples from TETNP and ConvNP}
+
 \subsection{Sawtooth}
+
+\subsubsection{Full Sawtooth}
+
+\todo{Values for VAL loss of TETNP vs ConvNP}
+\todo{Examples of samples from TETNP and ConvNP}
+
+\subsubsection{Restricted Sawtooth}
+
+\todo{Values for VAL loss of TETNP vs ConvNP}
+\todo{Examples of samples from TETNP and ConvNP}
 
 \subsection{Rotational Equivariance}
 
+\todo{Plots from RE experiments and values}
+
+\section{Computational Complexity}
+
+\todo{BIG TODO}
 
 \ifSubfilesClassLoaded{%
     \printbibliography{}

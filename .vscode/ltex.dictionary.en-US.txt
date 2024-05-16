@@ -4,3 +4,4 @@ non-linearities
 Equivariance
 Equivariant
 TETNP
+lengthscale
