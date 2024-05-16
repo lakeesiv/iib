@@ -4,10 +4,52 @@
 
 \section{Datasets}
 
+\subsection{Gaussian Process}
+
+The 2D Gaussian Process is the natural extension of the 1D Gaussian Process described in \autoref{sec:1d-gp-dataset} where we use the squared exponential kernel. We continue to use the same range of lengthscale across both input dimensions as the 1D Gaussian Process. 
+
+The following plots show some samples from the GP dataset.
+
+\todo{Add plots of GP dataset}
+
+
+\subsection{Sawtooth}
+
+The 2D Sawtooth dataset is the natural extension of the 1D Sawtooth dataset described in \autoref{sec:1d-sawtooth-dataset}. We continue to use the same period $T$ and noise $n$ across both input dimensions as the 1D Sawtooth dataset.
+
+The following plots show some samples from the Sawtooth dataset.
+
+\todo{Add plots of Sawtooth dataset}
+
 \subsection{Restricted Sawtooth}
 
+By accident when generating the 2D Sawtooth dataset, we ended up restricted the `direction of travel' of the sawtooth function to the line of $x_1 = x_2$ or $x_1 = -x_2$. This was not intentional but when training both models on this dataset, we found very interesting results. As the models only learn a subset of the `full sawtooth' function, we can see how well the models can generalize to samples from the full sawtooth function.
 
-\section{Post or Pre Kernel}
+The following plots show some samples from the Restricted Sawtooth dataset.
+
+\section{Post or Pre Relative Attention Function}
+
+\todo{Highlight MLP}
+
+In our original formulation of the TETNP (\autoref{sec:tetnp}) we pass the matrix of differences ($\bm{\Delta}$) between $x$ values through a function $F$ to apply non-linearities then add it to the dot product attention \autoref{eq:relative-attention}, whilst this performs well we can also consider applying this non-linearity after combining the dot product attention and the relative attention, this method is called the `Post Relative Attention Function'. 
+
+\begin{align}
+	\text{Attention}(\bm{Q}, \bm{K}, \bm{V}, \bm{X}) &= \text{softmax}\left(\bm{E} \right) \bm{V}
+\end{align}
+\begin{align}
+	\text{Pre:} \quad \bm{E_{ij}} &= \bm{D_{ij}}+ \text{MLP}(\bm{\Delta_{ij}})\\
+    \text{Post:} \quad \bm{E_{ij}} &= \text{MLP}(\texttt{cat}[ \bm{D_{ij}}, \bm{\Delta_{ij}}])
+\end{align}
+Where 
+\begin{align}
+     \bm{D_{ij}} = \bm{q_i} \cdot \bm{k_j}  /\sqrt{d_k} \quad \quad    \bm{\Delta_{ij}} = \bm{x_i} - \bm{x_j}
+\end{align}
+
+
+We will investigate the performance of the TETNP with the `Post Relative Attention Function' compared to the original `Pre Relative Attention Function'.
+
+\todo{Add Results}
+
 
 \section{ConvNP vs TNP}
 

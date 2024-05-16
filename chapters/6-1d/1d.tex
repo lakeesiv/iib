@@ -8,6 +8,7 @@ We will use 1D datasets to firstly optimize the hyperparameters of the TNP model
 \section{Datasets}
 
 \subsection{Gaussian Process}
+\label{sec:1d-gp-dataset}
 
 We will use samples from a Gaussian Process to generate the data. The aim will be for our model to learn the underlying function of the Gaussian Process and fit the data just like the original Gaussian Process. The Gaussian Process is defined as:
 
@@ -25,6 +26,7 @@ With length scales being sampled from a uniform distribution $l \sim \mathcal{U}
 
 
 \subsection{Sawtooth}
+\label{sec:1d-sawtooth-dataset}
 
 Whilst the GP is useful for testing the models on a smooth function, we also want to test the models on a more complex function, particularly one with discontinuities. We will use the sawtooth function for this purpose. The sawtooth function with period $T$ is defined as:
 
@@ -48,14 +50,87 @@ As mentioned in \autoref{sec:tetnp} we need to pass the matrix of differences ($
 
 Where $\sigma$ is a hyperparameter of the RBF function and $\text{MLP}(\Delta)$ is a 2-layer MLP with ReLU activation functions.
 
-\todo{Add results}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{./function.png}
+	\caption{Relative Attention Functions on Validation Loss for the TETNP on the 1D Sawtooth Dataset. Lower validation loss is better.}
+	\label{fig:relative-attn-func-1d}
+\end{figure}
+
+\autoref{fig:relative-attn-func-1d} shows the validation loss curves for the TNP with different relative attention functions. We can see that the MLP function performs significantly better than the other two functions. This is likely due to the MLP being able to \textbf{learn} whilst the other two functions are fixed. We can also see that the RBF function performs better than the identify function since the effect of adding the raw difference affects the dot product of the attention mechanism. So we can conclude that the MLP function is the best function to use for the TNP. The computational cost of using the MLP function is also not significantly higher than the other two functions, since the MLP is very small.
+
+
 
 \section{Optimizing Hyperparameters}
+
+The multi-headed attention mechanism in the Transformer Encoder has three hyperparameters that we will investigate. These are
+the token embedding dimension of the data ($D_{em}$), the number of attention heads ($N_h$) and the embedding dimension of the attention heads ($D_h$). We will investigate how changing these hyperparameters affects the performance of the model. To gauge the effect of these hyperparameters, we use a 1 million parameter model and reduce the value of one of the hyperparameters and see the effect on the validation loss. This process is repeated for the other hyperparameters to see which hyperparameters have the most effect on the validation loss. 
+
+
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Token Embedding Dimension]{\includegraphics[width=0.30\linewidth]{./token.jpg}\label{fig:hyperparam-optimization-token}}
+	\qquad
+	\subfloat[Number of Heads]{\includegraphics[width=0.30\linewidth]{./num.jpg}\label{fig:hyperparam-optimization-num}}
+	\qquad
+	\subfloat[Head Embedding Dimension]{\includegraphics[width=0.30\linewidth]{./head.jpg}\label{fig:hyperparam-optimization-head}}
+	\caption{Hyperparameter Selection}
+	\label{fig:hyperparam-optimization}
+\end{figure}
+
+From \autoref{fig:hyperparam-optimization} it is clear that reducing the token embedding dimension has a significant effect on the validation loss, with the number of heads making a smaller difference and the head embedding dimension making very little difference. This highlights the importance of the token embedding dimension even when using low one-dimensional data as the input data (in this case sawtooth function). Furthermore, the head embedding dimension has very little effect on the validation loss, so we can set this to a small value to reduce the number of parameters in the model and distribute the parameters to the other hyperparameters. Using this knowledge, we will now investigate how to select the hyperparameters using a \emph{constant parameter budget} of 1 million parameters. 
+
+% 1m.jpg
+
+\FloatBarrier
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{./1m.png}
+	\caption{Constant Parameter Budget Hyperparameter Selection}
+	\label{fig:1m-parameter-budget}
+\end{figure}
+\FloatBarrier
+
+\autoref{fig:1m-parameter-budget} shows a parallel coordinates plot of the validation loss for different hyperparameter configurations, where dark blue is the best and dark red is the worst. We can see that the model that performs the best has a very high token embedding dimension, high headcount and low head embedding dimension, which is consistent with the previous results. We can also see that if we go too high in the token embedding dimension (200), the model performs worse as we have to sacrifice the number of heads in the transformer. These results give us a set of best practices for selecting hyperparameters for the TNP: high token embedding dimension, high number of heads and low head embedding dimension.
+
 
 
 
 
 \section{TNP vs ConvNP}
+
+\subsection{Model Fits}
+
+Finally using our `best' TNP model, we will compare the performance of the ConvNP and TNP on fitting sawtooth and GP (using EQ Kernel) data using 1 million parameters. 
+
+% result.png
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{./result.png}
+	\caption{ConvNP vs TNP on Sawtooth and GP Data}
+	\label{fig:conv-tnp-1d-result}
+\end{figure}
+
+\autoref{fig:conv-tnp-1d-result} shows the validation loss curves for the ConvNP and TNP on sawtooth and GP data. We can see that the validation loss for the TNP is lower than the ConvNP for both datasets which is very promising and indicates the TNP is a better model than the ConvNP. 
+
+
+\begin{figure}[H]
+	\centering
+	\subfloat[TNP]{\includegraphics[width=0.47\linewidth]{./tnp_saw.png}\label{fig:1d-sawtooth-comparisons-tnp_saw}}
+	\qquad
+	\subfloat[ConvNP]{\includegraphics[width=0.47\linewidth]{./convnp_saw.png}\label{fig:1d-sawtooth-comparisons-convnp_saw}}
+	\caption{ConvNP vs TNP on Sawtooth Data}
+	\label{fig:1d-sawtooth-comparisons}
+\end{figure}
+
+Inspecting the model fits on sawtooth data \autoref{fig:1d-sawtooth-comparisons}, we observe that the TNP can extrapolate the structure of the sawtooth function beyond the range of the context set (black points) whilst the ConvNP performs decently but fails to retain the structure as well as the TNP, since the amplitude of the sawtooth reduces the further away from the context set. Hence we can conclude that the TNP can better understand the structure of the data than the ConvNP.
+
+\subsection{Runtime Comparison}
+
+\todo{Add runtime comparison}
+
 
 
 \ifSubfilesClassLoaded{%

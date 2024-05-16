@@ -64,6 +64,7 @@ Consider the standard attention mechanism in the Transformer, the attention weig
 To create a Translation Equivariant Attention mechanism we add a term to the attention weights which enforces the Translation Equivariance property. The new attention weights are computed with the following equation:
 
 \begin{align}
+	\label{eq:relative-attention}
 	\text{Attention}(\bm{Q}, \bm{K}, \bm{V}, \bm{X}) &= \text{softmax}\left(\bm{E} + \bm{\Delta} \right) \bm{V}\\
 	\quad \bm{E_{ij}} &= \frac{\bm{q_i} \cdot \bm{k_j}}{\sqrt{d_k}}\\
 	 \quad \bm{\Delta_{ij}} &= F(\bm{x_i} - \bm{x_j})
