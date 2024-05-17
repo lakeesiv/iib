@@ -8,3 +8,4 @@ lengthscale
 equivariance
 equivariant
 cubically
+queryable
