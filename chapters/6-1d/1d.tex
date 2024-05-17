@@ -52,7 +52,7 @@ Where $\sigma$ is a hyperparameter of the RBF function and $\text{MLP}(\Delta)$ 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\linewidth]{./function.png}
+	\includegraphics[width=0.6\linewidth]{./F-on-loss.pdf}
 	\caption{Relative Attention Functions on Validation Loss for the TETNP on the 1D Sawtooth Dataset. Lower validation loss is better.}
 	\label{fig:relative-attn-func-1d}
 \end{figure}
@@ -70,11 +70,9 @@ the token embedding dimension of the data ($D_{em}$), the number of attention he
 
 \begin{figure}[H]
 	\centering
-	\subfloat[Token Embedding Dimension]{\includegraphics[width=0.30\linewidth]{./token.jpg}\label{fig:hyperparam-optimization-token}}
-	\qquad
-	\subfloat[Number of Heads]{\includegraphics[width=0.30\linewidth]{./num.jpg}\label{fig:hyperparam-optimization-num}}
-	\qquad
-	\subfloat[Head Embedding Dimension]{\includegraphics[width=0.30\linewidth]{./head.jpg}\label{fig:hyperparam-optimization-head}}
+	\subfloat[Token Embedding Dimension]{\includegraphics[width=0.5\linewidth]{./embed-dim-on-loss.pdf}\label{fig:hyperparam-optimization-token}}
+	\subfloat[Number of Heads]{\includegraphics[width=0.5\linewidth]{./head-count-on-loss.pdf}\label{fig:hyperparam-optimization-num}}\\
+	\subfloat[Head Embedding Dimension]{\includegraphics[width=0.5\linewidth]{./head-dim-on-loss.pdf}\label{fig:hyperparam-optimization-head}}
 	\caption{Hyperparameter Selection}
 	\label{fig:hyperparam-optimization}
 \end{figure}
@@ -86,7 +84,7 @@ From \autoref{fig:hyperparam-optimization} it is clear that reducing the token e
 \FloatBarrier
 \begin{figure}[ht!]
 	\centering
-	\includegraphics[width=0.7\linewidth]{./1m.png}
+	\includegraphics[width=0.9\linewidth]{./model-comparsion-1d.pdf}
 	\caption{Constant Parameter Budget Hyperparameter Selection}
 	\label{fig:1m-parameter-budget}
 \end{figure}
@@ -108,7 +106,7 @@ Finally using our `best' TNP model, we will compare the performance of the ConvN
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\linewidth]{./result.png}
+	\includegraphics[width=0.9\linewidth]{./convcnp-vs-tetnp-saw-gp.pdf}
 	\caption{ConvNP vs TNP on Sawtooth and GP Data}
 	\label{fig:conv-tnp-1d-result}
 \end{figure}
