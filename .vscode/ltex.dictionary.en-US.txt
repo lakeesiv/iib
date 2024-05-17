@@ -5,3 +5,5 @@ Equivariance
 Equivariant
 TETNP
 lengthscale
+equivariance
+equivariant
