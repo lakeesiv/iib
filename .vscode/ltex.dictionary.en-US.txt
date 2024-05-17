@@ -7,3 +7,4 @@ TETNP
 lengthscale
 equivariance
 equivariant
+cubically

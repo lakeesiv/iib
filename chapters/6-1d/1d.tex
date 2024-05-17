@@ -98,7 +98,7 @@ From \autoref{fig:hyperparam-optimization} it is clear that reducing the token e
 
 \section{TNP vs ConvNP}
 
-\subsection{Model Fits}
+% \subsection{Model Fits}
 
 Finally using our `best' TNP model, we will compare the performance of the ConvNP and TNP on fitting sawtooth and GP (using EQ Kernel) data using 1 million parameters. 
 
@@ -125,11 +125,27 @@ Finally using our `best' TNP model, we will compare the performance of the ConvN
 
 Inspecting the model fits on sawtooth data \autoref{fig:1d-sawtooth-comparisons}, we observe that the TNP can extrapolate the structure of the sawtooth function beyond the range of the context set (black points) whilst the ConvNP performs decently but fails to retain the structure as well as the TNP, since the amplitude of the sawtooth reduces the further away from the context set. Hence we can conclude that the TNP can better understand the structure of the data than the ConvNP.
 
-\subsection{Runtime Comparison}
+\subsection{Computational Complexity}
 
-\todo{Add runtime comparison}
+\begin{table}[]
+	\centering
+	\begin{tabular}{@{}llcc@{}}
+	\toprule
+	$N_c$ & $N_t$ & ConvNP Memory (MB) & TETNP Memory (MB) \\ \midrule
+	10    & 10    & 18                 & 13                \\
+	100   & 10    & 16                 & 18                \\
+	1000  & 10    & 16                 & 339               \\
+	5000  & 10    & 124                & 9357              \\ \midrule
+	10    & 1000  & 36                 & 399               \\
+	100   & 1000  & 36                 & 469               \\
+	1000  & 1000  & 36                 & 1510              \\
+	5000  & 1000  & 124                & 13480             \\ \bottomrule
+	\end{tabular}
+	\caption{Memory Usage in inference of the ConvNP and TETNP on 1D data using $N_c$ context points and $N_t$ target points.}
+	\label{tab:memory-usage-comparison}
+\end{table}
 
-
+\autoref{tab:memory-usage-comparison} shows that the TETNP uses drastically more memory than the ConvNP for the same number of context and target points. This is due to the quadratic complexity of the TETNP which scales with $\mathcal{O}(N_c^2 + N_cN_t)$ compared to the linear complexity of the ConvNP which scales with $\mathcal{O}(N_cD_x^3 + N_tD_x)$. Whilst on the 1D dataset the ConvNP is more memory efficient, the TETNPs complexity does not scale with the number of dimensions of the data, whilst the ConvNP \emph{scales cubically with the number of dimensions}. This may suggest that the TETNP is more suitable for high-dimensional data than the ConvNP since the TETNP has a fixed memory cost per dimension. We will investigate this in the next chapter on 2D datasets to see if the discrepancy in memory usage is still present.
 
 \ifSubfilesClassLoaded{%
     \printbibliography{}
