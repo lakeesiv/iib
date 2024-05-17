@@ -30,15 +30,29 @@ Now that the data points are tokenized we can pass them through the Transformer 
 
 With the correct masking in place, we can now pass the tokens through the Transformer encoder layer several times to learn the relationships between the context and target points and generate a vector output. The output of the Transformer encoder is then passed through a Multi-Layer Perceptron (MLP) to generate the mean and variance of the predictive distribution of the target points. 
 
-\todo{ADD FIGURE OF TRANSFORMER NEURAL PROCESS}
+% Figure ./tnp.png
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{./tnp.png}
+	\caption{Vanilla Transformer Neural Process Architecture. All the context and target sets are tokenized and passed through the Transformer Layer. The output of the Transformer Layer is passed through an MLP to generate the mean and variance of the predictive distribution.}
+	\label{fig:tnp}
+\end{figure}
 
 \subsection{Performance}
 
 One of the key benefits of Transformers (and attention) is the ability to have a global view of the data, analogous to an `infinite receptive field' in Convolutional Neural Networks. This allows the model to learn very complicated relationships across many length scales in the data. However, this can be a double-edged sword as the model can overfit to the data within its training region and fail to generalize to unseen data. 
 
-Translation Equivariance is a key property behind CNNs which allow them to generalize excellently to unseen data by learning features irrespective of their position in the data. Such feature learning is critical to modelling real world data where the positions of the data do not matter as much as the relative relationships between the data points, e.g. in image classification the position of the object in the image does not matter as much as the features of the object itself. Transformers lack this property, causing them to generate random predictions when the data is shifted. 
+Translation Equivariance is a key property behind CNNs which allow them to generalize excellently to unseen data by learning features irrespective of their position in the data. Such feature learning is critical to modelling real world data where the positions of the data do not matter as much as the relative relationships between the data points, e.g. in image classification the position of the object in the image does not matter as much as the features of the object itself. Transformers lack this property, causing them to generate random predictions when the data is shifted out of context as shown in Figure \ref{fig:tnp-fail}.
 
-\todo{Add a figure showing the effect of shifting the data on the predictions of the TNP}
+% Figure ./tnp-fail.png
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{./tnp-fail.png}
+	\caption{Vanilla Transformer Neural Process failing to generalize in out of context data. The TNP successfully models the data in the context region (left) but fails to make predictions when the data is shifted (right).}
+	\label{fig:tnp-fail}
+\end{figure}
 
 \emph{What if we could combine the best of both worlds?} Could we create a Translation Equivariant Transformer Neural Process (TETNP) which possesses the global view of the Transformer and the generalization properties of the CNN.
 
@@ -81,10 +95,16 @@ Importantly since we are enforcing the Transformer to learn the relative distanc
 	\end{cases}
 \]
 
-\todo{TETNP architecture figure}
 
+% Figure ./tetnp.png
 
-\todo{Highlight diffeerence in the encoding of the data points between TNP and TETNP}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{./tetnp.png}
+	\caption{Translation Equivariant Transformer Neural Process Architecture. All the outputs of the context and target sets are tokenized and passed through the Transformer Layer, whilst the input locations are passed in raw to the attention mechanism to enforce the Translation Equivariance property. The output of the Transformer Layer is passed through an MLP to generate the mean and variance of the predictive distribution.}
+	\label{fig:tetnp}
+\end{figure}
+
 
 A benefit of removing the $\bm{x}$ values from the tokenization is that the tokens only need to encode the $\bm{y}$ values, reducing the dimensionality of the tokens whilst also separating the encoding for $\bm{x}$ and $\bm{y}$ values which could be beneficial for the model as in the vanilla TNP the model loses distinction between the $\bm{x}$ and $\bm{y}$ values since they are embedded together.
 
