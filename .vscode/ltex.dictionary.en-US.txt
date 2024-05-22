@@ -9,3 +9,4 @@ equivariance
 equivariant
 cubically
 queryable
+parallelizable

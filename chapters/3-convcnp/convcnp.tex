@@ -2,13 +2,9 @@
 
 \begin{document}
 
-\todo{NEED TO DOUBBLE CHECK THIS SECTION, I MIGHT HAVE MISUNDERSTOOD SOME THINGS}
-
 \section{Motivation}
 
-When designing models we want them to be able to generalize to unseen data and learn patterns in the data, for example when analyzing 2D climate data, we would want the model to learn relations between the data in the spatio-temporal domain. In other words, we want the model to be able to learn the underlying function of the data without depending on the specific location. A useful property that embodies this requirement is the \textit{translation equivariance} and is a property that is present in many real world problems.
-
-Convolutional Neural Networks (CNNs) are a class of neural networks that are renowned this property, they have been widely used in image processing tasks and have shown to be able to learn spatial patterns in the data via convolutional filters. CNNs are very powerful and have been the state of the art in many image processing tasks making them a desirable backbone for a Neural Process. Hence, the motivation for Convolutional Neural Processes (ConvCNPs) \cite{gordon2020convolutional}.
+Convolutional Neural Networks (CNNs) are a class of neural networks that are renowned for be translation equivariant, they have been widely used in image processing tasks and have shown to be able to learn spatial patterns in the data via convolutional filters. CNNs are very powerful and have been the state of the art in many image processing tasks making them a desirable backbone for a Neural Process. Hence, the motivation for Convolutional Neural Processes (ConvCNPs) \parencite{gordon2020convolutional}. We will breifly discuss the ConvCNP model and its architecture however for a more detailed explanation, we refer the reader to the original paper.
 
 \section{Model}
 
@@ -20,10 +16,10 @@ Convolutional Neural Networks (CNNs) are a class of neural networks that are ren
 \end{figure}
 
 
-ConvCNPs \cite{gordon2020convolutional} \autoref{fig:convcnp} utilize CNNs, more specifically the UNet architecture. However, a few hurdles are preventing us from directly plugging data into a CNN.
+ConvCNPs \parencite{gordon2020convolutional} \autoref{fig:convcnp} utilize CNNs, more specifically the UNet architecture. However, a few hurdles are preventing us from directly plugging data into a CNN.
 
 
-CNNs operate on \textbf{on-grid data}, meaning that the data is on a regular grid, for example, an image. However, the data we are working with is sometimes \textbf{off-grid data}, for example time series dataset with irregular timestamps. Furthermore, to `bake-in' the TE property, we need to be able to shift the data in the input space and the output space in the same way. This is not trivial when using standard vector representations of the data. \cite{gordon2020convolutional} propose a solution to this problem by using \textbf{functional embeddings} to model the data. Functional embeddings are a way to represent data as a function that has a trivial translation equivariance property. 
+CNNs operate on \textbf{on-grid data}, meaning that the data is on a regular grid, for example, an image. However, the data we are working with is sometimes \textbf{off-grid data}, for example time series dataset with irregular timestamps. Furthermore, to `bake-in' the TE property, we need to be able to shift the data in the input space and the output space in the same way. This is not trivial when using standard vector representations of the data. \parencite{gordon2020convolutional} propose a solution to this problem by using \textbf{functional embeddings} to model the data. Functional embeddings are a way to represent data as a function that has a trivial translation equivariance property. 
 
 
 These functional embeddings are created using the \textbf{SetConv} operation. The SetConv operation is a generalization of the convolution operation that operates on sets of data, it takes a set of input-output pairs and outputs a continuous function. The SetConv operation is defined as follows:
@@ -40,9 +36,9 @@ This operation has some key properties:
 	\item The summation over the data points naturally introduces \textbf{Permutation Invariance} to the model, meaning that the order of the data points does not matter.
 }
 
-In \cite{gordon2020convolutional}, they refer to the addition of the $1$ as the \textbf{density channel}, this channel is used to distinguish between observed and unobserved data points. 
+In \parencite{gordon2020convolutional}, they refer to the addition of the $1$ as the \textbf{density channel}, this channel is used to distinguish between observed and unobserved data points. 
 
-\todo{Take figure from the ConvCNP paper to show functional embeddings}
+% \todo{Take figure from the ConvCNP paper to show functional embeddings}
 
 Now that we have a function representation of the context set, we need to sample it/discretize it at \textbf{evenly} spaced points. Thus converting the data into a \textbf{on-grid} format. Now it can be fed into a CNN. Now that we have a CNN that operates on the data, we need to convert it back to a continuous function. This is done again by using the \textbf{SetConv} operation. The final output of the encoder is a continuous function that represents the context set which can be queried at any point in the input space using the target set.
 
@@ -52,11 +48,7 @@ Now that we have a function representation of the context set, we need to sample
 
 
 
-The decoder is a simple MLP that takes the output of the encoder and the target set as input and outputs the mean and variance of the predictive distribution. The decoder is defined as follows:
-
-\begin{equation}
-	\bm{\mu}(\bm{x_t}), \bm{\sigma}(\bm{x_t}) = \text{MLP}(R(\bm{x_t}))
-\end{equation}
+The decoder is a simple MLP that takes the output of the encoder and the target set as input and outputs the mean and variance of the predictive distribution $\bm{\mu}(\bm{x_t}), \bm{\sigma}(\bm{x_t}) = \text{MLP}(R(\bm{x_t}))$
 
 
 \ifSubfilesClassLoaded{%

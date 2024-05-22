@@ -4,15 +4,15 @@
 
 \section{Introduction}
 
-Neural Process (NP) is a meta-learning framework introduced in \cite{garnelo2018conditional, garnelo2018neural} that can be used for few-shot uncertainty aware meta learning. There exists two variants of the Neural Process, the Conditional Neural Process (CNP) and the Latent Neural Process (LNP), whilst we will discuss the differences between the two in this chapter, we will focus on the CNP for the majority of the project and hence we will implicitly refer to CNP as NP. 
+Neural Process (NP) is a meta-learning framework introduced in \parencite{garnelo2018conditional, garnelo2018neural} that can be used for few-shot uncertainty aware meta learning. There exists two variants of the Neural Process, the Conditional Neural Process (CNP) and the Latent Neural Process (LNP), whilst we will discuss the differences between the two in this chapter, we will focus on the CNP for the majority of the project and hence we will implicitly refer to CNP as NP. 
 
-The main idea behind Neural Processes is to learn a distribution over the input locations we want to predict conditioned on the training data. In the NP literature we refer the training data as the context set and the input locations we want to predict the output for as the target set. The model is trained on a set of context-target pairs and then tested on a new set of context-target pairs to see how well it can generalize to new tasks.
+The main idea behind Neural Processes is to learn a distribution over the input locations we want to predict conditioned on the training data. In the NP literature we refer the training data as the context set and the input locations we want to predict the output for as the target set. The model is trained on a set of context-target pairs and then tested on a new set of context-target pairs to see how well it can generalize to new target sets.
 
 \section{Architecture}
 
 \subsection{Conditional Neural Processes}
 
-Conditional Neural Processes (CNPs) \cite{garnelo2018conditional} was one of the two original Neural Processes introduced by Garnelo et al. in 2018. The general framework for a CNP requires us to take a context set $\mathcal{C} = \{ \mathcal{C}_i \}_{i=1}^{N_c}$ where each context point $\mathcal{C}_i$ is a input-output pair $\mathcal{C}_i = (\bm{x}_{i}\isup{c}, \bm{y}_i\isup{c}) $ and a target set $\mathcal{T} = \{ \bm{x}_{i}\isup{t} \}_{i=1}^{N_t}$ where each target point $\bm{x}_{i}\isup{t}$ is an input point we want to predict the output for.
+Conditional Neural Processes (CNPs) \parencite{garnelo2018conditional} was one of the two original Neural Processes introduced by Garnelo et al. in 2018. The general framework for a CNP requires us to take a context set $\mathcal{C} = \{ \mathcal{C}_i \}_{i=1}^{N_c}$ where each context point $\mathcal{C}_i$ is a input-output pair $\mathcal{C}_i = (\bm{x}_{i}\isup{c}, \bm{y}_i\isup{c}) $ and a target set $\mathcal{T} = \{ \bm{x}_{i}\isup{t} \}_{i=1}^{N_t}$ where each target point $\bm{x}_{i}\isup{t}$ is an input point we want to predict the output for.
 
 We firstly encode each data point in the context set $\mathcal{C}_i$ into an embedding using an encoder network.
 
@@ -27,7 +27,7 @@ Where $\bm{r}$ is the embedding of the context set $\mathcal{C}_i$ and $\theta$ 
     \bm{R}(\mathcal{C}) = \text{Process}(\{ \bm{r}(\mathcal{C}_i) \}_{i=1}^D)
 \end{equation}
 
-We require this `processing` to be permutation invariant, so typically it is a simple summation of the embeddings. The global representation $\bm{R}$ is then used to condition the decoder to predict the outputs of the target set to give us a posterior distribution over the outputs $\bm{y_i\isup{t}}$.
+We require this `processing` to be \textbf{permutation invariant}, so typically it is a simple summation of the embeddings. The global representation $\bm{R}$ is then used to condition the decoder to predict the outputs of the target set to give us a posterior distribution over the outputs $\bm{y_i\isup{t}}$.
 
 \begin{equation}
     p(\bm{y}_i\isup{t} | \bm{x}_i\isup{t}, \mathcal{C}) = \text{Dec}_\theta(\bm{x}_i\isup{t}, \bm{R}(\mathcal{C}))
@@ -43,65 +43,64 @@ The overall architecture is shown in Figure \ref{fig:cnp-architecture}.
 \end{figure}
 
 
-In the original CNP paper, the encoder and decoder are implemented as simple Multi-Layer Perceptrons (MLPs) and the processing is implemented as a mean operation, this happens to be an implementation off the `DeepSet' architecture \cite{zaheer2018deep}.
-
-\begin{align*}
-    \text{Enc}_{\theta_e} &= \text{MLP}_{\theta_e} \\
-    \text{Process} &= \text{Mean} \\
-    \text{Dec}_{\theta_d}  &= \text{MLP}_{\theta_d} 
-\end{align*}
+In the original CNP paper, the encoder and decoder are implemented as simple Multi-Layer Perceptrons (MLPs) and the processing is implemented as a mean operation, this happens to be an implementation off the `DeepSet' architecture \parencite{zaheer2018deep}.
 
 
 Importantly, CNPs make the strong assumption that the posterior distribution \emph{factorizes} over the target points. This means that the posterior distribution over the target points is independent of each other. 
 
 \begin{align}
-    p(\bm{y}\isup{t} | \bm{x}\isup{t}, \mathcal{C}) &\stackrel{(a)}{=} \prod_{i=1}^{N_t} p({y}_i\isup{t} | {x}_i\isup{t}, \bm{R}(\mathcal{C})) \\ &\stackrel{(b)}{=}
-    \prod_{i=1}^{N_t} \mathcal{N}({y}_i\isup{t} | \mu_i, \sigma_i^2) \\&\stackrel{(c)}{=} \mathcal{N}(\bm{y}\isup{t} | \bm{\mu}(\bm{x}\isup{t}, \mathcal{C}), \bm{\Sigma}(\bm{x}\isup{t}, \mathcal{C}))
+    p(\bm{y}\isup{t} | \bm{x}\isup{t}, \mathcal{C}) &\stackrel{(a)}{=} \prod_{i=1}^{N_t} p({y}_i\isup{t} | {x}_i\isup{t}, \bm{R}(\mathcal{C}))  \stackrel{(b)}{=}
+    \prod_{i=1}^{N_t} \mathcal{N}({y}_i\isup{t} | \mu_i, \sigma_i^2) \\
+    % &\stackrel{(c)}{=} \mathcal{N}(\bm{y}\isup{t} | \bm{\mu}(\bm{x}\isup{t}, \mathcal{C}), \bm{\Sigma}(\bm{x}\isup{t}, \mathcal{C}))
 \end{align}
 
 The benefit of this factorization assumption (a) is that the model can scale linearly with the number of target points with a tractable likelihood. However, this assumption means
-\textbf{CNPs are unable to generate coherent sample paths, they are only able to produce distributions over the target points.} Furthermore, we need to select a marginal likelihood for the distribution (b) which is usually a Heteroscedastic Gaussian Likelihood (Gaussian with a variance that varies with the input) \cite{garnelo2018conditional}. This also adds a further assumption as we have to select a likelihood for the distribution which may not be appropriate for the data we are modeling.
+\textbf{CNPs are unable to generate coherent sample paths, they are only able to produce distributions over the target points.} Furthermore, we need to select a marginal likelihood for the distribution (b) which is usually a Heteroscedastic Gaussian Likelihood (Gaussian with a variance that varies with the input) \parencite{garnelo2018conditional}. This adds an assumption as we have to select a likelihood for the distribution which may not be appropriate for the data we are modeling.
 
-Since the product of Gaussians is a Gaussian (c) the model learns a mean and variance for each target point (though typically we learn the log variance to ensure it is positive), in this way, the model decoder can be interpreted as outputting a function of mean and variance for each target point.
+% Since the product of Gaussians is a Gaussian (c) the model learns a mean and variance for each target point (though typically we learn the log variance to ensure it is positive), in this way, the model decoder can be interpreted as outputting a function of mean and variance for each target point.
 
-As the likelihood is a Gaussian, the model can be trained using simple maximum likelihood estimation (MLE) by minimizing the negative log-likelihood (NLL) of the target points.
+As the likelihood is a Gaussian, the model can be trained using simple maximum likelihood estimation (MLE) by minimizing the negative log-likelihood ($\mathcal{L}$) of the target points.
 
-
-\subsection{Latent Neural Processes}
-
-The `Latent Neural Processes' is the 2nd variant of NP (introduced in \cite{garnelo2018neural} ) which can generate coherent sample paths and are not restricted to a specific likelihood. They can do this by learning a latent representation of the context set $\mathcal{C}$ which is then used to condition the decoder. We will call this latent representation $\mathbf{z}$ (instead of $\bm{R}$) to avoid confusion with the non-latent global representation $\bm{R}$ used in CNPs).
-
-The encoder learns a \emph{distribution} over the latent representation $\mathbf{z}$ of the context set $\mathcal{C}$. Then the decoder learns a distribution over the target outputs $\bm{y}\isup{t}$ conditioned on the latent representation $\mathbf{z}$ and the target inputs $\bm{x}\isup{t}$.
-
-\begin{align*}
-    p(\mathbf{z} | \mathcal{C}) &= \text{Enc}_\theta(\mathcal{C})\\ p(\bm{y}\isup{t} | \bm{x}\isup{t}, \mathbf{z}) &= \text{Dec}_\theta(\bm{x}\isup{t}, \mathbf{z})
-\end{align*}
-
-The full model is shown in Figure \ref{fig:lnp-architecture}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[height=0.3\textwidth]{./lnp.png}
-	\caption{LNP Architecture}
-	\label{fig:lnp-architecture}
-\end{figure}
-
-The likelihood of the target points is then given by the marginal likelihood of the latent representation $\mathbf{z}$.
-
-\begin{align}
-    p(\bm{y}\isup{t} | \bm{x}\isup{t}, \mathcal{C}) &=  \int p(\mathbf{z} | \mathcal{C}) p(\bm{y}\isup{t} | \bm{x}\isup{t}, \mathbf{z})  d\mathbf{z}
-    \\ &\stackrel{(a)}{=} \int p(\mathbf{z} | \mathcal{C}) \left(\prod_{i=1}^{N_t} p({y}_i\isup{t} | {x}_i\isup{t}, \mathbf{z})\right)  d\mathbf{z}
-    \\ &\stackrel{(b)}{=} \int p(\mathbf{z} | \mathcal{C}) \left(\prod_{i=1}^{N_t} \mathcal{N}({y}_i\isup{t} | \mu_i, \sigma_i^2)\right)  d\mathbf{z}
-\end{align}
-
-We can see that we express the conditional distribution over the target points conditioned on the latent representation $\mathbf{z}$ as a factorized (a) product of Gaussians (b), this may seem like we are making the same factorization assumption as CNPs. However, the difference is that we are not making this assumption conditioned on the latent variable instead of the context set. This integral models an \emph{infinite mixture} of Gaussians which allows us to model \emph{any} distribution over the target points.  The downside is that the likelihood is intractable and we need to use approximate inference methods such as Variational Inference (VI) or Sample Estimation using Monte Carlo (MC) methods to train the model which typically leads to biased estimates of the likelihood with high variance, thus we require more samples to train the model.
-
-Though the LNP has many uses, \textbf{in this report we will strictly focus on the CNP} as it is more tractable and easier to train. From this point on, when we refer to Neural Processes we will be referring to the Conditional Neural Process (CNP) unless otherwise stated.
+\begin{equation}
+    \mathcal{L} = \mathbb{E}_{(\mathcal{C}, \mathcal{T})} \left[- \sum_{i=1}^{|\mathcal{T}|} \log p({y}_i\isup{t} | {x}_i\isup{t}, \mathcal{C})\right]
+\end{equation}
 
 
-\section{Neural Processes vs Gaussian Processes}
+% \subsection{Latent Neural Processes}
 
-\todo{HERE}
+% The `Latent Neural Processes' is the 2nd variant of NP (introduced in \parencite{garnelo2018neural} ) which can generate coherent sample paths and are not restricted to a specific likelihood. They can do this by learning a latent representation of the context set $\mathcal{C}$ which is then used to condition the decoder. We will call this latent representation $\mathbf{z}$ (instead of $\bm{R}$) to avoid confusion with the non-latent global representation $\bm{R}$ used in CNPs).
+
+% The encoder learns a \emph{distribution} over the latent representation $\mathbf{z}$ of the context set $\mathcal{C}$. Then the decoder learns a distribution over the target outputs $\bm{y}\isup{t}$ conditioned on the latent representation $\mathbf{z}$ and the target inputs $\bm{x}\isup{t}$.
+
+% \begin{align*}
+%     p(\mathbf{z} | \mathcal{C}) &= \text{Enc}_\theta(\mathcal{C})\\ p(\bm{y}\isup{t} | \bm{x}\isup{t}, \mathbf{z}) &= \text{Dec}_\theta(\bm{x}\isup{t}, \mathbf{z})
+% \end{align*}
+
+% The full model is shown in Figure \ref{fig:lnp-architecture}.
+
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[height=0.3\textwidth]{./lnp.png}
+% 	\caption{LNP Architecture}
+% 	\label{fig:lnp-architecture}
+% \end{figure}
+
+% The likelihood of the target points is then given by the marginal likelihood of the latent representation $\mathbf{z}$.
+
+% \begin{align}
+%     p(\bm{y}\isup{t} | \bm{x}\isup{t}, \mathcal{C}) &=  \int p(\mathbf{z} | \mathcal{C}) p(\bm{y}\isup{t} | \bm{x}\isup{t}, \mathbf{z})  d\mathbf{z}
+%     \\ &\stackrel{(a)}{=} \int p(\mathbf{z} | \mathcal{C}) \left(\prod_{i=1}^{N_t} p({y}_i\isup{t} | {x}_i\isup{t}, \mathbf{z})\right)  d\mathbf{z}
+%     \\ &\stackrel{(b)}{=} \int p(\mathbf{z} | \mathcal{C}) \left(\prod_{i=1}^{N_t} \mathcal{N}({y}_i\isup{t} | \mu_i, \sigma_i^2)\right)  d\mathbf{z}
+% \end{align}
+
+% We can see that we express the conditional distribution over the target points conditioned on the latent representation $\mathbf{z}$ as a factorized (a) product of Gaussians (b), this may seem like we are making the same factorization assumption as CNPs. However, the difference is that we are not making this assumption conditioned on the latent variable instead of the context set. This integral models an \emph{infinite mixture} of Gaussians which allows us to model \emph{any} distribution over the target points.  The downside is that the likelihood is intractable and we need to use approximate inference methods such as Variational Inference (VI) or Sample Estimation using Monte Carlo (MC) methods to train the model which typically leads to biased estimates of the likelihood with high variance, thus we require more samples to train the model.
+
+% Though the LNP has many uses, \textbf{in this report we will strictly focus on the CNP} as it is more tractable and easier to train. From this point on, when we refer to Neural Processes we will be referring to the Conditional Neural Process (CNP) unless otherwise stated.
+
+
+% \section{Neural Processes vs Gaussian Processes}
+
+% \todo{HERE}
 
 % From this, it is clear that NPs achieve a \emph{prediction} map, $\pi$ which maps the context set to the target set into a posterior distribution over the outputs. 
 
@@ -110,7 +109,7 @@ Though the LNP has many uses, \textbf{in this report we will strictly focus on t
 % \end{equation}
 
 
-% This illustrates the similarity to Gaussian Processes (GP) \cite{books/lib/RasmussenW06} which perform the same underlying task of predicting the outputs of a target set conditioned on a context set. The difference is that GPs use a kernel function to compute the covariance between the context and target sets whereas NPs use a neural network to compute the covariance.
+% This illustrates the similarity to Gaussian Processes (GP) \parencite{books/lib/RasmussenW06} which perform the same underlying task of predicting the outputs of a target set conditioned on a context set. The difference is that GPs use a kernel function to compute the covariance between the context and target sets whereas NPs use a neural network to compute the covariance.
 
 % \begin{align}
 %     &\text{GP}: \pi \rightarrow \mathcal{N}(m(
@@ -123,9 +122,12 @@ Though the LNP has many uses, \textbf{in this report we will strictly focus on t
 
 \section{Performance of Vanilla NP}
 
-Whilst Neural Processes are very flexible and have the ability to scale, in reality due to the simple archiecture of the encoding and aggregation stage, they are unable to perform effectively in more complicated and higher dimensional data. This is because the model is unable to learn a good representation of the context set using a simple MLP and summation operation. 
+Whilst the Vanilla CNP using DeepSets is flexible and scalable, in reality it is unable to perform well on more complicated and higher dimensional data since the model is unable to learn a good representation of the data using a simple MLP and summation operation. 
 
-The benefit of the NP is we can replace the encoder and decoder with more powerful models such as Convolutional Neural Networks (CNNs) or Transformers to learn a better representation of the context set. This allows us to scale the model using well known architectures that have been shown to perform well on a variety of tasks and at scale. Both CNN and Transformer based NPs are bound to have their unique advantages and disadvantages which we will explore in the following chapters by firstly exploring the Convolutional Neural Process (ConvCNP) and then the Transformer Neural Process (TNP).
+\emph{Could we replace the encoder and decoder with more powerful networks? And if so, what would be the best architecture to use?} We aim to answer in this project by exploring the use of a Convolutional Neural Network (CNN) and a Transformer as encoders of our NP. CNNs and Transformers have been shown to perform well on a variety of tasks and at scale, thus we hypothesize that they will be able to learn a better representation of the context set and thus improve the performance of the NP.
+Both are bound to have their unique advantages and disadvantages which we will explore in the following chapters by firstly exploring the Convolutional Neural Process (ConvCNP) and then the Transformer Neural Process (TNP).
+
+
 
 % \ifSubfilesClassLoaded{%
 %     \printbibliography{}

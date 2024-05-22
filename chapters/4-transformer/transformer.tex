@@ -4,33 +4,13 @@
 
 \section{Transformers}
 \subsection{Introduction}
-The Transformer is a deep learning architecture introduced in \cite{vaswani2017attention}. It is a sequence-to-sequence model that uses attention to learn the relationships between the input and output sequences. Transformers have been revolutionary in the field of natural language processing (NLP) leading to the development of models like BERT and GPT. They are also starting tog gain tracking in fields like computer vision and reinforcement learning.
 
-\todo{Add citations to popular transformer models}
-
-In this section we will purely focus on the encoder of the transformer model. The encoder is the part of the transformer that processes the input sequence and lairs patterns. 
+The Transformer is a deep learning architecture introduced in \parencite{vaswani2017attention}. Originally devised as a sequence-to-sequence model that uses attention to learn the relationships between the input and output sequences. Transformers have been revolutionary in the field of natural language processing (NLP) leading to the development of models like BERT \parencite{devlin2019bert} and GPT \parencite{brown2020language}. They are also starting to gain traction in fields like computer vision \parencite{dosovitskiy2021image} reaching becoming the new state of the art. The attractiveness of transformers is their general purpose nature and ability to learn relationships with an infinite context window whilst being massively parallelizable. A brief overview of the transformer model is given below.
 
 
 \subsection{Embedding}
 
-Firstly we transform data points it into a vector representation called an \emph{embedding}. Let us denote the embedding of the $i$-th data point in the input sequence as $\bm{e}\isup{i} \elof{1}{D}$, where $D$ is the feature dimension. The transformer can process these embeddings in \textbf{parallel} so we need a way to encode the position of the data in the sequence. In \cite{vaswani2017attention} theyo this by adding a positional encoding $\bm{p}\isup{i} \elof{1}{D}$ to the embedding $\bm{e}\isup{i}$. The positional encoding is a vector that is unique to the position of the word in the sequence. The positional encoding that is used in \cite{vaswani2017attention} is given by:
-
-\begin{equation}
-	\label{pe}
-	\bm{p}_j\isup{i} = \begin{cases}
-		\sin\left(\frac{i}{10000^{j/D}}\right) & \text{if } j \text{ is even} \\
-		\cos\left(\frac{i}{10000^{(j-1)/D}}\right) & \text{if } j \text{ is odd}
-	\end{cases}
-\end{equation}
-
-\noi where $j$ is the dimension of the positional encoding. The positional encoding is added to the embedding as follows:
-
-\begin{equation}
-	\bm{x}\isup{i} =  \bm{e}\isup{i} + \bm{p}\isup{i} \elof{1}{D}
-\end{equation}
-
-\noi These are all stacked together to form the input matrix $\bm{X} \elof{N}{D}$, where $\bm{X}_{i:} = \bm{x}\isup{i}$ and $N$ is the number of words in the input sequence. There are other ways to encode the position of the data in the sequence, later on we will concatenate the position and value of the data instead of adding the positional encoding to the embedding.
-
+Data points it into a vector representation called an \emph{embedding} or \emph{token} ensuring postional information is added to these tokens via a positional encoding. The embedding is a simple linear transformation of the input data $\bm{X} \elof{N}{D}$ where $N$ is the number of data points and $D$ is the dimensionality of the data. 
 
 \subsection{(Self-)Attention}
 
@@ -38,14 +18,7 @@ The attention mechanism is a way to learn the relationships between the input an
 
 In the transformer models we will use the embeddings $\bm{X} \elof{N}{D}$ as the input to generate a query $\bm{Q} \elof{N}{d_k}$, a key $\bm{K} \elof{N}{d_k}$ and a value $\bm{V} \elof{N}{d_v}$ matrices via a simple linear transformation matrix $\bm{W_q} \elof{D}{d_k}$, $\bm{W_k} \elof{D}{d_k}$ and $\bm{W_v} \elof{D}{d_v}$ respectively. 
 
-\begin{align*}
-	\bm{Q} &= \bm{X}\bm{W_q} \elof{N}{d_k}\\
-	\bm{K} &= \bm{X}\bm{W_k} \elof{N}{d_k}\\
-	\bm{V} &= \bm{X}\bm{W_v} \elof{N}{d_v}
-\end{align*}
-
-
-Where each row of the matrices is the query, key and value vectors for each word in the input sequence. The query represents the word that we want to compare to the other words in the input sequence, to do this we compare it to the key vectors. The value vectors represent the word that we want to output.
+Where each row of the matrices is the query, key and value vectors for each data point in the input sequence. 
 
 The query, key and value matrices are then used to compute the attention matrix $\bm{A} \elof{N}{N}$ as follows:
 
@@ -53,12 +26,7 @@ The query, key and value matrices are then used to compute the attention matrix 
     \bm{A} = \text{softmax}\left(\frac{\bm{Q}\bm{K}^T}{\sqrt{d_k}}\right)
 \end{equation}
 
-\noi The intuition behind this is that we want to compute the similarity between the query and the key vectors as such we use the dot product between the query and key vectors. The softmax is used to normalize the attention matrix so that the rows sum to 1. The softmax is also scaled by $\sqrt{d_k}$ to prevent the softmax from saturating. The attention matrix is then used to compute the output matrix $\bm{H} \elof{N}{d_v}$ as follows:
-
-\begin{equation}
-    \bm{H} = \bm{A}\bm{V}
-\end{equation}
-
+\noi The intuition behind this is that we want to compute the similarity between the query and the key vectors as such we use the dot product between the query and key vectors. The softmax is used to normalize the attention matrix so that the rows sum to 1. The softmax is also scaled by $\sqrt{d_k}$ to prevent the softmax from saturating. The attention matrix is then used to compute the output matrix $\bm{H} \elof{N}{d_v}$ as $\bm{H} = \bm{A}\bm{V}$
 
 The overall attention function for a layer is given by:
 
@@ -68,7 +36,7 @@ The overall attention function for a layer is given by:
 
 \subsection{Multi-Head Self-Attention}
 
-So far we have only computed the attention matrix $\bm{A}$ once so the model only learns one attention relationship, however, we can take advantage of using multiple attention `heads' in parallel to learn many different attention relationships, this scheme is called the \emph{Multi-Head Attention} (MHSA). 
+So far we have only computed the attention matrix $\bm{A}$ once so the model only learns one attention relationship, however, we can take advantage of using multiple attention `heads' in parallel to learn many attention relationships, this scheme is called the \emph{Multi-Head Attention} (MHSA). 
 
 Each attention head is computed using simple dot product attention of a transformed query, key and value matrix. They are transformed by a simple linear layer (a matrix) which is unique for each head of the MHSA, $\bm{W_q}\isup{i} \elof{d_k}{d_k}$, $\bm{W_k}\isup{i} \elof{d_k}{d_k}$ and $\bm{W_v}\isup{i} \elof{d_v}{d_v}$ where $i \in [1, h]$ for a head count of $h$. Then the attention for the particular head is computed as follows:
 
@@ -88,13 +56,13 @@ Then the output of the MHSA is the concatenation of the outputs of each head $\b
 	\end{bmatrix} \bm{W_O} \elof{N}{D}
 \end{align*}
 
-The figure below summarizes the MHSA operation.
+% The figure below summarizes the MHSA operation.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[height=0.4\textwidth]{./mhsa.png}
-	\caption{Multi-Head Self-Attention \cite{vaswani2017attention}}
-\end{figure}
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[height=0.4\textwidth]{./mhsa.png}
+% 	\caption{Multi-Head Self-Attention \parencite{vaswani2017attention}}
+% \end{figure}
 
 \subsection{Encoder}
 
@@ -103,14 +71,17 @@ Now that we have covered the MHSA block, we can move on to the encoder of the tr
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.5\textwidth]{./encoder.png}
-	\caption{Transformer Encoder \cite{vaswani2017attention}}
+	\caption{Transformer Encoder \parencite{vaswani2017attention}}
 	\label{fig:encoder}
 \end{figure}
 
-\autoref{fig:encoder} shows the encoder of the transformer model. The encoder is composed of a stack of $N$ identical layers. Each layer is composed of two sub-layers, the MHSA and a simple feed-forward network. The output of each sub-layer is $\text{LayerNorm}(x + \text{Sublayer}(x))$ where $x$ is the input to the sub-layer. To dissect this, we first add the input from the sub-layer to the output of the sub-layer, this is called a \emph{residual} connection. It allows the information from the input to bypass the sublayer and be passed to the next layer, thus preventing the network from losing information about the input. This is then passed through a layer normalization layer. The layer normalization layer normalizes the output (so each row) of the sub-layer to have a mean of 0 and a standard deviation of 1.
+\autoref{fig:encoder} shows the encoder of the transformer model. The encoder is composed of a stack of $N$ identical layers. Each layer is composed of two sub-layers, the MHSA and a simple feed-forward network. The output of each sub-layer is $\text{LayerNorm}(x + \text{Sublayer}(x))$ where $x$ is the input to the sub-layer.  The final output of the encoder is the output of the last layer which shall be denoted as $\bm{Y} \elof{N}{D}$. 
 
-\noi The final output of the encoder is the output of the last layer which shall be denoted as $\bm{Y} \elof{N}{D}$. The Transformer Encoder Layer takes an input set of embeddings $\bm{X} \elof{N}{D}$ and outputs a set of embeddings $\bm{Y} \elof{N}{D}$ of the same dimensionality but with the patterns of the input sequence learned.
+\begin{note}[Key Points]
 
+The Transformer Encoder Layer takes an input set of embeddings $\bm{X} \elof{N}{D}$ and outputs a set of embeddings $\bm{Y} \elof{N}{D}$ of the \textbf{same dimensionality} but with the \textbf{patterns of the input sequence learned}. It can be viewed as a function that takes a set and outputs a set of the same dimensionality.
+
+\end{note}
 
 \ifSubfilesClassLoaded{%
     \printbibliography{}

@@ -32,7 +32,7 @@
 % \usepackage[a4paper, total={7in, 10in}]{geometry}
 
 % 1 Inch margins
-\usepackage[margin=1in]{geometry}
+\usepackage[a4paper, margin=1in]{geometry}
 
 \usepackage{siunitx}
 % \usepackage[utf8]{inputenc}
@@ -50,10 +50,20 @@
 \usepackage{bm}
 \usepackage{xr}
 
-\usepackage[
-backend=biber,
-style=alphabetic,
-]{biblatex}
+\usepackage[backend=biber, style=ext-authoryear]{biblatex}
+
+\DeclareOuterCiteDelims{parencite}{\bibopenbracket}{\bibclosebracket}
+
+\DeclareFieldFormat{citehyperref}{%
+  \DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+  \bibhyperref{#1}}
+
+\DeclareCiteCommand{\parencite}[\mkouterparencitedelims]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \printtext[citehyperref]{\usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
 
 
 % \usepackage{tikz}

@@ -5,7 +5,7 @@
 
 \section{Vanilla Transformer Neural Process}
 
-An Attention based encoder for the Neural Process was investigated in \cite{kim2019attentive}, though the results were impressive, the model fails to perform at larger scale and `tends to make overconfident predictions and have poor performance on sequential decision-making problems' \cite{nguyen2023transformer}. It is natural to think that the Transformer \cite{vaswani2017attention} could be used to improve the performance of the Neural Process, as Transformers have been proven to effectively model large scale data using attention mechanisms. \cite{nguyen2023transformer} introduced the Transformer Neural Process (TNP) which uses an \emph{encoder-only} Transformer to learn the relationships between the context and target points via self-attention with appropriate masking. 
+An Attention based encoder for the Neural Process was investigated in \parencite{kim2019attentive}, though the results were impressive, the model fails to perform at larger scale and `tends to make overconfident predictions and have poor performance on sequential decision-making problems' \parencite{nguyen2023transformer}. It is natural to think that the Transformer \parencite{vaswani2017attention} could be used to improve the performance of the Neural Process, as Transformers have been proven to effectively model large scale data using attention mechanisms. \parencite{nguyen2023transformer} introduced the Transformer Neural Process (TNP) which uses an \emph{encoder-only} Transformer to learn the relationships between the context and target points via self-attention with appropriate masking. 
 
 \subsection{Model Architecture}
 
@@ -57,12 +57,8 @@ Translation Equivariance is a key property behind CNNs which allow them to gener
 \emph{What if we could combine the best of both worlds?} Could we create a Translation Equivariant Transformer Neural Process (TETNP) which possesses the global view of the Transformer and the generalization properties of the CNN.
 
 
-\section{Efficient Transformer Neural Process}
 
-\todo{Add a section on the Efficient Transformer Neural Process}
-
-
-\section{Translation Equivariant Transformer Neural Process}
+\section{Translation Equivariant TNP}
 \label{sec:tetnp}
 
 Recall, Translation Equivariance requires the model to yield the same output when the input is shifted. Such property must imply that the model only learns the relative distances between the data points ($\bm{x_i} - \bm{x_j}$) and \emph{not} the absolute positions of the data points. How could one enforce such a property in the Transformer Neural Process? The solution used is very simple, we add a term to the attention mechanisms in the Transformer to enforce the Translation Equivariance property!
@@ -142,7 +138,7 @@ A benefit of removing the $\bm{x}$ values from the tokenization is that the toke
 
 % \subsection{Autoregressive Transformer Neural Processes (TNP-A)}
 
-% We can not implement the traditional Transformer as the inclusion of the positional encoding breaks the context invariance property since the positional encoding is dependent on the position of the points, but we need to allow the model to learn the relationships between $x$ and $y$ \textbf{pairs}. To do this, \cite{nguyen2023transformer} concatenates the $x$ and $y$ pairs together into a single vector for the context set and target set. They then add auxiliary tokens from the target set but with $y=0$ such that the dataset looks like
+% We can not implement the traditional Transformer as the inclusion of the positional encoding breaks the context invariance property since the positional encoding is dependent on the position of the points, but we need to allow the model to learn the relationships between $x$ and $y$ \textbf{pairs}. To do this, \parencite{nguyen2023transformer} concatenates the $x$ and $y$ pairs together into a single vector for the context set and target set. They then add auxiliary tokens from the target set but with $y=0$ such that the dataset looks like
 
 % \[
 % 	 {(x_1, y_1), . . . ,(x_N , y_N ),(x_{N_c+1}, 0), . . . ,(x_N , 0)}
@@ -156,7 +152,7 @@ A benefit of removing the $\bm{x}$ values from the tokenization is that the toke
 % 	\item Auxillary tokens to attend to context and previous target tokens
 % }
 
-% This model is referred to as the Autoregressive Transformer Neural Process (TNP-A) in \cite{nguyen2023transformer}.
+% This model is referred to as the Autoregressive Transformer Neural Process (TNP-A) in \parencite{nguyen2023transformer}.
 
 \ifSubfilesClassLoaded{%
     \printbibliography{}
