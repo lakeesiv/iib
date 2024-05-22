@@ -10,3 +10,9 @@ equivariant
 cubically
 queryable
 parallelizable
+Pseudotokens
+pseudotokens
+Perciever
+NPs
+MAB
+Perceiver

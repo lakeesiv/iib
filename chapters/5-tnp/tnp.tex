@@ -24,11 +24,9 @@ A flag bit is introduced into the tokens to indicate whether the token is a cont
 
 Where we use a flag bit of 0 to indicate a context token and 1 to indicate a target token, $\texttt{cat}$ is the concatenation operation and $\bm{0}$ is a vector of zeros of the same dimension as $\bm{y_i}$.
 
-Now that the data points are tokenized we can pass them through the Transformer encoder to learn the relationships between the context and target points. Importantly the Transformer encoder is masked such that the target tokens can only attend to the context tokens and previous target tokens
+Now that the data points are tokenized we can pass them through the Transformer encoder to learn the relationships between the context and target points. Importantly the Transformer encoder is masked such that the target tokens can only attend to the context tokens and previous target tokens. Alternatively one perform self attention on the context tokens then cross attention between the context and target tokens giving a more efficient implementation \parencite{feng2022efficient}, we use this implementation in our experiments.
 
-\todo{ADD FIGURE OF MASKING}
-
-With the correct masking in place, we can now pass the tokens through the Transformer encoder layer several times to learn the relationships between the context and target points and generate a vector output. The output of the Transformer encoder is then passed through a Multi-Layer Perceptron (MLP) to generate the mean and variance of the predictive distribution of the target points. 
+We can now pass the tokens through the Transformer encoder layer several times to learn the relationships between the context and target points and generate a vector output. The output of the Transformer encoder is then passed through a Multi-Layer Perceptron (MLP) to generate the mean and variance of the predictive distribution of the target points. 
 
 % Figure ./tnp.png
 
@@ -54,7 +52,7 @@ Translation Equivariance is a key property behind CNNs which allow them to gener
 	\label{fig:tnp-fail}
 \end{figure}
 
-\emph{What if we could combine the best of both worlds?} Could we create a Translation Equivariant Transformer Neural Process (TETNP) which possesses the global view of the Transformer and the generalization properties of the CNN.
+\emph{What if we could combine the best of both worlds?} Could we create a Translation Equivariant Transformer Neural Process (TETNP) which possesses the global view of the Transformer and the generalization properties of the CNN? This is the question we will investigate in the next section and is the main contribution of this work and \parencite{anonymous2024translationequivariant}.
 
 
 

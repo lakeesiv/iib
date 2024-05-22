@@ -2,11 +2,28 @@
 
 \begin{document}
 
+\section{Introduction}
+
+\todo{Refer to tables}
+
+From (todo), it is clear that the Transformer models are memory-intensive due to their quadratic complexity in terms of the dataset size. This is a significant bottleneck for scaling up the Transformer models to larger datasets with limited compute resources. To address this issue, several methods have been proposed to reduce the memory complexity of the Transformer models. In this chapter, we will discuss some of the methods that have been proposed to reduce the memory complexity of the Transformer NPs.
+
 \section{Pseudotokens}
 
-\subsection{LBANP}
+Pseudotokens (aka Inducing Points) are a set of tokens that are used to approximate the full set of tokens, it can be thought of as a lower dimensional representation of the data set. Consider projecting the original tokens $\bm{X} \elof{N}{D}$ into a lower-dimensional space $\bm{U} \elof{M}{D}$ where $M << N$ through some translation equivariant network \parencite{anonymous2024translationequivariant}. The pseudotokens $\bm{I} \elof{M}{D}$ can then be used to perform cross-attention with the original tokens $\bm{X}$ thus reducing the memory complexity to $\mathcal{O}(M(N_c + M_t))$ making the model linear with respect to context and target set size.
 
-\subsection{IST}
+
+% ./fig/set-transformer.png
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{fig/set-transformer.png}
+    \caption{Perceiver vs Set Transformer. MAB is equivalent to Multi-Head Cross Attention, refer to \parencite{anonymous2024translationequivariant} for more details.}
+    \label{fig:set-transformer}
+\end{figure}
+
+We consider two implementations of a pseudotokens based Transformer, one is the Set Transformer \parencite{lee2019set} and the other is the Perceiver \parencite{jaegle2021perceiver}. Both models are very similar and only really differ in the way they implement the cross-attention mechanism between the orginal and pseudo tokens. \parencite{feng2023latent} implemented the Perciever model in the context of NPs creating the `Latent Bottled Attention Neural Process' (LBANP) model. \cite{anonymous2024translationequivariant} implemented the Set Transformer model into a NP creating the `Inducing Set Transformer' (IST) model. Due to the similarity of the models, we expect both to have very similar performance on the tasks they are evaluated on.
+
 
 \section{Linear Transformer}
 
