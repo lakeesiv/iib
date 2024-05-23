@@ -25,3 +25,5 @@ HyperMixNP
 LinearTNP
 MLPs
 GELU
+PT-TETNP
+pseduotkens

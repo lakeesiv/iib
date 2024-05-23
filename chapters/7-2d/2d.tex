@@ -23,7 +23,7 @@ The following plots show some samples from the Sawtooth dataset.
 
 \subsection{Restricted Sawtooth}
 
-By accident when generating the 2D Sawtooth dataset, we ended up restricted the `direction of travel' of the sawtooth function to the line of $x_1 = x_2$ or $x_1 = -x_2$. This was not intentional but when training both models on this dataset, we found very interesting results. As the models only learn a subset of the `full sawtooth' function, we can see how well the models can generalize to samples from the full sawtooth function.
+The restricted sawtooth limits the `direction of travel' of the sawtooth function to the line of $x_1 = x_2$ or $x_1 = -x_2$. Under this dataset the model only learn a subset of the `full sawtooth' function. We can use this probe how well the models can generalize to samples from the full sawtooth function.
 
 The following plots show some samples from the Restricted Sawtooth dataset.
 
@@ -52,7 +52,7 @@ We will investigate the performance of the TETNP with the `Post Relative Attenti
 % Figure ./post-pre-kernel.pdf
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{./fig/post-pre-kernel.pdf}
+    \includegraphics[width=0.6\linewidth]{./fig/post-pre-kernel.pdf}
     \caption{Validation Loss of TETNP with the `Post Relative Attention Function' and `Pre Relative Attention Function' on the 2D Sawtooth Dataset. Lower validation loss is better.}
     \label{fig:post-pre-kernel}
 \end{figure}
@@ -79,7 +79,7 @@ As mentioned previously, the Gaussian Process dataset is not very difficult to l
         TETNP  & 1.134           \\
         \bottomrule
     \end{tabular}
-    \caption{Validation Loss of ConvNP and TETNP on the 2D Gaussian Process dataset after training for 3 hours using 1 million parameters models and 64 context points. Lower is better.}
+    \caption{Validation Loss of ConvNP and TETNP on the 2D Gaussian Process dataset after training for 4 hours using 1 million parameters models and 64 context points. Lower is better.}
     \label{tab:gp-2d-val-doss}
 \end{table}
 
@@ -124,7 +124,7 @@ As previously stated the restricted sawtooth dataset is a subset of the full saw
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{./fig/res-saw/no-re.png}
+    \includegraphics[width=0.9\linewidth]{./fig/res-saw/no-re.png}
     \caption{Samples from TETNP on the full Sawtooth dataset. The top plot is the model prediction on the restricted sawtooth dataset and the bottom plot is the model prediction on the full sawtooth dataset which is a rotated version of the restricted sawtooth dataset.
     The region inside the black dotted box is the region the model was trained on and the region outside the black dotted box is the region the model was not trained on.}
     \label{fig:no-re-saw-preds}
@@ -147,7 +147,7 @@ To introduce rotational equivariance we can simply take the L2 norm of the $\bm{
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{./fig/res-saw/re.png}
+    \includegraphics[width=0.9\linewidth]{./fig/res-saw/re.png}
     \caption{Samples from TETNP on the full Sawtooth dataset with Rotational 
     The region inside the black dotted box is the region the model was trained on and the region outside the black dotted box is the region the model was not trained on.}
     \label{fig:re-saw-preds}
@@ -165,9 +165,9 @@ The full sawtooth dataset is the full sawtooth function which is not restricted 
 
 \begin{figure}[H]
     \centering
-    \subfloat[]{\includegraphics[width=0.8\linewidth]{./fig/saw/tetnp.png}}\\
-    \subfloat[]{\includegraphics[width=0.8\linewidth]{./fig/saw/tetnp-2.png}}\\
-    \subfloat[]{\includegraphics[width=0.8\linewidth]{./fig/saw/tetnp-3.png}}
+    \subfloat[]{\includegraphics[width=0.3\linewidth]{./fig/saw/tetnp.png}}
+    \subfloat[]{\includegraphics[width=0.3\linewidth]{./fig/saw/tetnp-2.png}}
+    \subfloat[]{\includegraphics[width=0.3\linewidth]{./fig/saw/tetnp-3.png}}
     \caption{Samples from TETNP on the full Sawtooth dataset. The region inside the black dotted box is the region the model was trained on and the region outside the black dotted box is the region the model was not trained on.}
     \label{fig:full-saw-preds}
 \end{figure}
