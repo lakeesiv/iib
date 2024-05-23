@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\section{Motivation}
+\section{Introduction}
 
 Convolutional Neural Networks (CNNs) are a class of neural networks that are renowned for be translation equivariant, they have been widely used in image processing tasks and have shown to be able to learn spatial patterns in the data via convolutional filters. CNNs are very powerful and have been the state of the art in many image processing tasks making them a desirable backbone for a Neural Process. Hence, the motivation for Convolutional Neural Processes (ConvCNPs) \cite{gordon2020convolutional}. We will breifly discuss the ConvCNP model and its architecture however for a more detailed explanation, we refer the reader to the original paper.
 
@@ -11,18 +11,17 @@ Convolutional Neural Networks (CNNs) are a class of neural networks that are ren
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{convcnp.png}
-	\caption{ConvCNP Architecture}
+	\caption{ConvCNP Architecture. All the data points are converted into a continuous functional embedding using the SetConv, then discretely sampled to be fed into a CNN. The CNN processes the data and then the output is converted back to a continuous function using the SetConv operation.}
 	\label{fig:convcnp}
 \end{figure}
 
 
-ConvCNPs \cite{gordon2020convolutional} \autoref{fig:convcnp} utilize CNNs, more specifically the UNet architecture. However, a few hurdles are preventing us from directly plugging data into a CNN.
-
+ConvCNPs \cite{gordon2020convolutional} \autoref{fig:convcnp} utilize CNNs, more specifically the UNet \cite{ronneberger2015unet} architecture. However, a few hurdles are preventing us from directly plugging data into a CNN.
 
 CNNs operate on \textbf{on-grid data}, meaning that the data is on a regular grid, for example, an image. However, the data we are working with is sometimes \textbf{off-grid data}, for example time series dataset with irregular timestamps. Furthermore, to `bake-in' the TE property, we need to be able to shift the data in the input space and the output space in the same way. This is not trivial when using standard vector representations of the data. \cite{gordon2020convolutional} propose a solution to this problem by using \textbf{functional embeddings} to model the data. Functional embeddings are a way to represent data as a function that has a trivial translation equivariance property. 
 
 
-These functional embeddings are created using the \textbf{SetConv} operation. The SetConv operation is a generalization of the convolution operation that operates on sets of data, it takes a set of input-output pairs and outputs a continuous function. The SetConv operation is defined as follows:
+These functional embeddings are created using the \textbf{SetConv} operation. The SetConv operation takes a set of input-output pairs and outputs a continuous functional representation of the data. The SetConv operation is defined as follows:
 \begin{equation}
 	\text{SetConv}(\{\bm{x_i}, \bm{y_i}\}_{i=1}^{N})(x) = \sum_{i=1}^{N} [1, \bm{y_i}] ^ T \mathcal{K}(\bm{x} - \bm{x_i})
 \end{equation}
@@ -36,9 +35,6 @@ This operation has some key properties:
 	\item The summation over the data points naturally introduces \textbf{Permutation Invariance} to the model, meaning that the order of the data points does not matter.
 }
 
-In \cite{gordon2020convolutional}, they refer to the addition of the $1$ as the \textbf{density channel}, this channel is used to distinguish between observed and unobserved data points. 
-
-% \todo{Take figure from the ConvCNP paper to show functional embeddings}
 
 Now that we have a function representation of the context set, we need to sample it/discretize it at \textbf{evenly} spaced points. Thus converting the data into a \textbf{on-grid} format. Now it can be fed into a CNN. Now that we have a CNN that operates on the data, we need to convert it back to a continuous function. This is done again by using the \textbf{SetConv} operation. The final output of the encoder is a continuous function that represents the context set which can be queried at any point in the input space using the target set.
 

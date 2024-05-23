@@ -12,7 +12,7 @@ On top of being uncertainty aware, we would like to insert some desirable induct
 
 \textbf{Flexible}: \emph{The model should be able to work on a variety of data types}. As long as a data point can be represented as a vector, the model should be able to operate on it. This allows the model to be used in a variety of applications and domains.
 
-\textbf{Scalable}: \emph{The model should be able to work on large datasets}.  There should be no limit on the size of the dataset that the model can be trained on. Which is not the case with many traditional models such as Large Language Models. Another aspect of scalability is the ability learn high-dimensional data with good computational efficiency.
+\textbf{Scalable}: \emph{The model should be able to learn large datasets and scale to as many inputs}. Which is not the case with many traditional models such as Large Language Models (LLMs) which are usually limited to a max number of tokens. Another aspect of scalability is the ability learn high-dimensional data with good computational efficiency.
 
 
 \textbf{Permutation Invariant}: \emph{The prediction of the model should not change if the order of the input data is changed}. When each data point contains the information about input and output pairs, the model should not care about the order in which they are fed into the model. For example, in the case of a weather forecasting model, which uses data from multiple weather stations, the model should not care about the order in which the data from the weather stations is fed into the model, thus making the model permutation invariant.
@@ -21,35 +21,35 @@ On top of being uncertainty aware, we would like to insert some desirable induct
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{./te.PNG}
+	\includegraphics[width=0.9\textwidth]{./te.png}
 	\caption{The Translation Equivariant property on a 1D dataset.}
 	\label{fig:te}
 \end{figure}
 
 
-\autoref{fig:te} illustrates this property, when the input data on the left plot is shifted by a constant amount, the prediction should also shift by the same amount (right).
+\autoref{fig:te} illustrates this property, when the input data on the left plot is shifted by a constant amount, the prediction should also shift by the same amount (right). Mathematical, a model $f$ is translation equivariant if it satisfies the following property:
 
 \begin{align}
 	&f: \bm{x} \rightarrow (\bm{x}, \bm{\hat{y}}) \\
-	&f: \bm{x} + \bm{c} \rightarrow (\bm{x} + \bm{c}, \bm{\hat{y}})
+	&f: \bm{x} + \bm{\tau} \rightarrow (\bm{x} + \bm{\tau}, \bm{\hat{y}})
 \end{align}
 
-where $\bm{x}$ is the input and $\bm{\hat{y}}$ is the output and $\bm{c}$ is a constant shift in the input. This property allows the model to be more robust and generalize better to unseen data, particularly in the case of stationary data.
+where $\bm{x}$ is the input and $\bm{\hat{y}}$ is the output and $\bm{\tau}$ is a constant shift in the input. Such property allows the model to be more robust and generalize better to unseen data, particularly in the case of stationary data.
 
 
-\textbf{Off-the-Grid Generalization}: \emph{The model should be able to work on off-the-grid data points}. Off-the-grid data points are the data points that are not in a regular gridded structure, for example, images that have missing pixel values are off-the-grid. Traditional models like Convolutional Neural Networks (CNNs) are not able to operate on off-the-grid data points since they require a regular structure to apply the convolution operation. By making the model off-the-grid generalizable, we can create models that can work on many types of data and easily handle missing data points. It also allows the model to generalize to regions of the input space that it has not seen during training. Tasks like image inpainting, where the model is required to fill in missing pixels in an image, can benefit from this property.
+\textbf{Off the Grid Generalization}: \emph{The model should be capable of operating on off-the-grid data points}. Off the grid data points are the data points that are not in a regular gridded structure, such as images that have missing pixel values. Traditional models like Convolutional Neural Networks (CNNs) are not able to operate on off-the-grid data points since they require a regular structure to apply the convolution operation. By making the model off-the-grid generalizable, we can create models that can work on many types of datasets and easily handle missing data points. Furthermore, aiding in the performance of the model outside the context data. Applications such as image inpainting can particularly benefit from off-the-grid generalization.
 
-\todo{Add a figure to illustrate off-the-grid generalization}
+% \todo{Add a figure to illustrate off-the-grid generalization}
 
 Neural Processes (NPs) \cite{garnelo2018neural} are a class of models that satisfy the above properties. The framework undermining NPs is general purpose, and thus can be modified with a variety of neural network architectures. 
 
 \section{Aims and Objectives}
 
-In this work, we aim to implement and compare two different neural network architectures for Neural Processes, the first being based on a Convolutional Neural Network (CNN) called Convolutional Neural Processes (ConvNP) and the second being based on a Transformer architecture called Transformer Neural Processes (TNP). We aim to compare the two models on a variety of tasks and datasets to see how they perform in terms of generalization, scalability, and uncertainty estimation. 
+In this work, we aim to implement and compare two different neural network architectures for Neural Processes, the first being based on a Convolutional Neural Network (CNN) called Convolutional Neural Processes (ConvNP) and the second being based on a Transformer architecture called Transformer Neural Processes (TNP). Our objective is to compare the performance of two models on a variety of datasets, focusing on their generalization capabilities and scalability.
 
-Furthermore, we investigate how the TNP can be optimized to achieve better performance. We then investigate new Transformer architectures that have better computational efficiency compared to the original Transformer architecture. 
+We introduce extra inductive biases into the TNP to enhance its ability to generalize. Furthermore, we explore new Transformer architectures that have better computational efficiency compared to the original Transformer architecture.
 
-Our end goal is to develop a better understand of the properties of these models. We aim to figure out the best practices for using these models in different scenarios, where they perform well and where they do not. We also aim to understand the limitations of these models and how they can be improved.
+Our objective is to develop a comprehensive understanding of the properties of these models. We aim to identify  the best practices for using these models in different scenarios, highlighting contexts where they perform well and where they do not. This investigation will provide us valuable insights into the capabilities of these models and how they can be used in real-world applications.
 
 
 

@@ -27,3 +27,6 @@ MLPs
 GELU
 PT-TETNP
 pseduotkens
+UNet
+ConvCNPs
+SetConv
