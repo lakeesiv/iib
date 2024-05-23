@@ -5,7 +5,7 @@
 
 \section{Vanilla Transformer Neural Process}
 
-An Attention based encoder for the Neural Process was investigated in \parencite{kim2019attentive}, though the results were impressive, the model fails to perform at larger scale and `tends to make overconfident predictions and have poor performance on sequential decision-making problems' \parencite{nguyen2023transformer}. It is natural to think that the Transformer \parencite{vaswani2017attention} could be used to improve the performance of the Neural Process, as Transformers have been proven to effectively model large scale data using attention mechanisms. \parencite{nguyen2023transformer} introduced the Transformer Neural Process (TNP) which uses an \emph{encoder-only} Transformer to learn the relationships between the context and target points via self-attention with appropriate masking. 
+An Attention based encoder for the Neural Process was investigated in \cite{kim2019attentive}, though the results were impressive, the model fails to perform at larger scale and `tends to make overconfident predictions and have poor performance on sequential decision-making problems' \cite{nguyen2023transformer}. It is natural to think that the Transformer \cite{vaswani2017attention} could be used to improve the performance of the Neural Process, as Transformers have been proven to effectively model large scale data using attention mechanisms. \cite{nguyen2023transformer} introduced the Transformer Neural Process (TNP) which uses an \emph{encoder-only} Transformer to learn the relationships between the context and target points via self-attention with appropriate masking. 
 
 \subsection{Model Architecture}
 
@@ -24,7 +24,7 @@ A flag bit is introduced into the tokens to indicate whether the token is a cont
 
 Where we use a flag bit of 0 to indicate a context token and 1 to indicate a target token, $\texttt{cat}$ is the concatenation operation and $\bm{0}$ is a vector of zeros of the same dimension as $\bm{y_i}$.
 
-Now that the data points are tokenized we can pass them through the Transformer encoder to learn the relationships between the context and target points. Importantly the Transformer encoder is masked such that the target tokens can only attend to the context tokens and previous target tokens. Alternatively one perform self attention on the context tokens then cross attention between the context and target tokens giving a more efficient implementation \parencite{feng2022efficient}, we use this implementation in our experiments.
+Now that the data points are tokenized we can pass them through the Transformer encoder to learn the relationships between the context and target points. Importantly the Transformer encoder is masked such that the target tokens can only attend to the context tokens and previous target tokens. Alternatively one perform self attention on the context tokens then cross attention between the context and target tokens giving a more efficient implementation \cite{feng2022efficient}, we use this implementation in our experiments.
 
 We can now pass the tokens through the Transformer encoder layer several times to learn the relationships between the context and target points and generate a vector output. The output of the Transformer encoder is then passed through a Multi-Layer Perceptron (MLP) to generate the mean and variance of the predictive distribution of the target points. 
 
@@ -52,7 +52,7 @@ Translation Equivariance is a key property behind CNNs which allow them to gener
 	\label{fig:tnp-fail}
 \end{figure}
 
-\emph{What if we could combine the best of both worlds?} Could we create a Translation Equivariant Transformer Neural Process (TETNP) which possesses the global view of the Transformer and the generalization properties of the CNN? This is the question we will investigate in the next section and is the main contribution of this work and \parencite{anonymous2024translationequivariant}.
+\emph{What if we could combine the best of both worlds?} Could we create a Translation Equivariant Transformer Neural Process (TETNP) which possesses the global view of the Transformer and the generalization properties of the CNN? This is the question we will investigate in the next section and is the main contribution of this work and \cite{anonymous2024translationequivariant}.
 
 
 
@@ -136,7 +136,7 @@ A benefit of removing the $\bm{x}$ values from the tokenization is that the toke
 
 % \subsection{Autoregressive Transformer Neural Processes (TNP-A)}
 
-% We can not implement the traditional Transformer as the inclusion of the positional encoding breaks the context invariance property since the positional encoding is dependent on the position of the points, but we need to allow the model to learn the relationships between $x$ and $y$ \textbf{pairs}. To do this, \parencite{nguyen2023transformer} concatenates the $x$ and $y$ pairs together into a single vector for the context set and target set. They then add auxiliary tokens from the target set but with $y=0$ such that the dataset looks like
+% We can not implement the traditional Transformer as the inclusion of the positional encoding breaks the context invariance property since the positional encoding is dependent on the position of the points, but we need to allow the model to learn the relationships between $x$ and $y$ \textbf{pairs}. To do this, \cite{nguyen2023transformer} concatenates the $x$ and $y$ pairs together into a single vector for the context set and target set. They then add auxiliary tokens from the target set but with $y=0$ such that the dataset looks like
 
 % \[
 % 	 {(x_1, y_1), . . . ,(x_N , y_N ),(x_{N_c+1}, 0), . . . ,(x_N , 0)}
@@ -150,7 +150,7 @@ A benefit of removing the $\bm{x}$ values from the tokenization is that the toke
 % 	\item Auxillary tokens to attend to context and previous target tokens
 % }
 
-% This model is referred to as the Autoregressive Transformer Neural Process (TNP-A) in \parencite{nguyen2023transformer}.
+% This model is referred to as the Autoregressive Transformer Neural Process (TNP-A) in \cite{nguyen2023transformer}.
 
 \ifSubfilesClassLoaded{%
     \printbibliography{}

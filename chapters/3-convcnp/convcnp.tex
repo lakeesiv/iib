@@ -4,7 +4,7 @@
 
 \section{Motivation}
 
-Convolutional Neural Networks (CNNs) are a class of neural networks that are renowned for be translation equivariant, they have been widely used in image processing tasks and have shown to be able to learn spatial patterns in the data via convolutional filters. CNNs are very powerful and have been the state of the art in many image processing tasks making them a desirable backbone for a Neural Process. Hence, the motivation for Convolutional Neural Processes (ConvCNPs) \parencite{gordon2020convolutional}. We will breifly discuss the ConvCNP model and its architecture however for a more detailed explanation, we refer the reader to the original paper.
+Convolutional Neural Networks (CNNs) are a class of neural networks that are renowned for be translation equivariant, they have been widely used in image processing tasks and have shown to be able to learn spatial patterns in the data via convolutional filters. CNNs are very powerful and have been the state of the art in many image processing tasks making them a desirable backbone for a Neural Process. Hence, the motivation for Convolutional Neural Processes (ConvCNPs) \cite{gordon2020convolutional}. We will breifly discuss the ConvCNP model and its architecture however for a more detailed explanation, we refer the reader to the original paper.
 
 \section{Model}
 
@@ -16,10 +16,10 @@ Convolutional Neural Networks (CNNs) are a class of neural networks that are ren
 \end{figure}
 
 
-ConvCNPs \parencite{gordon2020convolutional} \autoref{fig:convcnp} utilize CNNs, more specifically the UNet architecture. However, a few hurdles are preventing us from directly plugging data into a CNN.
+ConvCNPs \cite{gordon2020convolutional} \autoref{fig:convcnp} utilize CNNs, more specifically the UNet architecture. However, a few hurdles are preventing us from directly plugging data into a CNN.
 
 
-CNNs operate on \textbf{on-grid data}, meaning that the data is on a regular grid, for example, an image. However, the data we are working with is sometimes \textbf{off-grid data}, for example time series dataset with irregular timestamps. Furthermore, to `bake-in' the TE property, we need to be able to shift the data in the input space and the output space in the same way. This is not trivial when using standard vector representations of the data. \parencite{gordon2020convolutional} propose a solution to this problem by using \textbf{functional embeddings} to model the data. Functional embeddings are a way to represent data as a function that has a trivial translation equivariance property. 
+CNNs operate on \textbf{on-grid data}, meaning that the data is on a regular grid, for example, an image. However, the data we are working with is sometimes \textbf{off-grid data}, for example time series dataset with irregular timestamps. Furthermore, to `bake-in' the TE property, we need to be able to shift the data in the input space and the output space in the same way. This is not trivial when using standard vector representations of the data. \cite{gordon2020convolutional} propose a solution to this problem by using \textbf{functional embeddings} to model the data. Functional embeddings are a way to represent data as a function that has a trivial translation equivariance property. 
 
 
 These functional embeddings are created using the \textbf{SetConv} operation. The SetConv operation is a generalization of the convolution operation that operates on sets of data, it takes a set of input-output pairs and outputs a continuous function. The SetConv operation is defined as follows:
@@ -36,7 +36,7 @@ This operation has some key properties:
 	\item The summation over the data points naturally introduces \textbf{Permutation Invariance} to the model, meaning that the order of the data points does not matter.
 }
 
-In \parencite{gordon2020convolutional}, they refer to the addition of the $1$ as the \textbf{density channel}, this channel is used to distinguish between observed and unobserved data points. 
+In \cite{gordon2020convolutional}, they refer to the addition of the $1$ as the \textbf{density channel}, this channel is used to distinguish between observed and unobserved data points. 
 
 % \todo{Take figure from the ConvCNP paper to show functional embeddings}
 

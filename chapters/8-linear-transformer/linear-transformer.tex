@@ -4,13 +4,12 @@
 
 \section{Introduction}
 
-\todo{Refer to tables}
 
-From (todo), it is clear that the Transformer models are memory-intensive due to their quadratic complexity in terms of the dataset size. This is a significant bottleneck for scaling up the Transformer models to larger datasets with limited compute resources. To address this issue, several methods have been proposed to reduce the memory complexity of the Transformer models. In this chapter, we will discuss some of the methods that have been proposed to reduce the memory complexity of the Transformer NPs.
+From \autoref{tab:memory-usage-comparison} and \autoref{tab:memory-usage-comparison-2D}, it is clear that the Transformer models are memory-intensive due to their quadratic complexity in terms of the dataset size. This is a significant bottleneck for scaling up the Transformer models to larger datasets with limited compute resources. To address this issue, several methods have been proposed to reduce the memory complexity of the Transformer models which we will explore in this chapter.
 
 \section{Pseudotokens}
 
-Pseudotokens (aka Inducing Points) are a set of tokens that are used to approximate the full set of tokens, it can be thought of as a lower dimensional representation of the data set. Consider projecting the original tokens $\bm{X} \elof{N}{D}$ into a lower-dimensional space $\bm{U} \elof{M}{D}$ where $M << N$ through some translation equivariant network \parencite{anonymous2024translationequivariant}. The pseudotokens $\bm{I} \elof{M}{D}$ can then be used to perform cross-attention with the original tokens $\bm{X}$ thus reducing the memory complexity to $\mathcal{O}(M(N_c + M_t))$ making the model linear with respect to context and target set size.
+Pseudotokens (also known as Inducing Points) are a set of tokens that are used to approximate the full set of tokens, it can be thought of as a lower dimensional representation of the data set. They have been widely used in the context of Gaussian Processes (GPs) to reduce the complexity of the model with great success \cite{hensman2013gaussian}. The original tokens $\bm{X} \elof{N}{D}$ are projected onto into a lower-dimensional space $\bm{I} \elof{M}{D}$ where $M << N$ through some translation equivariant network \cite{anonymous2024translationequivariant} giving us the pseudotokens $\bm{I}$ which are translation equivariant to the original tokens $\bm{X}$. The pseudotokens $\bm{I} \elof{M}{D}$ can then be used to perform cross-attention with the original tokens $\bm{X}$ thus reducing the memory complexity to $\mathcal{O}(MN_c + MM_t)$ making the model linear with respect to context and target set size. 
 
 
 % ./fig/set-transformer.png
@@ -18,18 +17,66 @@ Pseudotokens (aka Inducing Points) are a set of tokens that are used to approxim
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{fig/set-transformer.png}
-    \caption{Perceiver vs Set Transformer. MAB is equivalent to Multi-Head Cross Attention, refer to \parencite{anonymous2024translationequivariant} for more details.}
+    \caption{Perceiver vs Set Transformer. MAB is equivalent to Multi-Head Cross Attention, refer to \cite{anonymous2024translationequivariant} for more details.}
     \label{fig:set-transformer}
 \end{figure}
 
-We consider two implementations of a pseudotokens based Transformer, one is the Set Transformer \parencite{lee2019set} and the other is the Perceiver \parencite{jaegle2021perceiver}. Both models are very similar and only really differ in the way they implement the cross-attention mechanism between the orginal and pseudo tokens. \parencite{feng2023latent} implemented the Perciever model in the context of NPs creating the `Latent Bottled Attention Neural Process' (LBANP) model. \cite{anonymous2024translationequivariant} implemented the Set Transformer model into a NP creating the `Inducing Set Transformer' (IST) model. Due to the similarity of the models, we expect both to have very similar performance on the tasks they are evaluated on.
+We consider two implementations of a pseudotokens based Transformer, one is the Set Transformer \cite{lee2019set} and the other is the Perceiver \cite{jaegle2021perceiver}. Both models are very similar and only really differ in the way they implement the cross-attention mechanism between the original and pseudo tokens. \cite{feng2023latent} implemented the Perciever model in the context of NPs creating the `Latent Bottled Attention Neural Process' (LBANP) model. \cite{anonymous2024translationequivariant} implemented the Set Transformer model into a NP creating the `Inducing Set Transformer' (IST) model. Due to the similarity of the models, we expect both to have very similar performance on the tasks they are evaluated on.
 
 
 \section{Linear Transformer}
 
+\cite{katharopoulos2020transformers} introduces a kernelized form of the self-attention mechanism that allows the model to be linear in the number of tokens by avoiding the softmax operation. The output of an attention head $\bm{H}$ is computed as follows:
+
+\begin{equation}
+    \bm{H}_i = \frac{\phi(\bm{Q}_i)^T \sum_{j=1}^{N} \phi(\bm{K}_j) \bm{V}_j^T}{\phi(\bm{Q}_i)^T \sum_{j=1}^{N} \phi(\bm{K}_j)}
+\end{equation}
+
+Where $\phi$ is a function that introduces non-linearities, the authors use the ELU function \cite{clevert2016fast}. It is clear that we only compute $\sum_{j=1}^{N} \phi(\bm{K}_j$ and $\sum_{j=1}^{N} \phi(\bm{K}_j) \bm{V}_j^T$ once for all the queries $\bm{Q}_i$, thus reducing the complexity to $\mathcal{O}(N)$.
+
+This can simply replace the transformer in the original TNP model, we will refer to this model as the `Linear Transformer NP' (LinearTNP).
+
+
 \section{HyperMixer}
 
+\emph{Is self-attention required for a Transformer model to be effective?} The majority of parameters in Transformers are in the MLPs and not the self-attention mechanism. \cite{tolstikhin2021mlpmixer} proposes a Transformer model that removes the self-attention mechanism and replaces with MLPs across rows and columns of the input, effectively `mixing' the feature and data points dimensions in the input to learn patterns in a way akin to self-attention. This model is called the `MLP-Mixer' and is shown to perform on par with the original Transformer models on image classification tasks. However, the `MLP-Mixer' requires a \textbf{known fixed input size} which breaks the flexibility of the model if we apply it to a neural process.
+
+To overcome this limitation in flexibility, the `HyperMixer' \cite{mai2023hypermixer} model was proposed which is a variant of the MLP-Mixer that is designed to work with variable input sizes. The model uses hypernetworks \cite{ha2016hypernetworks} to generate the weights of the MLPs by using hypernetworks ($h_k, h_q : \mathbb{R}^{n \times d} \rightarrow \mathbb{R}^{n \times p}$ ) on the queries $\bm{Q}$ and keys $\bm{K}$ of the input (row wise).
+
+% vector with dots in between
+\begin{align}
+    \bm{W_k} = h_k(\bm{K}) =  \begin{bmatrix}
+        \text{MLP}_k(\bm{k}_k) \\
+        \vdots \\
+        \text{MLP}_k(\bm{k}_N) \\
+    \end{bmatrix} \quad
+    \bm{W_q} = h_q(\bm{Q}) =  \begin{bmatrix}
+        \text{MLP}_q(\bm{q}_k) \\
+        \vdots \\
+        \text{MLP}_q(\bm{q}_N) \\
+    \end{bmatrix} \quad
+\end{align}
+
+Where $\text{MLP}_k, \text{MLP}_q: \mathbb{R}^d \rightarrow \mathbb{R}^p$ transforms the dimension of the input to a lower dimension $p$. The output of the model is computed as follows:
+
+\begin{equation}
+    \bm{H} = \bm{W_k} \sigma(\bm{W_q}^T \bm{V})
+\end{equation}
+
+where $\sigma$ is the activation function, the authors use the GELU function \cite{hendrycks2023gaussian}.
+Cross attention can be performed by generating the queries from one input and the keys and values from another input. We simply replace attention in the original TNP model with the HyperMixer model to create the `HyperMixNP' model. 
+
+\begin{note}[Lack of Translation Equivariance]
+    Both LinearTNP and HyperMixNP models are not translation equivariant. To introduce TE without using pseudotokens, we require the use of the pairwise differences' matrix $\bm{\Delta}$ as described in \autoref{eq:relative-attention}, this would increase the complexity of the model to $\mathcal{O}(N^2)$. It is possible to use pseudotokens in conjunction with these model to achieve translation equivariance however this was not explored in this work.
+\end{note}
+
 \section{Experimental Results}
+
+\subsection{2D Gaussian Process}
+\subsection{2D Sawtooth}
+\subsection{Memory Complexity}
+
+
 
 
 

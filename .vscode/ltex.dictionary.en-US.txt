@@ -16,3 +16,12 @@ Perciever
 NPs
 MAB
 Perceiver
+kernelized
+LBANP
+softmax
+hypernetworks
+HyperMixer
+HyperMixNP
+LinearTNP
+MLPs
+GELU

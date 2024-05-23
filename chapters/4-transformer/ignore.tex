@@ -5,13 +5,13 @@
 \section{Transformers}
 \subsection{Introduction}
 \autoref{np-fig:cnp-architecture}
-The Transformer is a deep learning architecture introduced in \parencite{vaswani2017attention}. It is a sequence-to-sequence model that uses attention to learn the relationships between the input and output sequences.
+The Transformer is a deep learning architecture introduced in \cite{vaswani2017attention}. It is a sequence-to-sequence model that uses attention to learn the relationships between the input and output sequences.
 
-In this report we will follow the notation that is used in \parencite{vaswani2017attention} where embeddings are represented as rows $\elof{1}{D}$ and all matrix multiplications are right multiplications. Subscripts that are not bolded and lowercase are used to index vectors. Superscripts that are surrounded by parenthesis are used to index the position of a vector/matrix within a sequence, layer or head. 
+In this report we will follow the notation that is used in \cite{vaswani2017attention} where embeddings are represented as rows $\elof{1}{D}$ and all matrix multiplications are right multiplications. Subscripts that are not bolded and lowercase are used to index vectors. Superscripts that are surrounded by parenthesis are used to index the position of a vector/matrix within a sequence, layer or head. 
 
 \subsection{Embedding}
 
-A machine is not capable of understanding wordings, hence we need to transform it into a vector representation called an \emph{embedding}. Let us denote the embedding of the $i$-th word in the input sequence as $\bm{e}\isup{i} \elof{1}{D}$, where $D$ is the feature dimension. The transformer can process these embeddings in \textbf{parallel} so we need a way to encode the position of the word in the sequence. We do this by adding a positional encoding $\bm{p}\isup{i} \elof{1}{D}$ to the embedding $\bm{e}\isup{i}$. The positional encoding is a vector that is unique to the position of the word in the sequence. The positional encoding that is used in \parencite{vaswani2017attention} is given by:
+A machine is not capable of understanding wordings, hence we need to transform it into a vector representation called an \emph{embedding}. Let us denote the embedding of the $i$-th word in the input sequence as $\bm{e}\isup{i} \elof{1}{D}$, where $D$ is the feature dimension. The transformer can process these embeddings in \textbf{parallel} so we need a way to encode the position of the word in the sequence. We do this by adding a positional encoding $\bm{p}\isup{i} \elof{1}{D}$ to the embedding $\bm{e}\isup{i}$. The positional encoding is a vector that is unique to the position of the word in the sequence. The positional encoding that is used in \cite{vaswani2017attention} is given by:
 
 \begin{equation}
 	\label{pe}
@@ -30,8 +30,8 @@ A machine is not capable of understanding wordings, hence we need to transform i
 \noi These are all stacked together to form the input matrix $\bm{X} \elof{N}{D}$, where $\bm{X}_{i:} = \bm{x}\isup{i}$ and $N$ is the number of words in the input sequence.
 
 \begin{note}[Alternative Positional Encoding]
-	There are many ways to go about positional encoding. Another way is to use a learned positional encoding. This is done by adding a learnable vector $\bm{p}\isup{i} \elof{1}{D}$ to the embedding. Alternatively, to achieve translation equivariance, we can use \emph{Relative Positional Encoding} \parencite{shaw2018selfattention, wu2021rethinking}. These positional encoding schemes will be useful when trying to build equivariance into the Transformer model. See 
-	\parencite{kazemnejad2019:pencoding} for a comparison of different positional encoding schemes.
+	There are many ways to go about positional encoding. Another way is to use a learned positional encoding. This is done by adding a learnable vector $\bm{p}\isup{i} \elof{1}{D}$ to the embedding. Alternatively, to achieve translation equivariance, we can use \emph{Relative Positional Encoding} \cite{shaw2018selfattention, wu2021rethinking}. These positional encoding schemes will be useful when trying to build equivariance into the Transformer model. See 
+	\cite{kazemnejad2019:pencoding} for a comparison of different positional encoding schemes.
 \end{note}
 
 
@@ -64,7 +64,7 @@ The query, key and value matrices are then used to compute the attention matrix 
 
 \begin{note}[Attention Mechanisms]
 
-There are many ways to compute the attention matrix $\bm{A}$. The one that is used in the original transformer paper is called \emph{Scaled Dot-Product Attention}. Other attention mechanisms may be of interest, see \parencite{weng2018attention} for a comparison of different attention mechanisms.
+There are many ways to compute the attention matrix $\bm{A}$. The one that is used in the original transformer paper is called \emph{Scaled Dot-Product Attention}. Other attention mechanisms may be of interest, see \cite{weng2018attention} for a comparison of different attention mechanisms.
 
 \end{note}
 
@@ -101,7 +101,7 @@ The figure below summarizes the MHSA operation.
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.4\textwidth]{./mhsa.png}
-	\caption{Multi-Head Self-Attention \parencite{vaswani2017attention}}
+	\caption{Multi-Head Self-Attention \cite{vaswani2017attention}}
 \end{figure}
 
 \subsection{Encoder}
@@ -111,7 +111,7 @@ Now that we have covered the MHSA block, we can move on to the encoder of the tr
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.5\textwidth]{./encoder.png}
-	\caption{Transformer Encoder \parencite{vaswani2017attention}}
+	\caption{Transformer Encoder \cite{vaswani2017attention}}
 	\label{fig:encoder}
 \end{figure}
 
@@ -130,7 +130,7 @@ Now that we have covered the MHSA block, we can move on to the encoder of the tr
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.6\textwidth]{./transformer.png}
-	\caption{Transformer \parencite{vaswani2017attention}}
+	\caption{Transformer \cite{vaswani2017attention}}
 	\label{fig:transformer}
 \end{figure}
 
