@@ -3,16 +3,12 @@
 \newcommand{\labgroup}{46}
 \newcommand{\college}{Emmanuel College}
 \newcommand{\logodir}{./utils/logo/Emmanuel.pdf}
-
 \newcommand{\tikzcolor}{black}
 \newcommand{\tikzcoloropposite}{white}
-
 \usepackage{anyfontsize}
-% \usepackage{cancel} # for strike-through text
 \usepackage{lipsum}
 \usepackage{graphicx}
 \usepackage{enumerate}
-% \usepackage{romannum}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathtools}
@@ -20,7 +16,6 @@
 \renewcommand{\arraystretch}{1.2}
 \usepackage{hyperref}
 \hypersetup{hidelinks}
-% \usepackage{subfig}
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
 \usepackage{placeins}
@@ -28,14 +23,9 @@
 \usepackage{caption}
 \usepackage{relsize} 
 \usepackage{xcolor}
-% \usepackage[utf8]{inputenc}
-% \usepackage[a4paper, total={7in, 10in}]{geometry}
-
-% 1 Inch margins
+\usepackage[title, toc]{appendix} 
 \usepackage[a4paper, margin=1in]{geometry}
-
 \usepackage{siunitx}
-% \usepackage[utf8]{inputenc}
 \usepackage{pythonhighlight}
 \usepackage[utf8]{inputenc}
 \usepackage[title, toc]{appendix} 
@@ -49,6 +39,11 @@
 \usepackage{multicol}
 \usepackage{bm}
 \usepackage{xr}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot{}{}{}
+\fancyhead[LO,R]{\slshape\nouppercase{\leftmark}}
+\fancyhead[LE,RO]{\slshape\nouppercase{\thepage}}
 
 \usepackage[backend=biber, style=ext-authoryear]{biblatex}
 
@@ -148,16 +143,15 @@
 	
 	\begin{titlepage}
 		\begin{center}
-			\vspace*{1cm}
-				
-			\Huge
-			\textbf{Unifying Transformers and Convolutional Neural Processes}
+			\vspace*{0.5cm}
+	
+			\textbf{\fontsize{24.88}{12}\selectfont \lrtitle}
 				
 			\vspace{0.5cm}
 	 
 			\vspace{1.5cm}
 				
-			\textbf{Lakee Sivaraya}
+			Lakee Sivaraya
 				
 			\vfill
 				
@@ -166,9 +160,9 @@
 				
 			\vspace{0.8cm}
 				
-			\includegraphics[width=0.3\textwidth]{./utils/logo/Emmanuel.pdf}
+			\includegraphics[width=3cm]{\logodir} 
 				
-			\Large
+			
 			Department of Engineering\\
 			University of Cambridge\\
 			Date of Submission: \today
