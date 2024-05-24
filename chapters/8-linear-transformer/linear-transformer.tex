@@ -79,8 +79,8 @@ Cross attention is performed by generating the queries from one input and the ke
     HyperMixNP & \cmark & 1.144       & -              \\
     LinearTNP  & \cmark & 1.141       & -              \\
     PT-TETNP   & \cmark & 1.148       & -              \\ \midrule
-    \textbf{TETNP}      & \xmark & \textbf{1.134  }     & \textbf{1.407}             \\
-    ConvNP     & \xmark & 1.168       & 0.8701            \\ \bottomrule
+    \textbf{TETNP}      & \xmark & \textbf{1.134  }     & -\textbf{1.407}             \\
+    ConvNP     & \xmark & 1.168       & -0.8701            \\ \bottomrule
     \end{tabular}
     \caption{Comparison of validation loss on 2D datasets using $N_c = 64$ $N_t = 128$ with 1 million parameter models. All models were trained for 4 hours. Fields with `-` indicate that the model was unable to learn the dataset.}
     \label{tab:2d-comparison-lin}

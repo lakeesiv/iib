@@ -8,30 +8,28 @@
 
 The 2D Gaussian Process is the natural extension of the 1D Gaussian Process described in \autoref{sec:1d-gp-dataset} where we use the squared exponential kernel. We continue to use the same range of lengthscale across both input dimensions as the 1D Gaussian Process. 
 
-The following plots show some samples from the GP dataset.
+% The following plots show some samples from the GP dataset.
 
-\todo{Add plots of GP dataset}
+% \todo{Add plots of GP dataset}
 
 
 \subsection{Sawtooth}
 
 The 2D Sawtooth dataset is the natural extension of the 1D Sawtooth dataset described in \autoref{sec:1d-sawtooth-dataset}. We continue to use the same period $T$ and noise $n$ across both input dimensions as the 1D Sawtooth dataset.
 
-The following plots show some samples from the Sawtooth dataset.
+% The following plots show some samples from the Sawtooth dataset.
 
-\todo{Add plots of Sawtooth dataset}
+% \todo{Add plots of Sawtooth dataset}
 
 \subsection{Restricted Sawtooth}
 
 The restricted sawtooth limits the `direction of travel' of the sawtooth function to the line of $x_1 = x_2$ or $x_1 = -x_2$. Under this dataset the model only learn a subset of the `full sawtooth' function. We can use this probe how well the models can generalize to samples from the full sawtooth function.
 
-The following plots show some samples from the Restricted Sawtooth dataset.
+% The following plots show some samples from the Restricted Sawtooth dataset.
 
-\section{Post or Pre Relative Attention Function}
+\section{Post or Pre MLP}
 
-\todo{Highlight MLP}
-
-In our original formulation of the TETNP (\autoref{sec:tetnp}) we pass the matrix of differences ($\bm{\Delta}$) between $x$ values through a function $F$ to apply non-linearities then add it to the dot product attention \autoref{eq:relative-attention}, whilst this performs well we can also consider applying this non-linearity after combining the dot product attention and the relative attention, this method is called the `Post Relative Attention Function'. 
+In our original formulation of the TETNP (\autoref{sec:tetnp}) we pass the matrix of differences ($\bm{\Delta}$) between $x$ values through an MLP to apply non-linearities then add it to the dot product attention \autoref{eq:relative-attention}, whilst this performs well we can also consider applying this non-linearity after combining the dot product attention and the relative attention, this method is called the `Post MLP'. 
 
 \begin{align}
 	\text{Attention}(\bm{Q}, \bm{K}, \bm{V}, \bm{X}) &= \text{softmax}\left(\bm{E} \right) \bm{V}
@@ -46,19 +44,19 @@ Where
 \end{align}
 
 
-We will investigate the performance of the TETNP with the `Post Relative Attention Function' compared to the original `Pre Relative Attention Function'. We choose to use the Sawtooth dataset as it is more difficult to learn than the Gaussian Process dataset and will show the differences between the two models more clearly. 
+We will investigate the performance of the TETNP with the `Post MLP' compared to the original `Pre MLP'. We choose to use the Sawtooth dataset as it is more difficult to learn than the Gaussian Process dataset and will show the differences between the two models more clearly. 
 
 
 % Figure ./post-pre-kernel.pdf
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{./fig/post-pre-kernel.pdf}
-    \caption{Validation Loss of TETNP with the `Post Relative Attention Function' and `Pre Relative Attention Function' on the 2D Sawtooth Dataset. Lower validation loss is better.}
+    \caption{Validation Loss of TETNP with the `Post MLP' and `Pre MLP' on the 2D Sawtooth Dataset. Lower validation loss is better.}
     \label{fig:post-pre-kernel}
 \end{figure}
 
 
-The results show that the TETNP with the `Post Relative Attention Function' outperforms the TETNP with the `Pre Relative Attention Function' by quite a large margin. Trivially this makes a lot of sense as the Post function can further refine the dot product attention through the MLP whilst in the `Pre' function the MLP is \emph{only} applied to the $\bm{\Delta}$ matrix. The computational complexity of these two functions are not too different as the MLP are small and applied to the same size matrices. 
+The results show that the TETNP with the `Post MLP' outperforms the TETNP with the `Pre MLP' by quite a large margin. Trivially this makes a lot of sense as the Post function can further refine the dot product attention through the MLP whilst in the `Pre' function the MLP is \emph{only} applied to the $\bm{\Delta}$ matrix. The computational complexity of these two functions are not too different as the MLP are small and applied to the same size matrices. 
 
 
 \section{ConvNP vs TETNP}
@@ -85,13 +83,13 @@ As mentioned previously, the Gaussian Process dataset is not very difficult to l
 
 Observing the samples from the ConvNP and TETNP for low frequency \autoref{fig:low-freq-2d-gps} and high frequency functions \autoref{fig:high-freq-2d-gps}, we can see both models are able to generate very similar predictions to the ground truth GP. The TETNP performs slightly better than the ConvNP in the low frequency case, but the ConvNP performs better in the high frequency case for these samples. However overall the TETNP performs better than the ConvNP on the Gaussian Process dataset.
 
-\begin{figure}[H]
-	\centering
-	\subfloat[ConvNP (top plot is the model prediction and bottom is the ground truth GP)]{\includegraphics[width=0.8\linewidth]{./fig/gp/conv-gp-2d.png}}\\
-	\subfloat[TETNP (top plot is the model prediction and bottom is the ground truth GP)]{\includegraphics[width=0.8\linewidth]{./fig/gp/tetnp-gp-2d.png}}
-	\caption{Samples from ConvNP and TETNP on a low frequency 2D Gaussian Process.}
-	\label{fig:low-freq-2d-gps}
-\end{figure}
+% \begin{figure}[H]
+% 	\centering
+% 	\subfloat[ConvNP (top plot is the model prediction and bottom is the ground truth GP)]{\includegraphics[width=0.8\linewidth]{./fig/gp/conv-gp-2d.png}}\\
+% 	\subfloat[TETNP (top plot is the model prediction and bottom is the ground truth GP)]{\includegraphics[width=0.8\linewidth]{./fig/gp/tetnp-gp-2d.png}}
+% 	\caption{Samples from ConvNP and TETNP on a low frequency 2D Gaussian Process.}
+% 	\label{fig:low-freq-2d-gps}
+% \end{figure}
 
 \begin{figure}[H]
 	\centering
@@ -124,7 +122,7 @@ As previously stated the restricted sawtooth dataset is a subset of the full saw
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{./fig/res-saw/no-re.png}
+    \includegraphics[width=1\linewidth]{./fig/res-saw/no-re.png}
     \caption{Samples from TETNP on the full Sawtooth dataset. The top plot is the model prediction on the restricted sawtooth dataset and the bottom plot is the model prediction on the full sawtooth dataset which is a rotated version of the restricted sawtooth dataset.
     The region inside the black dotted box is the region the model was trained on and the region outside the black dotted box is the region the model was not trained on.}
     \label{fig:no-re-saw-preds}
@@ -147,7 +145,7 @@ To introduce rotational equivariance we can simply take the L2 norm of the $\bm{
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{./fig/res-saw/re.png}
+    \includegraphics[width=1\linewidth]{./fig/res-saw/re.png}
     \caption{Samples from TETNP on the full Sawtooth dataset with Rotational 
     The region inside the black dotted box is the region the model was trained on and the region outside the black dotted box is the region the model was not trained on.}
     \label{fig:re-saw-preds}
@@ -165,18 +163,37 @@ The full sawtooth dataset is the full sawtooth function which is not restricted 
 
 \begin{figure}[H]
     \centering
-    \subfloat[]{\includegraphics[width=0.3\linewidth]{./fig/saw/tetnp.png}}
-    \subfloat[]{\includegraphics[width=0.3\linewidth]{./fig/saw/tetnp-2.png}}
-    \subfloat[]{\includegraphics[width=0.3\linewidth]{./fig/saw/tetnp-3.png}}
-    \caption{Samples from TETNP on the full Sawtooth dataset. The region inside the black dotted box is the region the model was trained on and the region outside the black dotted box is the region the model was not trained on.}
+    \subfloat[TETNP Samples]{\includegraphics[width=0.3\linewidth]{./fig/saw/tetnp.png}}
+    \subfloat[TETNP Samples]{\includegraphics[width=0.3\linewidth]{./fig/saw/tetnp-2.png}}
+    \subfloat[TETNP Samples]{\includegraphics[width=0.3\linewidth]{./fig/saw/tetnp-3.png}}\\
+    \subfloat[ConvNP Samples]{\includegraphics[width=0.3\linewidth]{./fig/conv/convnp.png}}
+    \subfloat[ConvNP Samples]{\includegraphics[width=0.3\linewidth]{./fig/conv/convnp2.png}}
+    \subfloat[ConvNP Samples]{\includegraphics[width=0.3\linewidth]{./fig/conv/convnp3.png}}\\
+    \caption{Samples from TETNP and ConvNP on the full Sawtooth dataset after training for 7 hours using 1 million parameters models and 64 context points. Context region is inside the black dotted box and target region inside the red dotted box. Out of the target region is the extrapolation region.}
     \label{fig:full-saw-preds}
 \end{figure}
 
+The ConvNP performs terribly on the full sawtooth dataset, which may seem surprising at first, but it is not since CNNs are not rotationally equivariant. This means that the CNN will need to learn filters for the sawtooth in all directions, which is a very difficult task. The ConvNP was able to perform well on the restricted sawtooth dataset as it only needed to learn filters for the sawtooth in two directions. Perhaps with longer training times, the ConvNP could learn to generalize to the full sawtooth dataset, but this is not feasible for this project.
+
 % Compared to the ConvNP the TETNP does indeed perform better in terms of validation loss.
 
-\todo{GET PLOTS OF CONVNP ON FULL SAWTOOTH AND COMPARE RESULTS!!!!!!!!!!!!\\!\\!\\!\\!}
+% ./fig/conv-tetnp-saw.pdf
 
-\begin{table}[]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{./fig/conv-tetnp-saw.pdf}
+    \caption{Validation Loss of ConvNP and TETNP on the 2D Sawtooth Dataset. Lower validation loss is better.}
+    \label{fig:conv-tetnp-saw}
+\end{figure}
+
+\autoref{fig:conv-tetnp-saw} shows that the TETNP outperforms the ConvNP by a significant margin on the full sawtooth dataset. Overall the TETNP is the clear winner and highlights the power of the Transformer architecture in learning complex patterns in the data.
+
+
+
+\section{Computational Complexity}
+
+
+\begin{table}[H]
     \centering
     \begin{tabular}{@{}llll@{}}
     \toprule
@@ -190,14 +207,14 @@ The full sawtooth dataset is the full sawtooth function which is not restricted 
     1000  & 1000  & 268                & 985               \\
     5000  & 1000  & 1273               & 24083             \\ \bottomrule
     \end{tabular}
-    \caption{Memory usage of ConvNP and TETNP on the 2D Sawtooth dataset.}
+    \caption{Memory usage of ConvNP and TETNP on a 2D dataset with 1 million parameter models. $N_c$ is the number of context points and $N_t$ is the number of target points.}
     \label{tab:memory-usage-comparison-2D}
     \end{table}
+\FloatBarrier
+
+\autoref{tab:memory-usage-comparison-2D} clearly demonstrates that the ConvNPs memory requirement has increased by a factor of $2^3$ compared to the 1D case \autoref{tab:memory-usage-comparison}, which agrees with the theoretical complexity of the ConvNP. The TETNP retains the same memory requirements as the 1D case, albeit with a significantly higher memory requirement compared to the ConvNP. When scaling systems to higher dimensions, the TETNP is the clear winner in terms of memory requirements as it is fixed with the data dimensionality.
 
 
-\section{Computational Complexity}
-
-\todo{Run the code for this \\!\\!\\!\\!}
 
 \ifSubfilesClassLoaded{%
     \printbibliography{}

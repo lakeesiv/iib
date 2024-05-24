@@ -10,7 +10,7 @@ We will use 1D datasets to firstly optimize the hyperparameters of the TNP model
 \subsection{Gaussian Process}
 \label{sec:1d-gp-dataset}
 
-We will use samples from a Gaussian Process to generate the data. The aim will be for our model to learn the underlying function of the Gaussian Process and fit the data just like the original Gaussian Process. The Gaussian Process is defined as:
+We will use samples from a Gaussian Process to generate the data. The aim will be for our model to learn the underlying function of the Gaussian Process and recover the underlying process. The Gaussian Process is defined as:
 
 \begin{equation}
 	f(x) \sim \mathcal{GP}(0, k(x, x'))
@@ -57,7 +57,7 @@ Where $\sigma$ is a hyperparameter of the RBF function and $\text{MLP}(\Delta)$ 
 	\label{fig:relative-attn-func-1d}
 \end{figure}
 
-\autoref{fig:relative-attn-func-1d} shows the validation loss curves for the TNP with different relative attention functions. We can see that the MLP function performs significantly better than the other two functions. This is likely due to the MLP being able to \textbf{learn} whilst the other two functions are fixed. We can also see that the RBF function performs better than the identify function since the effect of adding the raw difference affects the dot product of the attention mechanism. So we can conclude that the MLP function is the best function to use for the TNP. The computational cost of using the MLP function is also not significantly higher than the other two functions, since the MLP is very small.
+\autoref{fig:relative-attn-func-1d} shows the validation loss curves for the TNP with different relative attention functions. We can see that the MLP function performs significantly better than the other two functions. This is likely due to the MLP being able to \textbf{learn} whilst the other two functions are fixed. We can also see that the RBF function performs better than the identify function since the effect of adding the raw difference affects the dot product of the attention mechanism. So we can conclude that the MLP function is the best function out of three we considered. The computational cost of using the MLP function is also not significantly higher than the other two functions, since the MLP is very small.
 
 
 
@@ -100,13 +100,13 @@ From \autoref{fig:hyperparam-optimization} it is clear that reducing the token e
 
 % \subsection{Model Fits}
 
-Finally using our `best' TNP model, we will compare the performance of the ConvNP and TNP on fitting sawtooth and GP (using EQ Kernel) data using 1 million parameters. 
+Finally, using our `best' TNP model, we will compare the performance of the ConvNP and TNP on fitting sawtooth and GP (using EQ Kernel) data using 1 million parameters. 
 
 % result.png
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\linewidth]{./convcnp-vs-tetnp-saw-gp.pdf}
+	\includegraphics[width=0.5\linewidth]{./convcnp-vs-tetnp-saw-gp.pdf}
 	\caption{ConvNP vs TNP on Sawtooth and GP Data}
 	\label{fig:conv-tnp-1d-result}
 \end{figure}
@@ -119,7 +119,7 @@ Finally using our `best' TNP model, we will compare the performance of the ConvN
 	\subfloat[TNP]{\includegraphics[width=0.47\linewidth]{./tnp_saw.png}\label{fig:1d-sawtooth-comparisons-tnp_saw}}
 	\qquad
 	\subfloat[ConvNP]{\includegraphics[width=0.47\linewidth]{./convnp_saw.png}\label{fig:1d-sawtooth-comparisons-convnp_saw}}
-	\caption{ConvNP vs TNP on Sawtooth Data}
+	\caption{ConvNP vs TNP on Sawtooth Data. The context set inputs are between [-4, 4] and the target set inputs are between [-10, 10] which extends beyond the context set to test the models' extrapolation capabilities.} 
 	\label{fig:1d-sawtooth-comparisons}
 \end{figure}
 
