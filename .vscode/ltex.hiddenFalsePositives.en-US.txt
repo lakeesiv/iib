@@ -1,2 +1,3 @@
 {"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qwhere \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q is the activation function, the authors use the GELU function \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
 {"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qwhere MLP\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q,MLP\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q transforms the dimension of the input to a lower dimension \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
+{"rule":"WHITESPACE_RULE","sentence":"^\\QName: Lakee Sivaraya, College: Emmanuel College, Supervisor: Prof. Richard E. Turner\\E$"}
