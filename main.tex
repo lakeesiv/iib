@@ -13,15 +13,29 @@
 \externaldocument{./chapters/6-1d/1d}
 \externaldocument{./chapters/7-2d/2d}
 
-
 \newcommand{\lrtitle}{
 	Unifying Transformers and Convolutional Neural Processes
 }
-\date{\today}
+\newcommand{\displaydate}{
+	May 2024
+}
 
 \begin{document}
-\createnotestitlepage 
 
+\title{\textbf{\fontsize{24.88}{12}\selectfont \lrtitle}}
+\author{{\LARGE \name}}
+
+\reporttitlepage
+
+\chapter*{Acknowledgement}
+\subfile{chapters/_misc/acknowlegement.tex}
+\newpage
+\chapter*{Abstract}
+\subfile{chapters/0-abstract/abstract.tex}
+\newpage
+Hi
+
+\TOC{gray}
 
 
 \chapter{Introduction}
@@ -47,7 +61,7 @@
 \subfile{chapters/8-linear-transformer/linear-transformer.tex}
 
 \chapter{Conclusion}
-% \subfile{chapters/9-conclusion/conclusion.tex}
+\subfile{chapters/9-conclusion/conclusion.tex}
 
 
 \printbibliography[heading=bibintoc]{}
@@ -58,11 +72,8 @@
  
 
 \begin{appendices}
-
-\chapter{Dataset}
-
 \chapter{Risk Assessment}
-
+\subfile{chapters/10-appendix/risk.tex}
 
 \end{appendices}
 

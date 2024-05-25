@@ -31,7 +31,7 @@ We consider two implementations of a pseudotokens based Transformer, one is the 
     \bm{H}_i = \frac{\phi(\bm{Q}_i)^T \sum_{j=1}^{N} \phi(\bm{K}_j) \bm{V}_j^T}{\phi(\bm{Q}_i)^T \sum_{j=1}^{N} \phi(\bm{K}_j)}
 \end{equation}
 
-Where $\phi$ is a function that introduces non-linearities, the authors use the ELU function \cite{clevert2016fast}. We only compute $\sum_{j=1}^{N} \phi(\bm{K}_j$ and $\sum_{j=1}^{N} \phi(\bm{K}_j) \bm{V}_j^T$ once for all the queries $\bm{Q}_i$, hence reducing the complexity to $\mathcal{O}(N)$. This can simply replace the transformer in the original TNP model, giving us the `Linear Transformer NP' (LinearTNP).
+Where $\phi$ is a function that introduces non-linearities, the authors use the ELU function \cite{clevert2016fast}. We only compute $\sum_{j=1}^{N} \phi(\bm{K}_j)$ and $\sum_{j=1}^{N} \phi(\bm{K}_j) \bm{V}_j^T$ once for all the queries $\bm{Q}_i$, hence reducing the complexity to $\mathcal{O}(N)$. This can simply replace the transformer in the original TNP model, giving us the `Linear Transformer NP' (LinearTNP).
 
 
 \section{HyperMixer}
@@ -112,7 +112,7 @@ Cross attention is performed by generating the queries from one input and the ke
 \end{table}
 \FloatBarrier
 
-\autoref{tab:memory-usage-comparison-2D-lin} demonstrates the drastic improvement in memory usage of the linear models compared to the quadratic models. The linear models are able to scale to larger datasets with a much smaller memory footprint, making them suitable for large-scale applications where data is smooth and the quadratic models are infeasible to use. 
+\autoref{tab:memory-usage-comparison-2D-lin} demonstrates the drastic improvement in memory usage of the linear models compared to the quadratic models. The linear models are able to scale to larger datasets with a much smaller memory footprint, making them suitable for large-scale applications where data is smooth, and the quadratic models are infeasible to use. 
 
 
 
