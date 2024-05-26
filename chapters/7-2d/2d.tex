@@ -4,6 +4,8 @@
 
 \section{Datasets}
 
+We will use the same datasets as the 1D experiments, but extend them to 2D. From both datasets, choose to sample $N_c = 64$ context points and $N_t = 128$ target points. The context region is defined as $x_1, x_2 \in [-2, 2]$ and the target region is defined as $x_1, x_2 \in [-4, 4]$.  In our plots, the context region will be inside a black dotted box and the target region will be inside a red dotted box. The extrapolation region is outside the target region.
+
 \subsection{Gaussian Process}
 
 The 2D Gaussian Process is the natural extension of the 1D Gaussian Process described in \autoref{sec:1d-gp-dataset} where we use the squared exponential kernel. We continue to use the same range of lengthscale across both input dimensions as the 1D Gaussian Process. 
@@ -15,7 +17,7 @@ The 2D Gaussian Process is the natural extension of the 1D Gaussian Process desc
 
 \subsection{Sawtooth}
 
-The 2D Sawtooth dataset is the natural extension of the 1D Sawtooth dataset described in \autoref{sec:1d-sawtooth-dataset}. We continue to use the same period $T$ and noise $n$ across both input dimensions as the 1D Sawtooth dataset.
+The 2D Sawtooth dataset is the natural extension of the 1D Sawtooth dataset described in \autoref{sec:1d-sawtooth-dataset}. We continue to use the same period $f$ and noise $n$ across both input dimensions as the 1D Sawtooth dataset.
 
 % The following plots show some samples from the Sawtooth dataset.
 

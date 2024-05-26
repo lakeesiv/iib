@@ -21,7 +21,7 @@ Pseudotokens (also known as Inducing Points) are a set of tokens that are used t
     \label{fig:set-transformer}
 \end{figure}
 
-We consider two implementations of a pseudotokens based Transformer, one is the Set Transformer \parencite{lee2019set} and the other is the Perceiver \parencite{jaegle2021perceiver}. Both models are very similar and differ in the way they implement the cross-attention mechanism between the original and pseudo tokens \autoref{fig:set-transformer}. \cite{feng2023latent} implemented the Perciever model in the context of NPs creating the `Latent Bottled Attention Neural Process' (LBANP) model. \parencite{anonymous2024translationequivariant} implemented the Set Transformer model into a NP creating the `Inducing Set Transformer' (IST) model. \cite{anonymous2024translationequivariant} found both models to perform very similarly. Both models will be encompassed under the `PT-TETNP' term in the results' section since they are very similar in terms of performance.
+We consider two implementations of a pseudotokens based Transformer, one is the Set Transformer \parencite{lee2019set} and the other is the Perceiver \parencite{jaegle2021perceiver}. Both models are very similar and differ in the way they implement the cross-attention mechanism between the original and pseudo tokens \autoref{fig:set-transformer}. \cite{feng2023latent} implemented the Perciever model in the context of NPs creating the `Latent Bottled Attention Neural Process' (LBANP) model. \cite{anonymous2024translationequivariant} implemented the Set Transformer model into a NP creating the `Inducing Set Transformer' (IST) model. \cite{anonymous2024translationequivariant} found both models to perform very similarly. Both models will be encompassed under the `PT-TETNP' term in the results' section since they are very similar in terms of performance.
 
 \section{Linear Transformer}
 
@@ -73,16 +73,16 @@ Cross attention is performed by generating the queries from one input and the ke
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{@{}lccc@{}}
+    \begin{tabular}{@{}lcccc@{}}
     \toprule
-    Model      & Linear                & GP Loss & Sawtooth Loss \\ \midrule
-    HyperMixNP & \cmark & 1.144       & -              \\
-    LinearTNP  & \cmark & 1.141       & -              \\
-    PT-TETNP   & \cmark & 1.148       & -              \\ \midrule
-    \textbf{TETNP}      & \xmark & \textbf{1.134  }     & -\textbf{1.407}             \\
-    ConvNP     & \xmark & 1.168       & -0.8701            \\ \bottomrule
+    Model      & Linear  &TE               & GP Loss & Sawtooth Loss \\ \midrule
+    HyperMixNP & \cmark  &\xmark& 1.144       & -              \\
+    LinearTNP  & \cmark  &\xmark& 1.141       & -              \\
+    PT-TETNP   & \cmark  &\cmark & 1.148       & -              \\ \midrule
+    \textbf{TETNP}    & \cmark  & \cmark & \textbf{1.134  }     & -\textbf{1.407}             \\
+    ConvNP     & \xmark  & \cmark  & 1.168       & -0.8701            \\ \bottomrule
     \end{tabular}
-    \caption{Comparison of validation loss on 2D datasets using $N_c = 64$ $N_t = 128$ with 1 million parameter models. All models were trained for 4 hours. Fields with `-` indicate that the model was unable to learn the dataset.}
+    \caption{Comparison of validation loss on 2D datasets using $N_c = 64$ $N_t = 128$ with 1 million parameter models. All models were trained for 4 hours. Fields with `-' indicate that the model was unable to learn the dataset.}
     \label{tab:2d-comparison-lin}
     \end{table}
 \FloatBarrier

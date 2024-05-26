@@ -12,7 +12,7 @@ We will use two datasets to evaluate the models: a smooth Gaussian process and a
 \subsection{Gaussian Process}
 \label{sec:1d-gp-dataset}
 
- Our objective is for our model to learn the underlying function of the Gaussian Process using the given data. The Gaussian Process is defined as follows:
+ The objective is for our model to learn the underlying function of the Gaussian Process. The Gaussian Process is defined as follows:
 
 \begin{equation}
 	f(x) \sim \mathcal{GP}(0, k(x, x'))
@@ -40,7 +40,7 @@ Where $n$ is Gaussian noise with standard deviation $\sigma = 0.025$ and $f$ is 
 
 \section{Relative Attention Function}
 
-As discussed in \autoref{sec:tetnp} the matrix of differences ($\bm{\Delta}$) is passed through a function $F$ to apply non-linear transformations and acts as hyperparameter of our model. As a baseline, we will use a simple linear function with no bias and gradient 1 (`identity') which is linear. For non-linear transformer, we evaluate using a Gaussian Radial Basis Function (RBF) and a Multi-Layer Perceptron (MLP). The functions are defined below:
+As discussed in \autoref{sec:tetnp} the matrix of differences ($\bm{\Delta}$) is passed through a function $F$ to apply non-linear transformations and acts as hyperparameter of our model. As a baseline, we will use a simple linear function with no bias and gradient 1 (`identity') which is linear. For non-linear transformations, we evaluate the use of a Gaussian Radial Basis Function (RBF) and a Multi-Layer Perceptron (MLP). The functions are defined below:
 
 \begin{align}
 	F_{\text{identity}}(\Delta) &= \Delta&
@@ -131,15 +131,15 @@ Inspecting the model fits on sawtooth data \autoref{fig:1d-sawtooth-comparisons}
 	\centering
 	\begin{tabular}{@{}llccc@{}}
 	\toprule
-	$N_c$ & $N_t$ & ConvNP Memory (MB) & TNP Memory (MB)  & TETNP (MB)\\ \midrule
-	10    & 10    & 18                 & 13               &  \\
-	100   & 10    & 16                 & 18               &  \\
-	1000  & 10    & 16                 & 339              &  \\
-	5000  & 10    & 124                & 9357             &  \\ \midrule
-	10    & 1000  & 36                 & 399              &  \\
-	100   & 1000  & 36                 & 469              &  \\
-	1000  & 1000  & 36                 & 1510             &  \\
-	5000  & 1000  & 124                & 13480            &  \\ \bottomrule
+	$N_c$ & $N_t$ & ConvNP  & TNP   & TETNP \\ \midrule
+	10    & 10    & 18                 & 13               &  13\\
+	100   & 10    & 16                 & 18               &  23\\
+	1000  & 10    & 16                 & 339              &  980 \\
+	5000  & 10    & 124                & 9357             &  23060\\ \midrule
+	10    & 1000  & 36                 & 399              &  25\\
+	100   & 1000  & 36                 & 469              &  100\\
+	1000  & 1000  & 36                 & 1510             &  1012\\
+	5000  & 1000  & 124                & 13480            &  24082\\ \bottomrule
 	\end{tabular}
 	\caption{Memory Usage in inference of the ConvNP and TETNP on 1D data using $N_c$ context points and $N_t$ target points.}
 	\label{tab:memory-usage-comparison}

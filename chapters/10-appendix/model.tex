@@ -1,0 +1,44 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+
+\section{ConvNP}
+
+For a 1 million parameter model ConvNP we used the following configurations for the 1D and 2D datasets: 
+
+\subsection{1D}
+\bul{
+	\item Encoder and Decoder: MLPs with 2 layers with hidden units 64, 64
+	\item UNet: 5 layers with hidden units 64, 64, 64, 64, 64
+	\item Discretization: 64 points per unit length
+	\item SetConv initial lengtscale: 0.1
+}
+\subsection{2D}
+\bul{
+	\item Encoder and Decoder: MLPs with 2 layers with hidden units 32, 32
+	\item UNet: 5 layers with hidden units 32, 16, 8, 8, 16
+	\item Discretization: 20 points per unit length
+	\item SetConv initial lengtscale: 0.1
+}
+
+
+\section{TNP/TETNP}
+
+For a 1 million parameter model TNP/TETNP we used the following configuration which was found through hyperparameter optimization: 
+
+\bul{
+	\item Encoder and Decoder: MLP with 2 layers with hidden units 100, 100
+	\item Number of Transformer layers: 3
+	\item Number of heads: 24
+	\item Head dimension: 32
+}
+
+
+
+
+\ifSubfilesClassLoaded{%
+    \printbibliography{}
+}{} 
+
+
+\end{document}
