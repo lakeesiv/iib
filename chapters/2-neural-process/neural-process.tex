@@ -4,7 +4,7 @@
 
 \section{Introduction}
 
-Neural Process (NP) is a meta-learning framework introduced in \cite{garnelo2018conditional, garnelo2018neural} that is used for few-shot uncertainty aware meta learning. There exists two variants of the Neural Process, the Conditional Neural Process (CNP) and the Latent Neural Process (LNP), we will focus entirely on the CNP for  this project and hence we will implicitly refer to CNP as NP. 
+Neural Process (NP) is a meta-learning framework introduced in \parencite{garnelo2018conditional, garnelo2018neural} that is used for few-shot uncertainty aware meta learning. There exists two variants of the Neural Process, the Conditional Neural Process (CNP) and the Latent Neural Process (LNP), we will focus entirely on the CNP for  this project and hence we will implicitly refer to CNP as NP. 
 
 Neural Processes learn a distribution over the input locations \emph{conditioned on the training data}. In the NP literature we refer the training data as the \emph{context set} and the input locations we want to predict the output for as the \emph{target set}. The model is trained on a meta datasets of context-target pairs by maximizing the likelihood of the target set \emph{conditioned} the context set. 
 \section{Architecture}
@@ -42,7 +42,7 @@ The overall architecture for the CNP is shown in Figure \ref{fig:cnp-architectur
 \end{figure}
 
 
-In the original CNP paper, the encoder and decoder are implemented as simple Multi-Layer Perceptrons (MLPs) and the processing is implemented as a mean operation, which is an implementation of the `DeepSet' architecture \cite{zaheer2018deep}.
+In the original CNP paper, the encoder and decoder are implemented as simple Multi-Layer Perceptrons (MLPs) and the processing is implemented as a mean operation, which is an implementation of the `DeepSet' architecture \parencite{zaheer2018deep}.
 
 
 Importantly, CNPs make the strong assumption that the posterior distribution \emph{factorizes} over the target points:
@@ -52,7 +52,7 @@ Importantly, CNPs make the strong assumption that the posterior distribution \em
 \end{align}
 
 The  factorization assumption (a) allows the model can scale linearly with the number of target points with a tractable likelihood. However, this assumption means
-\textbf{CNPs are unable to generate coherent sample paths, they are only able to produce distributions over the target points.} Furthermore, we need to select a marginal likelihood for the distribution (b) which is usually a Heteroscedastic Gaussian Likelihood (Gaussian with a variance that varies with the input) \cite{garnelo2018conditional}. This adds an assumption since likelihood chosen may not be appropriate for the data we are modeling.
+\textbf{CNPs are unable to generate coherent sample paths, they are only able to produce distributions over the target points.} Furthermore, we need to select a marginal likelihood for the distribution (b) which is usually a Heteroscedastic Gaussian Likelihood (Gaussian with a variance that varies with the input) \parencite{garnelo2018conditional}. This adds an assumption since likelihood chosen may not be appropriate for the data we are modeling.
 
 The model can be trained using simple maximum likelihood estimation (MLE) by minimizing the negative log-likelihood, giving us the following loss function:
 

@@ -9,7 +9,7 @@ From \autoref{tab:memory-usage-comparison} and \autoref{tab:memory-usage-compari
 
 \section{Pseudotokens}
 
-Pseudotokens (also known as Inducing Points) are a set of tokens that are used to approximate the full set of tokens, it can be thought of as a lower dimensional representation of the data set. They have been widely used in the context of Gaussian Processes (GPs) to reduce the complexity of the model with great success \cite{hensman2013gaussian}. The original tokens $\bm{X} \elof{N}{D}$ are projected onto into a lower-dimensional space $\bm{I} \elof{M}{D}$ where $M << N$ through some translation equivariant network \cite{anonymous2024translationequivariant} giving us the pseudotokens $\bm{I}$ which are translation equivariant to the original tokens $\bm{X}$. We then perform cross-attention between the pseudotokens $\bm{I}$ and the original tokens $\bm{X}$, hence reducing the memory complexity to $\mathcal{O}(MN_c + MN_t)$. 
+Pseudotokens (also known as Inducing Points) are a set of tokens that are used to approximate the full set of tokens, it can be thought of as a lower dimensional representation of the data set. They have been widely used in the context of Gaussian Processes (GPs) to reduce the complexity of the model with great success \parencite{hensman2013gaussian}. The original tokens $\bm{X} \elof{N}{D}$ are projected onto into a lower-dimensional space $\bm{I} \elof{M}{D}$ where $M << N$ through some translation equivariant network \parencite{anonymous2024translationequivariant} giving us the pseudotokens $\bm{I}$ which are translation equivariant to the original tokens $\bm{X}$. We then perform cross-attention between the pseudotokens $\bm{I}$ and the original tokens $\bm{X}$, hence reducing the memory complexity to $\mathcal{O}(MN_c + MN_t)$. 
 
 
 % ./fig/set-transformer.png
@@ -17,11 +17,11 @@ Pseudotokens (also known as Inducing Points) are a set of tokens that are used t
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{fig/set-transformer.png}
-    \caption{Perceiver vs Set Transformer. MAB is equivalent to Multi-Head Cross Attention, refer to \cite{jaegle2021perceiver, lee2019set} for more details.}
+    \caption{Perceiver vs Set Transformer. MAB is equivalent to Multi-Head Cross Attention, refer to \parencite{jaegle2021perceiver, lee2019set} for more details.}
     \label{fig:set-transformer}
 \end{figure}
 
-We consider two implementations of a pseudotokens based Transformer, one is the Set Transformer \cite{lee2019set} and the other is the Perceiver \cite{jaegle2021perceiver}. Both models are very similar and differ in the way they implement the cross-attention mechanism between the original and pseudo tokens \autoref{fig:set-transformer}. \cite{feng2023latent} implemented the Perciever model in the context of NPs creating the `Latent Bottled Attention Neural Process' (LBANP) model. \cite{anonymous2024translationequivariant} implemented the Set Transformer model into a NP creating the `Inducing Set Transformer' (IST) model. \cite{anonymous2024translationequivariant} found both models to perform very similarly. Both models will be encompassed under the `PT-TETNP' term in the results' section since they are very similar in terms of performance.
+We consider two implementations of a pseudotokens based Transformer, one is the Set Transformer \parencite{lee2019set} and the other is the Perceiver \parencite{jaegle2021perceiver}. Both models are very similar and differ in the way they implement the cross-attention mechanism between the original and pseudo tokens \autoref{fig:set-transformer}. \cite{feng2023latent} implemented the Perciever model in the context of NPs creating the `Latent Bottled Attention Neural Process' (LBANP) model. \parencite{anonymous2024translationequivariant} implemented the Set Transformer model into a NP creating the `Inducing Set Transformer' (IST) model. \cite{anonymous2024translationequivariant} found both models to perform very similarly. Both models will be encompassed under the `PT-TETNP' term in the results' section since they are very similar in terms of performance.
 
 \section{Linear Transformer}
 
@@ -31,14 +31,14 @@ We consider two implementations of a pseudotokens based Transformer, one is the 
     \bm{H}_i = \frac{\phi(\bm{Q}_i)^T \sum_{j=1}^{N} \phi(\bm{K}_j) \bm{V}_j^T}{\phi(\bm{Q}_i)^T \sum_{j=1}^{N} \phi(\bm{K}_j)}
 \end{equation}
 
-Where $\phi$ is a function that introduces non-linearities, the authors use the ELU function \cite{clevert2016fast}. We only compute $\sum_{j=1}^{N} \phi(\bm{K}_j)$ and $\sum_{j=1}^{N} \phi(\bm{K}_j) \bm{V}_j^T$ once for all the queries $\bm{Q}_i$, hence reducing the complexity to $\mathcal{O}(N)$. This can simply replace the transformer in the original TNP model, giving us the `Linear Transformer NP' (LinearTNP).
+Where $\phi$ is a function that introduces non-linearities, the authors use the ELU function \parencite{clevert2016fast}. We only compute $\sum_{j=1}^{N} \phi(\bm{K}_j)$ and $\sum_{j=1}^{N} \phi(\bm{K}_j) \bm{V}_j^T$ once for all the queries $\bm{Q}_i$, hence reducing the complexity to $\mathcal{O}(N)$. This can simply replace the transformer in the original TNP model, giving us the `Linear Transformer NP' (LinearTNP).
 
 
 \section{HyperMixer}
 
 \emph{Is attention required for a Transformer model to be effective?} The majority of parameters in Transformers are in the MLPs and not the attention mechanism. \cite{tolstikhin2021mlpmixer} proposes the `MLP-Mixer' - a Transformer model that replaces the attention mechanism with MLPs across rows and columns of the input. It can be viewed as `mixing' the features across tokens, thus learning patterns in a way akin to attention. However, the MLP-Mixer requires a \textbf{known and fixed input size} which breaks the flexibility of the model if we apply it to a NP.
 
-To overcome this limitation in flexibility, the `HyperMixer'  model \cite{mai2023hypermixer} was proposed which is a variant of the MLP-Mixer that is designed to work with variable input sizes. The model uses hypernetworks \cite{ha2016hypernetworks} to generate the weights of the MLPs. The hypernetworks $h_k, h_q : \mathbb{R}^{n \times d} \rightarrow \mathbb{R}^{n \times p}$ are applied on the queries $\bm{Q}$ and keys $\bm{K}$ of the input (row wise) to generate the weights:
+To overcome this limitation in flexibility, the `HyperMixer'  model \parencite{mai2023hypermixer} was proposed which is a variant of the MLP-Mixer that is designed to work with variable input sizes. The model uses hypernetworks \parencite{ha2016hypernetworks} to generate the weights of the MLPs. The hypernetworks $h_k, h_q : \mathbb{R}^{n \times d} \rightarrow \mathbb{R}^{n \times p}$ are applied on the queries $\bm{Q}$ and keys $\bm{K}$ of the input (row wise) to generate the weights:
 
 % vector with dots in between
 \begin{align}
@@ -60,7 +60,7 @@ where $\text{MLP}_k, \text{MLP}_q: \mathbb{R}^d \rightarrow \mathbb{R}^p$ transf
     \bm{H} = \bm{W_k} \sigma(\bm{W_q}^T \bm{V})
 \end{equation}
 
-With $\sigma$ being an activation function, the authors use the GELU function \cite{hendrycks2023gaussian}.
+With $\sigma$ being an activation function, the authors use the GELU function \parencite{hendrycks2023gaussian}.
 Cross attention is performed by generating the queries from one input and the keys and values from another input. We simply replace attention in the original TNP model with the HyperMixer giving us the `HyperMixNP' model. 
 
 \begin{note}[Lack of Translation Equivariance]
@@ -94,7 +94,7 @@ Cross attention is performed by generating the queries from one input and the ke
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{@{}lllllll@{}}
+    \begin{tabular}{@{}llccccc@{}}
     \toprule
     &  & \multicolumn{3}{c}{Linear} & \multicolumn{2}{c}{Quadratic} \\ \cmidrule(lr){3-5} \cmidrule(lr){6-7}
     $N_c$ & $N_t$  & HyperMixNP & LinearTNP & PT-TNP & ConvNP & TETNP \\ \midrule

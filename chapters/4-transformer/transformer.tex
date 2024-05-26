@@ -5,7 +5,7 @@
 \section{Transformers}
 \subsection{Introduction}
 
-The Transformer \cite{vaswani2017attention} is a deep learning model that has been revolutionary in the field of machine learning. Originally devised as a sequence-to-sequence model that uses attention to learn the relationships between the input and output sequences. Transformers have been the state of the start in the field of natural language processing (NLP) leading to the development of models like BERT \cite{devlin2019bert} and GPT \cite{brown2020language}. As of recent, they are gaining traction in fields like computer vision \cite{dosovitskiy2021image} becoming the new state of the art in a field that has been dominated by Convolutional Neural Networks (CNNs). The attractiveness of transformers stems from their general purpose nature and strong ability to learn relationships with a large context window whilst being massively parallelizable. A brief overview of the transformer model is given below.
+The Transformer \parencite{vaswani2017attention} is a deep learning model that has been revolutionary in the field of machine learning. Originally devised as a sequence-to-sequence model that uses attention to learn the relationships between the input and output sequences. Transformers have been the state of the start in the field of natural language processing (NLP) leading to the development of models like BERT \parencite{devlin2019bert} and GPT \parencite{brown2020language}. As of recent, they are gaining traction in fields like computer vision \parencite{dosovitskiy2021image} becoming the new state of the art in a field that has been dominated by Convolutional Neural Networks (CNNs). The attractiveness of transformers stems from their general purpose nature and strong ability to learn relationships with a large context window whilst being massively parallelizable. A brief overview of the transformer model is given below.
 
 
 \subsection{Embedding}
@@ -61,7 +61,7 @@ The output of the MHSA is the concatenation of the outputs of each head $\bm{H}\
 % \begin{figure}[H]
 % 	\centering
 % 	\includegraphics[height=0.4\textwidth]{./mhsa.png}
-% 	\caption{Multi-Head Self-Attention \cite{vaswani2017attention}}
+% 	\caption{Multi-Head Self-Attention \parencite{vaswani2017attention}}
 % \end{figure}
 
 \subsection{Encoder}
@@ -69,11 +69,11 @@ The output of the MHSA is the concatenation of the outputs of each head $\bm{H}\
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.5\textwidth]{./encoder.png}
-	\caption{Transformer Encoder \cite{vaswani2017attention}}
+	\caption{Transformer Encoder \parencite{vaswani2017attention}}
 	\label{fig:encoder}
 \end{figure}
 
-\autoref{fig:encoder} shows the encoder of the transformer model. The encoder is composed of a stack of $N$ identical layers. Each layer is composed of two sub-layers, the MHSA and a simple feed-forward network. The output of each sub-layer is passed through a residual connection and a layer normalization operation \cite{ba2016layer}. The final output of the encoder is the output of the last layer which shall be denoted as $\bm{Y} \elof{N}{D}$. 
+\autoref{fig:encoder} shows the encoder of the transformer model. The encoder is composed of a stack of $N$ identical layers. Each layer is composed of two sub-layers, the MHSA and a simple feed-forward network. The output of each sub-layer is passed through a residual connection and a layer normalization operation \parencite{ba2016layer}. The final output of the encoder is the output of the last layer which shall be denoted as $\bm{Y} \elof{N}{D}$. 
 
 \begin{note}[Key Points]
 
