@@ -4,11 +4,20 @@
 
 \section{Motivation}
 
-Machine learning models have been immensely successful in variety of applications to generate predictions in data-driven domains such as computer vision, robotics, weather forecasting. While the success of these models is undeniable, they tend to lack the ability to understand the uncertainty in the predictions. This is a major drawback in the deployment of these models in real-world applications, for example, in weather forecasting,  the uncertainty of the prediction of the weather is arguably as valuable as the prediction itself. In this work, we aim to implement a model that is \textbf{uncertainty aware} whilst also possessing further desirable properties.
+Machine learning models have demonstrated immense success in a variety of applications, generating data-driven  predictions in domains such as computer vision, robotics, weather forecasting. While the success of these models is undeniable, they often to lack the ability to quantify the uncertainty in the predictions. This is a major drawback in the deployment of these models in real-world applications, for instance, in weather forecasting,  the uncertainty of the prediction of the weather is arguably as valuable as the prediction itself. Or in the case of robotics where estimating the uncertainty of objects in the environment is crucial for safe navigation and decision-making.
 
-\section{Desirable Properties}
+In this work, we develop and test models that are not only capable of making accurate predictions but also \textbf{aware of the uncertainty associated with their prediction}.
 
-On top of being uncertainty aware, we would like to insert some desirable inductive biases that help the model to generalize better and be more interpretable. These properties are:
+Furthermore, we would like the model to possess properties that enhance its ability to learn and generalize on data with strong patterns or periodicity, such as spatio-temporal data. Accurately capturing these patterns is crucial for modelling many real world tasks such as:
+
+\begin{itemize}
+	\item \textbf{Climate modelling}: parameters such as temperature, humidity, and pressure have strong spatio-temporal dependencies which exhibit periodic patterns. Accurately modelling these patterns is crucial for predicting weather patterns.
+	\item \textbf{Time series forecasting}: Many real world time series data exhibit periodic patterns, such as stock prices, energy consumption, and traffic data which have daily, weekly, and yearly periodicity. 
+	\item \textbf{Image processing}: Images have strong spatial dependencies, such as textures, edges and blobs which play a large role in characterizing the underlying structure of the data.
+\end{itemize}
+
+
+To achieve this, we insert some desirable inductive biases that help the model to generalize better and be more interpretable. These properties are:
 
 \textbf{Flexible}: \emph{The model should be able to work on a variety of data types}. As long as a data point can be represented as a vector, the model should be able to operate on it. This allows the model to be used in a variety of applications and domains.
 
@@ -39,17 +48,16 @@ where $\bm{x}$ is the input and $\bm{\hat{y}}$ is the output and $\bm{\tau}$ is 
 
 \textbf{Off the Grid Generalization}: \emph{The model should be capable of operating on off-the-grid data points}. Off the grid data points are the data points that are not in a regular gridded structure, such as images that have missing pixel values. Traditional models like Convolutional Neural Networks (CNNs) are not able to operate on off-the-grid data points since they require a regular structure to apply the convolution operation. By making the model off-the-grid generalizable, we can create models that can work on many types of datasets and easily handle missing data points. Furthermore, aiding in the performance of the model outside the context data. Applications such as image inpainting can particularly benefit from off-the-grid generalization.
 
-% \todo{Add a figure to illustrate off-the-grid generalization}
-
-Neural Processes (NPs) \parencite{garnelo2018neural} are a class of models that satisfy the above properties. The framework undermining NPs is general purpose, and thus can be modified with a variety of neural network architectures. 
 
 \section{Aims and Objectives}
+
+Neural Processes (NPs) \parencite{garnelo2018neural} are a class of uncertainty aware models that can be used for meta-learning. The framework undermining NPs is general purpose, whilst fulfilling the properties discussed earlier. Due to their flexibility, the NP architectures can be easily adapted to incorporate various backbone models and inductive biases. 
 
 In this work, we aim to implement and compare two different neural network architectures for Neural Processes, the first being based on a Convolutional Neural Network (CNN) called Convolutional Neural Processes (ConvNP) and the second being based on a Transformer architecture called Transformer Neural Processes (TNP). Our objective is to compare the performance of two models on a variety of datasets, focusing on their generalization capabilities and scalability.
 
 We introduce extra inductive biases into the TNP to enhance its ability to generalize. Furthermore, we explore new Transformer architectures that have better computational efficiency compared to the original Transformer architecture.
 
-Our objective is to develop a comprehensive understanding of the properties of these models. We aim to identify  the best practices for using these models in different scenarios, highlighting contexts where they perform well and where they do not. This investigation will provide us valuable insights into the capabilities of these models and how they can be used in real-world applications.
+Our objective is to develop a comprehensive understanding of the properties of these models. We aim to identify  the best practices for using these models in different scenarios, highlighting contexts where they perform well and where they do not. This investigation will provide us valuable insights into the capabilities of these models and how they can be deployed in real-world applications.
 
 
 

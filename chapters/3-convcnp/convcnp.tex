@@ -15,8 +15,7 @@ Convolutional Neural Networks (CNNs) have been the state of the art in many imag
 	\label{fig:convcnp}
 \end{figure}
 
-
-There are a few hurdles are preventing us from directly plugging data into a CNN when working with off-grid data.	
+There are a few hurdles preventing us from directly plugging data into a CNN when working with off-grid data.	
 
 CNNs operate on \textbf{on-grid data}, implying the data is on a regular grid, such as an image. However, the data we are working with is sometimes \textbf{off-grid data}, e.g. time series dataset with irregular timestamps. Furthermore, to `bake-in' the translation equivariance property, we need to be able to shift the data in the input space and the output space consistently. This is not trivial when using standard vector representations of the data as their is no inherent notion translation in a vector.
 \cite{gordon2020convolutional} propose a solution to this problem by using \textbf{functional embeddings} to model the discrete data as \emph{continuous functions}. With functional embeddings, the data can be translated in the input space and the output space consistently thus permitting translation equivariance.

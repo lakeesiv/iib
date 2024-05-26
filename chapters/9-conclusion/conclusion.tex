@@ -8,14 +8,7 @@ The standard NP model based on DeepSets was shown to have limited representation
 
 This report introduces two models that extend the NP using CNNs and Transformers, highlighting the intuition behind these models. CNNs are known for their ability to learn spatial structure in data and have been widely successful in image processing tasks. Transformers, on the other hand, have been successful in learning long-range dependencies in sequential data, gaining ubiquity in many Natural Language Processing (NLP) tasks. As of recent Transformers have been applied to a range of tasks beyond NLP, including image processing and reinforcement learning, showing promising results in these domains. 
 
-Transformer based NP model (TNP) lacks certain properties that potentially affect its ability to model data with strong stationary patterns or periodicity. Learning these patterns is crucial for modelling many real world tasks such as:
-
-\begin{itemize}
-	\item \textbf{Climate modelling}: parameters such as temperature, humidity, and pressure have strong spatial dependencies which exhibit periodic patterns. Accurately modelling these patterns is crucial for predicting weather patterns.
-	\item \textbf{Time series forecasting}: Many real world time series data exhibit periodic patterns, such as stock prices, energy consumption, and traffic data which have daily, weekly, and yearly periodicity.
-	\item \textbf{Image processing}: Images have strong spatial dependencies, such as textures, edges and blobs which play a large role in characterizing the underlying structure of the data.
-\end{itemize}
-
+Transformer based NP model (TNP) lacks certain properties that potentially affect its ability to model data with strong stationary patterns or periodicity. Learning these patterns is crucial for modelling many real world tasks such as climate modelling, time series forecasting, and image processing. 
 
 The Convolutional Neural Process (ConvNP) model has no issues with learning these properties, due to the convolutional layers learning the spatial structure of the data in a \emph{translation equivariant} manner. Translation equivariance is a key property of CNNs which allows them to learn patterns irrespective of their position in the input data, making them ideal for stationary and periodic data.
 

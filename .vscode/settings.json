@@ -14,7 +14,7 @@
     "._word*": true,
     "**/output-*": true,
     "**/*.run.xml": true,
-    "latexmkrc": true,
+    // "latexmkrc": true,
     "report\\logo": true,
     ".obsidian": true,
     "cmbx12.ttf": true
