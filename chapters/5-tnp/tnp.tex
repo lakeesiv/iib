@@ -3,17 +3,17 @@
 \begin{document}
 
 
-\section{Vanilla Transformer Neural Process}
+\section{Transformer Neural Process}
 
-An Attention based encoder for the Neural Process was investigated in \cite{kim2019attentive}, though the results were impressive, the model fails to perform at larger scale and `tends to make overconfident predictions and have poor performance on sequential decision-making problems' \cite{nguyen2023transformer}. It is natural to think that the Transformer \cite{vaswani2017attention} could be used to improve the performance of the Neural Process, as Transformers have been proven to effectively model large scale data using attention mechanisms. \cite{nguyen2023transformer} introduced the Transformer Neural Process (TNP) which uses an \emph{encoder-only} Transformer to learn the relationships between the context and target points via self-attention with appropriate masking. 
+An Attention based encoder for the Neural Process was investigated by \cite{kim2019attentive}, although the results were impressive, the model fails to perform at larger scale and `tends to make overconfident predictions and have poor performance on sequential decision-making problems' \cite{nguyen2023transformer}. Consequently, it is natural to progression to consider Transformer \cite{vaswani2017attention} as a potential candidate that can the performance of the Neural Process. \cite{nguyen2023transformer} introduced the Transformer Neural Process (TNP) which uses an \emph{encoder-only} Transformer to learn the relationships between the context and target points via self-attention with appropriate masking. 
 
 \subsection{Model Architecture}
 
-Similar to the standard Neural Process architecture we are required to encode data points within the context set into a vector representation, in language modelling literature we refer to this as tokenization. The tokenization is done by using a simple Multi-Layer Perceptron (MLP) to encode the data points into vector tokens with a configurable token dimension, $D_{em}$.
+Similar to the standard Neural Process architecture, we are required to encode data points within the context set into a vector representation, in language modelling literature we refer to this as tokenization. The tokenization is achieved using a simple Multi-Layer Perceptron (MLP) to encode the data points into tokens with a configurable token dimension, $D_{em}$.
 
-Where the TNP differs is that it also encodes the target points which is padded with zeros to represent the lack of value for the target data points, then both context and target tokens are passed into the transformer at the same time instead of computing a context representation and then passing the target points as in the standard NP.
+The TNP tokenizes the target points with padded with zeros to represent the absence of values for the target data points. Subsequently, both context and target tokens are fed into the transformer at the same time, in contrast to the standard NP approach of computing a  context representation and then inferencing the target points.
 
-A flag bit is introduced into the tokens to indicate whether the token is a context or target token. Consider the context dataset $\mathcal{C} = \{(\bm{x_i}, \bm{y_i})\}_{i=1}^{N_c}$ and target set $\mathcal{T} = \{(\bm{x_i})\}_{i=N_c+1}^{N}$, the model will encode a data point into a token $\bm{t_i}$ as follows:
+A flag bit is introduced into the tokens to indicate whether the token is a context or target token. For the context dataset $\mathcal{C} = \{(\bm{x_i}, \bm{y_i})\}_{i=1}^{N_c}$ and target set $\mathcal{T} = \{(\bm{x_i})\}_{i=N_c+1}^{N}$, the model will encode a data point into a token $\bm{t_i}$ as follows:
 
 \[
 	\bm{t_i} = \begin{cases}
@@ -22,11 +22,11 @@ A flag bit is introduced into the tokens to indicate whether the token is a cont
 	\end{cases}
 \]
 
-Where we use a flag bit of 0 to indicate a context token and 1 to indicate a target token, $\texttt{cat}$ is the concatenation operation and $\bm{0}$ is a vector of zeros of the same dimension as $\bm{y_i}$.
+A flag bit of 0 represents indicate a context token and 1 represents a target token, $\texttt{cat}$ is the concatenation operation and $\bm{0}$ is a vector of zeros of the same dimension as $\bm{y_i}$.
 
-Now that the data points are tokenized we can pass them through the Transformer encoder to learn the relationships between the context and target points. Importantly the Transformer encoder is masked such that the target tokens can only attend to the context tokens and previous target tokens. Alternatively one perform self attention on the context tokens then cross attention between the context and target tokens giving a more efficient implementation \cite{feng2022efficient}, we use this implementation in our experiments.
+The tokens are passed into a standard Transformer encoder to learn the relationships between the context and target points. Importantly the Transformer encoder is masked such that the target tokens can only attend to the context tokens and previous target tokens. Alternatively one can perform self attention on the context tokens then cross attention between the context and target tokens giving a more efficient implementation \cite{feng2022efficient} (we use this implementation in our experiments).
 
-We can now pass the tokens through the Transformer encoder layer several times to learn the relationships between the context and target points and generate a vector output. The output of the Transformer encoder is then passed through a Multi-Layer Perceptron (MLP) to generate the mean and variance of the predictive distribution of the target points. 
+The output of the Transformer encoder is passed through a Multi-Layer Perceptron (MLP) to generate the mean and variance of the predictive distribution of the target points. 
 
 % Figure ./tnp.png
 
@@ -39,9 +39,9 @@ We can now pass the tokens through the Transformer encoder layer several times t
 
 \subsection{Performance}
 
-One of the key benefits of Transformers (and attention) is the ability to have a global view of the data, analogous to an `infinite receptive field' in Convolutional Neural Networks. This allows the model to learn very complicated relationships across many length scales in the data. However, this can be a double-edged sword as the model can overfit to the data within its training region and fail to generalize to unseen data. 
+One of the key benefits of Transformers (and attention) is their ability to learn a global view of the data, analogous to an `infinite receptive field' in Convolutional Neural Networks. This feature enables the model to learn complicated relationships across many length scales in the data. However, this can be a double-edged sword as the model can overfit to the data within its training region and fail to generalize to unseen data. 
 
-Translation Equivariance is a key property behind CNNs which allow them to generalize excellently to unseen data by learning features irrespective of their position in the data. Such feature learning is critical to modelling real world data where the positions of the data do not matter as much as the relative relationships between the data points, e.g. in image classification the position of the object in the image does not matter as much as the features of the object itself. Transformers lack this property, causing them to generate random predictions when the data is shifted out of context as shown in Figure \ref{fig:tnp-fail}.
+Translation Equivariance is a key property behind CNNs which allows them to generalize excellently to unseen data by learning features irrespective of their position in the data. Such feature learning is critical to modelling real world data, where the absolute positions of the data are often less significant the \emph{relative positions} between the data points. For instance, in image classification the position of the object in the image does not matter as much as the features  that characterize  object itself. Transformers lack this property, resulting in unpredictable behaviors when the data is shifted out of context region, as shown in \autoref{fig:tnp-fail}.
 
 % Figure ./tnp-fail.png
 
@@ -59,7 +59,7 @@ Translation Equivariance is a key property behind CNNs which allow them to gener
 \section{Translation Equivariant TNP}
 \label{sec:tetnp}
 
-Recall, Translation Equivariance requires the model to yield the same output when the input is shifted. Such property must imply that the model only learns the relative distances between the data points ($\bm{x_i} - \bm{x_j}$) and \emph{not} the absolute positions of the data points. How could one enforce such a property in the Transformer Neural Process? The solution used is very simple, we add a term to the attention mechanisms in the Transformer to enforce the Translation Equivariance property!
+Translation Equivariance requires the model to yield the same output when the input is shifted. Such property must imply that the model only learns the relative distances between the data points ($\bm{x_i} - \bm{x_j}$) and \emph{not} the absolute positions of the data points. How could one enforce such a property in the Transformer Neural Process? The solution used is very simple, we add a term to the attention mechanisms in the Transformer to enforce the Translation Equivariance property!
 
 Consider the standard attention mechanism in the Transformer, the attention weights are computed as:
 
@@ -74,13 +74,12 @@ To create a Translation Equivariant Attention mechanism we add a term to the att
 \begin{align}
 	\label{eq:relative-attention}
 	\text{Attention}(\bm{Q}, \bm{K}, \bm{V}, \bm{X}) &= \text{softmax}\left(\bm{E} + F(\bm{\Delta}) \right) \bm{V}\\
-	\quad \bm{E_{ij}} &= \frac{\bm{q_i} \cdot \bm{k_j}}{\sqrt{d_k}}\\
 	 \quad \bm{\Delta_{ij}} &= \bm{x_i} - \bm{x_j}
 \end{align}
 
-Where $F$ is some function that introduces non-linearity into the attention weights and is applied to each entry of the matrix independently ($F(\bm{\Delta})_{ij} = F(\bm{\Delta_{ij}})$), we will investigate the effect of different functions in the experiments later on. It is clear to see that if all the input locations are shifted by a constant $\bm{\tau}$, the relative term will remain the same $\bm{F(\Delta_{ij})} = F(\bm{x_i} + \bm{\tau} - \bm{x_j} - \bm{\tau}) = F(\bm{x_i} - \bm{x_j})$ and the attention weights will remain the same.
+where $F$ is some function that introduces non-linearity into the attention weights, which is applied to each entry of the matrix independently ($F(\bm{\Delta})_{ij} = F(\bm{\Delta_{ij}})$), we will investigate the effect of different functions in the experiments later on. If all the input locations are shifted by a constant $\bm{\tau}$, the relative term will remain the same $\bm{F(\Delta_{ij})} = F(\bm{x_i} + \bm{\tau} - \bm{x_j} - \bm{\tau}) = F(\bm{x_i} - \bm{x_j})$ and the attention weights will remain the same.
 
-Importantly since we are enforcing the Transformer to learn the relative distances between the data points, we must remove the $\bm{x}$ values from the tokenization of the data points. The tokenization of the data points is now:
+Importantly, as we are enforcing the Transformer to learn the relative distances between the data points, we must remove the $\bm{x}$ values from the tokenization of the data points. Therefore, the tokenization of the data points is given by:
 
 \[
 	\bm{t_i} = \begin{cases}
@@ -100,7 +99,7 @@ Importantly since we are enforcing the Transformer to learn the relative distanc
 \end{figure}
 
 
-A benefit of removing the $\bm{x}$ values from the tokenization is that the tokens only need to encode the $\bm{y}$ values, reducing the dimensionality of the tokens whilst also separating the encoding for $\bm{x}$ and $\bm{y}$ values which could be beneficial for the model as in the vanilla TNP the model loses distinction between the $\bm{x}$ and $\bm{y}$ values since they are embedded together.
+The removal of the $\bm{x}$ values from the tokenization allows the tokens to solely encode the $\bm{y}$ values, thereby reducing the dimensionality of the tokens. These separations the encoding for $\bm{x}$ and $\bm{y}$ values could be beneficial for the model, as in the vanilla TNP the model loses distinction between the $\bm{x}$ and $\bm{y}$ due to their joint tokenization. We hypothesize that separation of input and output tokens could aid in the learning of the relationships between input and output data points and improve the generalization of the model.
 
 
 
