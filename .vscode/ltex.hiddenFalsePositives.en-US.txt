@@ -1,3 +1,5 @@
 {"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qwhere \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q is the activation function, the authors use the GELU function \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
 {"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qwhere MLP\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q,MLP\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q transforms the dimension of the input to a lower dimension \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
 {"rule":"WHITESPACE_RULE","sentence":"^\\QName: Lakee Sivaraya, College: Emmanuel College, Supervisor: Prof. Richard E. Turner\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qwhere \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q is the embedding of the context point \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q and \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q are the parameters of the encoder.\\E$"}
+{"rule":"PRP_VB","sentence":"^\\QThey performance of CNNs has made them to be a desirable backbone for a Neural Process, motivating the development of the Convolutional Neural Processes (ConvNPs) \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}

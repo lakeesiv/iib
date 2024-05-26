@@ -39,3 +39,4 @@ uncertaincy-aware
 DeepSet
 pseduotokens
 kernelization
+CNPs
