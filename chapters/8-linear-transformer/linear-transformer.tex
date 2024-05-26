@@ -9,7 +9,7 @@ From \autoref{tab:memory-usage-comparison} and \autoref{tab:memory-usage-compari
 
 \section{Pseudotokens}
 
-Pseudotokens (also known as Inducing Points) are a set of tokens that are used to approximate the full set of tokens, it can be thought of as a lower dimensional representation of the data set. They have been widely used in the context of Gaussian Processes (GPs) to reduce the complexity of the model with great success \cite{hensman2013gaussian}. The original tokens $\bm{X} \elof{N}{D}$ are projected onto into a lower-dimensional space $\bm{I} \elof{M}{D}$ where $M << N$ through some translation equivariant network \cite{anonymous2024translationequivariant} giving us the pseudotokens $\bm{I}$ which are translation equivariant to the original tokens $\bm{X}$. We then perform cross-attention between the pseudotokens $\bm{I}$ and the original tokens $\bm{X}$, hence reducing the memory complexity to $\mathcal{O}(MN_c + MM_t)$. 
+Pseudotokens (also known as Inducing Points) are a set of tokens that are used to approximate the full set of tokens, it can be thought of as a lower dimensional representation of the data set. They have been widely used in the context of Gaussian Processes (GPs) to reduce the complexity of the model with great success \cite{hensman2013gaussian}. The original tokens $\bm{X} \elof{N}{D}$ are projected onto into a lower-dimensional space $\bm{I} \elof{M}{D}$ where $M << N$ through some translation equivariant network \cite{anonymous2024translationequivariant} giving us the pseudotokens $\bm{I}$ which are translation equivariant to the original tokens $\bm{X}$. We then perform cross-attention between the pseudotokens $\bm{I}$ and the original tokens $\bm{X}$, hence reducing the memory complexity to $\mathcal{O}(MN_c + MN_t)$. 
 
 
 % ./fig/set-transformer.png
@@ -25,7 +25,7 @@ We consider two implementations of a pseudotokens based Transformer, one is the 
 
 \section{Linear Transformer}
 
-\cite{katharopoulos2020transformers} introduces a kernelized form of the attention mechanism that allows the model to be linear in the number of tokens. The output of an attention head $\bm{H}$ is computed as follows:
+\cite{katharopoulos2020transformers} introduces a kernelized form of the attention mechanism that allows the model to be linear with the number of tokens. The output of an attention head $\bm{H}$ is computed as follows:
 
 \begin{equation}
     \bm{H}_i = \frac{\phi(\bm{Q}_i)^T \sum_{j=1}^{N} \phi(\bm{K}_j) \bm{V}_j^T}{\phi(\bm{Q}_i)^T \sum_{j=1}^{N} \phi(\bm{K}_j)}
@@ -36,9 +36,9 @@ Where $\phi$ is a function that introduces non-linearities, the authors use the 
 
 \section{HyperMixer}
 
-\emph{Is attention required for a Transformer model to be effective?} The majority of parameters in Transformers are in the MLPs and not the attention mechanism. \cite{tolstikhin2021mlpmixer} proposes the `MLP-Mixer' - a Transformer model that replaces the attention mechanism with MLPs across rows and columns of the input. It can be viewed as `mixing' the features across tokens allowing it to learn patterns in a way akin to attention. However, the MLP-Mixer requires a \textbf{known and fixed input size} which breaks the flexibility of the model if we apply it to a NP.
+\emph{Is attention required for a Transformer model to be effective?} The majority of parameters in Transformers are in the MLPs and not the attention mechanism. \cite{tolstikhin2021mlpmixer} proposes the `MLP-Mixer' - a Transformer model that replaces the attention mechanism with MLPs across rows and columns of the input. It can be viewed as `mixing' the features across tokens, thus learning patterns in a way akin to attention. However, the MLP-Mixer requires a \textbf{known and fixed input size} which breaks the flexibility of the model if we apply it to a NP.
 
-To overcome this limitation in flexibility, the `HyperMixer' \cite{mai2023hypermixer} model was proposed which is a variant of the MLP-Mixer that is designed to work with variable input sizes. The model uses hypernetworks \cite{ha2016hypernetworks} to generate the weights of the MLPs. The hypernetworks $h_k, h_q : \mathbb{R}^{n \times d} \rightarrow \mathbb{R}^{n \times p}$ are applied on the queries $\bm{Q}$ and keys $\bm{K}$ of the input (row wise) to generate the weights:
+To overcome this limitation in flexibility, the `HyperMixer'  model \cite{mai2023hypermixer} was proposed which is a variant of the MLP-Mixer that is designed to work with variable input sizes. The model uses hypernetworks \cite{ha2016hypernetworks} to generate the weights of the MLPs. The hypernetworks $h_k, h_q : \mathbb{R}^{n \times d} \rightarrow \mathbb{R}^{n \times p}$ are applied on the queries $\bm{Q}$ and keys $\bm{K}$ of the input (row wise) to generate the weights:
 
 % vector with dots in between
 \begin{align}
@@ -60,11 +60,11 @@ where $\text{MLP}_k, \text{MLP}_q: \mathbb{R}^d \rightarrow \mathbb{R}^p$ transf
     \bm{H} = \bm{W_k} \sigma(\bm{W_q}^T \bm{V})
 \end{equation}
 
-With $\sigma$ being the activation function, the authors use the GELU function \cite{hendrycks2023gaussian}.
+With $\sigma$ being an activation function, the authors use the GELU function \cite{hendrycks2023gaussian}.
 Cross attention is performed by generating the queries from one input and the keys and values from another input. We simply replace attention in the original TNP model with the HyperMixer giving us the `HyperMixNP' model. 
 
 \begin{note}[Lack of Translation Equivariance]
-    Both the LinearTNP and HyperMixNP models are not translation equivariant. To introduce TE without using pseudotokens, we require the use of the pairwise differences matrix $\bm{\Delta}$ \autoref{eq:relative-attention}, which would increase the complexity of the model to $\mathcal{O}(N^2)$. It is possible to use pseudotokens in conjunction with these model to achieve translation equivariance however this was not explored in this work.
+    Both the LinearTNP and HyperMixNP models are not translation equivariant. To introduce TE without using pseudotokens, we require the use of the pairwise differences matrix $\bm{\Delta}$ (\autoref{eq:relative-attention}), which would increase the complexity of the model to $\mathcal{O}(N^2)$. It is possible to use pseudotokens in conjunction with these model to achieve translation equivariance however this was not explored in this work.
 \end{note}
 
 \section{Experimental Results}
@@ -87,7 +87,7 @@ Cross attention is performed by generating the queries from one input and the ke
     \end{table}
 \FloatBarrier
 
-\autoref{tab:2d-comparison-lin} shows the validation loss of the models on the 2D datasets. All the linear models perform similarly to each other and outperform the ConvNP in the GP dataset. However on the Sawtooth dataset, none of the linear models are able to learn the dataset, even with hyperparameters tuning. Such a result is surprising, and potentially indicates that we lose some expressive power by simplifying the attention mechanism to be linear. Ultimately, the TETNP massively outperforms all the models, giving us excellent fits on both datasets.
+\autoref{tab:2d-comparison-lin} shows the validation loss of the models on the 2D datasets. All the linear models perform similarly to each other and outperform the ConvNP in the GP dataset. However on the Sawtooth dataset, none of the linear models are able to learn the dataset, even with hyperparameters tuning. Such a result is surprising, and potentially indicates that loss of expressive power by simplifying the attention mechanism to be linear. Ultimately, the TETNP massively outperforms all the models.
 
 \subsection{Computational Complexity}
 

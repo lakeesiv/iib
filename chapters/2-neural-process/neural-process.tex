@@ -48,14 +48,13 @@ In the original CNP paper, the encoder and decoder are implemented as simple Mul
 Importantly, CNPs make the strong assumption that the posterior distribution \emph{factorizes} over the target points:
 
 \begin{align}
-    p(\bm{Y}\isup{t} | \bm{X}\isup{t}, \mathcal{C}) &\stackrel{(a)}{=} \prod_{i=1}^{N_t} p(\bm{{y}_i\isup{t}} | \bm{{x}_i\isup{t}}, \bm{R}(\mathcal{C}))  \stackrel{(b)}{=}\\
-    \prod_{i=1}^{N_t} \mathcal{N}(\bm{{y}_i\isup{t}} | \bm{\mu_i}, \bm{\sigma_i}^2) 
+    p(\bm{Y}\isup{t} | \bm{X}\isup{t}, \mathcal{C}) &\stackrel{(a)}{=} \prod_{i=1}^{N_t} p(\bm{{y}_i\isup{t}} | \bm{{x}_i\isup{t}}, \bm{R}(\mathcal{C})) \\ &\stackrel{(b)}{=} \prod_{i=1}^{N_t} \mathcal{N}(\bm{{y}_i\isup{t}} | \bm{\mu_i}, \bm{\sigma_i}^2) 
 \end{align}
 
 The  factorization assumption (a) allows the model can scale linearly with the number of target points with a tractable likelihood. However, this assumption means
 \textbf{CNPs are unable to generate coherent sample paths, they are only able to produce distributions over the target points.} Furthermore, we need to select a marginal likelihood for the distribution (b) which is usually a Heteroscedastic Gaussian Likelihood (Gaussian with a variance that varies with the input) \cite{garnelo2018conditional}. This adds an assumption since likelihood chosen may not be appropriate for the data we are modeling.
 
-The model can be trained using simple maximum likelihood estimation (MLE) by minimizing the negative log-likelihood giving us the following loss function:
+The model can be trained using simple maximum likelihood estimation (MLE) by minimizing the negative log-likelihood, giving us the following loss function:
 
 \begin{equation}
     \mathcal{L} = \mathbb{E}_{(\mathcal{C}, \mathcal{T})} \left[- \sum_{i=1}^{|\mathcal{T}|} \log p(\bm{{y}_i\isup{t}} | \bm{{x}_i\isup{t}}, \mathcal{C})\right]
