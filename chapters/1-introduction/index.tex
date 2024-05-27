@@ -17,7 +17,7 @@ Furthermore, we would like the model to possess properties that enhance its abil
 \end{itemize}
 
 
-To achieve this, we insert some desirable inductive biases that help the model to generalize better and be more interpretable. These properties are:
+To achieve this, we insert some desirable properties and inductive biases that help the model to generalize better and be more interpretable. These properties are:
 
 \textbf{Flexible}: \emph{The model should be able to work on a variety of data types}. As long as a data point can be represented as a vector, the model should be able to operate on it. This allows the model to be used in a variety of applications and domains.
 
@@ -53,7 +53,7 @@ where $\bm{x}$ is the input and $\bm{\hat{y}}$ is the output and $\bm{\tau}$ is 
 
 Neural Processes (NPs) \parencite{garnelo2018neural} are a class of uncertainty aware models that can be used for meta-learning. The framework undermining NPs is general purpose, whilst fulfilling the properties discussed earlier. Due to their flexibility, the NP architectures can be easily adapted to incorporate various backbone models and inductive biases. 
 
-In this work, we aim to implement and compare two different neural network architectures for Neural Processes, the first being based on a Convolutional Neural Network (CNN) called Convolutional Neural Processes (ConvNP) and the second being based on a Transformer architecture called Transformer Neural Processes (TNP). Our objective is to compare the performance of two models on a variety of datasets, focusing on their generalization capabilities and scalability.
+In this work, we aim to implement and compare two different neural network architectures for the Neural Processes, the first being based on a Convolutional Neural Network (CNN) called Convolutional Neural Processes (ConvNP) and the second being based on a Transformer architecture called Transformer Neural Processes (TNP). Our objective is to compare the performance of two models on a variety of datasets, focusing on their generalization capabilities and scalability.
 
 We introduce extra inductive biases into the TNP to enhance its ability to generalize. Furthermore, we explore new Transformer architectures that have better computational efficiency compared to the original Transformer architecture.
 

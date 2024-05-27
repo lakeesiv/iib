@@ -2,9 +2,15 @@
 
 \begin{document}
 
+\section{Introduction}
+
+In this chapter, we extend the 1D experiments to 2D. We will use the same datasets as the 1D experiments, but extend them to 2D and see how the models perform with the additional complexity. We will investigate the performance of the TETNP with a modified variant of the relative attention scheme we introduced in \autoref{sec:tetnp}. Finally, we will investigate the memory usage of the ConvNP and TETNP in 2D and compare it to the 1D case.
+
 \section{Datasets}
 
-We will use the same datasets as the 1D experiments, but extend them to 2D. From both datasets, choose to sample $N_c = 64$ context points and $N_t = 128$ target points. The context region is defined as $x_1, x_2 \in [-2, 2]$ and the target region is defined as $x_1, x_2 \in [-4, 4]$.  In our plots, the context region will be inside a black dotted box and the target region will be inside a red dotted box. The extrapolation region is outside the target region.
+We will use the same datasets as the 1D experiments, but extend them to 2D. From both datasets, choose to sample $N_c = 64$ context points and $N_t = 128$ target points. The context and target region for the sawtooth dataset defined as $x_1, x_2 \in [-2, 2]$ and $x_1, x_2 \in [-4, 4]$ respectively. For the Gaussian Process dataset, the context and target region are defined as $x_1, x_2 \in [-4, 4]$ and $x_1, x_2 \in [-8, 8]$ respectively.  
+
+In our plots, the context region will be inside a black dotted box and the target region will be inside a red dotted box. The extrapolation region is outside the target region.
 
 \subsection{Gaussian Process}
 
@@ -61,7 +67,7 @@ The results show that the TETNP with the `Post MLP' outperforms the TETNP with t
 
 \section{Model Comparison}
 
-We have discovered in the 1D section that the TETNP outperforms the vanilla TNP in all cases, hence for the 2D experiments we will only compare the ConvNP to the TETNP. When performing our experiments we will use models which are both 1 million parameters in size, to ensure a fair comparison.
+We have discovered in the 1D section that the TETNP outperforms the vanilla TNP in all cases, hence for the 2D experiments we will only compare the ConvNP to the TETNP. When performing our experiments we will use models which are both 1 million parameters in size, to ensure a fair comparison. The technical details of the ConvNP and TETNP are described in \autoref{sec:convnp-2d-appendix} and \autoref{sec:tnp-appendix} respectively.
 
 \subsection{Gaussian Process}
 
@@ -114,7 +120,7 @@ As previously stated the restricted sawtooth dataset is a subset of the full saw
 
 \autoref{fig:res-saw-preds} shows that the ConvNP performs excellently on this dataset, which is expected as CNNs use filters to learn features and patterns in the data explicitly, allowing them to perform excellently on extrapolation tasks (outside the black dotted box region). The TETNP on the other hand struggles to generalize fully within the target region (red dotted box) and outside the target region. Instead, it learns to extrapolate the sawtooth along one axis, but not the other. This brings to light a limitation of the Transformer architecture - it has very little interpretability which can result in unexpected behavior.
 
-\emph{Is this TETNP able to generalize to the full sawtooth dataset?} To answer this question we will simply run the TETNP on a rotated version of the restricted sawtooth dataset which is the full sawtooth dataset.
+\emph{Is this TETNP able to generalize to the full sawtooth dataset?} To answer this question we apply the TETNP on a rotated version of the restricted sawtooth dataset which represents samples from the full sawtooth dataset.
 
 
 
@@ -127,7 +133,7 @@ As previously stated the restricted sawtooth dataset is a subset of the full saw
     \label{fig:no-re-saw-preds}
 \end{figure}
 
-In \autoref{fig:no-re-saw-preds} we explicitly reduced the target and context region size to allow for the TETNP to cover the full target region. The bottom plot illustrates the predictions when we rotate the context points by 45 degrees, clearly the TETNP completely fails, predicting only a constant mean and standard deviation. It struggles to generalize to rotations, which brings us to the question: \emph{Could introducing rotational equivariance to the TETNP help it generalize to the full sawtooth dataset?}
+In \autoref{fig:no-re-saw-preds}  illustrates the predictions when we rotate the context points by 45 degrees, clearly the TETNP completely fails, predicting only a constant mean and standard deviation. It struggles to generalize to rotations, which brings us to the question: \emph{Could introducing rotational equivariance to the TETNP help it generalize to the full sawtooth dataset?}
 
 \subsubsection{Rotational Equivariance}
 
@@ -212,6 +218,9 @@ The ConvNP performs terribly on the full sawtooth dataset, which may seem surpri
 
 \autoref{tab:memory-usage-comparison-2D} clearly demonstrates that the ConvNPs memory requirement has increased by a factor of $2^3$ compared to the 1D case \autoref{tab:memory-usage-comparison}, which agrees with the theoretical complexity of the ConvNP. On the other hand, the TETNP retains the same memory requirements as the 1D case, although it remains higher than the ConvNP. When scaling systems to higher dimensions (3D, 4D, etc.), the TETNP will be more memory-efficient than the ConvNP and will likely be the preferred choice.
 
+\section{Summary}
+
+In this chapter, we extended the 1D experiments to 2D and observed the performance of the ConvNP and TETNP on the Gaussian Process and Sawtooth datasets. We discovered that the TETNP outperforms the ConvNP on both datasets, with the ConvNP struggling to generalize to the full sawtooth dataset. We introduced rotational equivariance to the TETNP and observed a significant improvement in its ability to generalize to the full sawtooth dataset, when trained on the `restricted' dataset, demonstrating the ease of introducing inductive biases to the Transformer model. Finally, we compared the memory usage of the ConvNP and TETNP in 2D and observed that the TETNP scaled better than the ConvNP when increasing the number of dimensions. However, the TETNP still requires a significant amount of memory compared to the ConvNP. This motivates the need for more efficient Transformer models which will be explored in the next chapter. 
 
 
 \ifSubfilesClassLoaded{%

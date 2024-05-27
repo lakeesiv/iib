@@ -89,7 +89,7 @@ Cross attention is performed by generating the queries from one input and the ke
 
 \autoref{tab:2d-comparison-lin} shows the validation loss of the models on the 2D datasets. All the linear models perform similarly to each other and outperform the ConvNP in the GP dataset. However on the Sawtooth dataset, none of the linear models are able to learn the dataset, even with hyperparameters tuning. Such a result is surprising, and potentially indicates that loss of expressive power by simplifying the attention mechanism to be linear. Ultimately, the TETNP massively outperforms all the models.
 
-\subsection{Computational Complexity}
+\section{Computational Complexity}
 
 
 \begin{table}[H]
@@ -113,6 +113,10 @@ Cross attention is performed by generating the queries from one input and the ke
 \FloatBarrier
 
 \autoref{tab:memory-usage-comparison-2D-lin} demonstrates the drastic improvement in memory usage of the linear models compared to the quadratic models. The linear models are able to scale to larger datasets with a much smaller memory footprint, making them suitable for large-scale applications where data is smooth, and the quadratic models are infeasible to use. 
+
+\section{Summary}
+
+The Linear Transformer models are a promising direction for scaling up the Transformer models to larger datasets. They were able to significantly reduce the memory complexity of the model, however the loss of performance on the Sawtooth dataset is concerning. More research is required to understand the limitations of the linear attention mechanism and potentially improve the performance of the models.
 
 
 

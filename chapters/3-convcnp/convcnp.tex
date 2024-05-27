@@ -15,23 +15,23 @@ Convolutional Neural Networks (CNNs) have been the state of the art in many imag
 	\label{fig:convcnp}
 \end{figure}
 
-There are a few hurdles preventing us from directly plugging data into a CNN when working with off-grid data.	
 
-CNNs operate on \textbf{on-grid data}, implying the data is on a regular grid, such as an image. However, the data we are working with is sometimes \textbf{off-grid data}, e.g. time series dataset with irregular timestamps. Furthermore, to `bake-in' the translation equivariance property, we need to be able to shift the data in the input space and the output space consistently. This is not trivial when using standard vector representations of the data as their is no inherent notion translation in a vector.
+CNNs operate on \textbf{on-grid data}, implying the data is on a regular grid, such as an image. However, the data we are working with is sometimes \textbf{off-grid data}, e.g. time series dataset with irregular timestamps. Furthermore, to `bake-in' the translation equivariance property, we need to be able to shift the data in the input space and the output space consistently. This is not trivial when using standard vector representations of the data as there is no inherent notion of translation in a vector.
 \cite{gordon2020convolutional} propose a solution to this problem by using \textbf{functional embeddings} to model the discrete data as \emph{continuous functions}. With functional embeddings, the data can be translated in the input space and the output space consistently thus permitting translation equivariance.
 
 The \textbf{SetConv} operation takes a set of input-output pairs and outputs a continuous functional representation of the data as follows:
 
 \begin{equation}
+	\label{eq:setconv}
 	\text{SetConv}(\{\bm{x_i}, \bm{y_i}\}_{i=1}^{N})(x) = \sum_{i=1}^{N} [1, \bm{y_i}] ^ T \mathcal{K}(\bm{x} - \bm{x_i})
 \end{equation}
 
-Where $\mathcal{K}$ is a Kernel function that measures the distance between the query $x$ and the data point $\bm{x_i}$.
+Where $\mathcal{K}$ is a kernel function that measures the distance between the query $x$ and the data point $\bm{x_i}$.
 
 This operation has some key properties:
 \bul{
 	\item We append $1$ to output $\bm{y_i}$ when computing the SetConv, this acts as a flag allowing the  model to knows which data points are observed and which are not. Say we have a data point of $\bm{y_i} = 0$, then if we did not append the $1$, the model would not be able to distinguish between an observed data point and an unobserved data point (as both would be $0$).
-	\item The `weight' of the Kernel depends only on the \emph{relative distance} between points on the input space hence the model is translation equivariant.
+	\item The `weight' of the kernel depends only on the \emph{relative distance} between points on the input space hence the model is translation equivariant.
 	\item The summation over the data points naturally introduces \textbf{Permutation Invariance} to the model.
 }
 

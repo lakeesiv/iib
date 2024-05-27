@@ -36,7 +36,7 @@ The overall attention function for a layer is given by:
 
 \subsection{Multi-Head Self-Attention}
 
-Currently, the attention matrix $\bm{A}$ is computed once so the model only learns one attention relationship, however, we can take advantage of using multiple attention `heads' in parallel to learn many attention relationships, this scheme is called the \emph{Multi-Head Attention} (MHSA). 
+Currently, the attention matrix $\bm{A}$ is computed once so the model only learns one attention relationship, however, we can take advantage of using multiple attention `heads' in parallel to learn many attention relationships, this scheme is called the \emph{Multi-Head Self Attention} (MHSA). 
 
 Each attention head is computed using simple dot product attention of a transformed query, key and value matrix. They are transformed by a simple linear layer (a matrix) which is unique for each head of the MHSA, $\bm{W_q}\isup{i} \elof{d_k}{d_k}$, $\bm{W_k}\isup{i} \elof{d_k}{d_k}$ and $\bm{W_v}\isup{i} \elof{d_v}{d_v}$ where $i \in [1, h]$ for a head count of $h$. Then the attention for the particular head is computed as follows:
 

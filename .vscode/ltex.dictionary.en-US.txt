@@ -42,3 +42,4 @@ kernelization
 CNPs
 ReLU
 lengtscale
+quadratically

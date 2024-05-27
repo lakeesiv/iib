@@ -63,8 +63,7 @@ Where $\sigma$ is a hyperparameter of the RBF function and $\text{MLP}(\Delta)$ 
 
 \section{Optimizing Hyperparameters}
 
-The multi-headed attention mechanism in the Transformer Encoder has three hyperparameters that we will investigate. These are
-the token embedding dimension of the data ($D_{em}$), the number of attention heads ($N_h$) and the embedding dimension of the attention heads ($D_h$). We will investigate how changing these hyperparameters affects the performance of the model. To gauge the effect of these hyperparameters, we use a 1 million parameter model and reduce the value of one of the hyperparameters and see the effect on the validation loss. This process is repeated for the other hyperparameters to see which hyperparameters have the most effect on the validation loss. 
+The multi-headed attention mechanism in the Transformer Encoder has three hyperparameters that we will investigate. These are the token embedding dimension of the data ($D_{em}$), the number of attention heads ($N_h$) and the embedding dimension of the attention heads ($D_h$). We will investigate how changing these hyperparameters affects the performance of the model. To gauge the effect of these hyperparameters, we use a 1 million parameter model and reduce the value of one of the hyperparameters and see the effect on the validation loss. This process is repeated for the other hyperparameters to see which hyperparameters have the most effect on the validation loss. 
 
 
 
@@ -96,11 +95,11 @@ From \autoref{fig:hyperparam-optimization} it is clear that reducing the token e
 
 
 
-\section{TNP vs ConvNP}
+\section{Model Comparison}
 
 % \subsection{Model Fits}
 
-Using the `best' TNP model, we will compare the performance of the ConvNP and TNP on fitting sawtooth and GP (using EQ Kernel) data using 1 million parameters. 
+Using the `best' TNP model, we will compare the performance of the ConvNP and TNP on fitting sawtooth and GP (using EQ Kernel) data using 1 million parameters. The details technical details of the models of the ConvNP and TNP are given in \autoref{sec:convnp-1d-appendix} and \autoref{sec:tnp-appendix} respectively.
 
 % result.png
 
@@ -125,7 +124,7 @@ Using the `best' TNP model, we will compare the performance of the ConvNP and TN
 
 Inspecting the model fits on sawtooth data \autoref{fig:1d-sawtooth-comparisons}, we observe that the TNP can extrapolate the structure of the sawtooth function beyond the range of the context set (black points) whilst the ConvNP performs decently but fails to retain the structure as well as the TNP, since the amplitude of the sawtooth reduces the further away from the context set. Hence, we can conclude that the TNP can better understand the structure of the data than the ConvNP.
 
-\subsection{Computational Complexity}
+\section{Computational Complexity}
 
 \begin{table}[H]
 	\centering
@@ -146,6 +145,11 @@ Inspecting the model fits on sawtooth data \autoref{fig:1d-sawtooth-comparisons}
 \end{table}
 
 \autoref{tab:memory-usage-comparison} shows that the TETNP uses drastically more memory than the ConvNP for the same number of context and target points. This is due to the quadratic complexity of the TETNP which scales with $\mathcal{O}(N_c^2 + N_cN_t)$ compared to the linear complexity of the ConvNP which scales with $\mathcal{O}(N_cD_x^3 + N_tD_x)$. Whilst on the 1D dataset the ConvNP is more memory efficient, the TETNPs complexity does not scale with the number of dimensions of the data, whilst the ConvNP \emph{scales cubically with the number of dimensions}. This may suggest that the TETNP is more suitable for high-dimensional data than the ConvNP since the TETNP has a fixed memory cost per dimension. We will investigate this in the next chapter on 2D datasets to see if the discrepancy in memory usage is still present.
+
+\section{Summary}
+
+In this chapter, we have optimized the hyperparameters of the TNP model and compared the performance of the ConvNP and TNP on 1D datasets. We found that the TNP outperforms the ConvNP on both the sawtooth and GP datasets. The TNP is able to better understand the structure of the data and extrapolate beyond the context set. However, the TNP is more memory intensive than the ConvNP and scales quadratically with the number of context points. The ConvNP scales cubically with the number of dimensions of the data, potentially making the TNP more suitable for high-dimensional data. As such, we will investigate the performance of the models on 2D datasets in the next chapter to see if the difference between the models is exacerbated in higher dimensions.
+
 
 \ifSubfilesClassLoaded{%
     \printbibliography{}
