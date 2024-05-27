@@ -197,24 +197,31 @@ The ConvNP performs terribly on the full sawtooth dataset, which may seem surpri
 \section{Computational Complexity}
 
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{@{}llcc@{}}
-    \toprule
-    $N_c$ & $N_t$ & ConvNP Memory (MB) & TETNP Memory (MB) \\ \midrule
-    10    & 10    & 24                 & 13                \\
-    100   & 10    & 29                 & 23                \\
-    1000  & 10    & 257                & 984               \\
-    5000  & 10    & 1273               & 24082             \\ \midrule
-    10    & 1000  & 224                & 26                \\
-    100   & 1000  & 268                & 113               \\
-    1000  & 1000  & 378                & 985               \\
-    5000  & 1000  & 1273               & 24083             \\ \bottomrule
-    \end{tabular}
-    \caption{Memory usage of ConvNP and TETNP on a 2D dataset with 1 million parameter models. $N_c$ is the number of context points and $N_t$ is the number of target points.}
-    \label{tab:memory-usage-comparison-2D}
-    \end{table}
-\FloatBarrier
+% \begin{table}[H]
+%     \centering
+%     \begin{tabular}{@{}llcc@{}}
+%     \toprule
+%     $N_c$ & $N_t$ & ConvNP Memory (MB) & TETNP Memory (MB) \\ \midrule
+%     10    & 10    & 24                 & 13                \\
+%     100   & 10    & 29                 & 23                \\
+%     1000  & 10    & 257                & 984               \\
+%     5000  & 10    & 1273               & 24082             \\ \midrule
+%     10    & 1000  & 224                & 26                \\
+%     100   & 1000  & 268                & 113               \\
+%     1000  & 1000  & 378                & 985               \\
+%     5000  & 1000  & 1273               & 24083             \\ \bottomrule
+%     \end{tabular}
+%     \caption{Memory usage of ConvNP and TETNP on a 2D dataset with 1 million parameter models. $N_c$ is the number of context points and $N_t$ is the number of target points.}
+%     \label{tab:memory-usage-comparison-2D}
+%     \end{table}
+% \FloatBarrier
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.97\linewidth]{./fig/runtime2d.pdf}
+	\caption{Memory Usage of the models on 1D data using $N_c$ context points and $N_t = 10$ (left) $N_t = 1000$ (right) points. Log scale is used for the y-axis.}
+	\label{tab:memory-usage-comparison-2D}
+\end{figure}
 
 \autoref{tab:memory-usage-comparison-2D} clearly demonstrates that the ConvNPs memory requirement has increased by a factor of $2^3$ compared to the 1D case \autoref{tab:memory-usage-comparison}, which agrees with the theoretical complexity of the ConvNP. On the other hand, the TETNP retains the same memory requirements as the 1D case, although it remains higher than the ConvNP. When scaling systems to higher dimensions (3D, 4D, etc.), the TETNP will be more memory-efficient than the ConvNP and will likely be the preferred choice.
 

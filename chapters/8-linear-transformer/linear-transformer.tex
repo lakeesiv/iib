@@ -92,27 +92,38 @@ Cross attention is performed by generating the queries from one input and the ke
 \section{Computational Complexity}
 
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{@{}llccccc@{}}
-    \toprule
-    &  & \multicolumn{3}{c}{Linear} & \multicolumn{2}{c}{Quadratic} \\ \cmidrule(lr){3-5} \cmidrule(lr){6-7}
-    $N_c$ & $N_t$  & HyperMixNP & LinearTNP & PT-TNP & ConvNP & TETNP \\ \midrule
-    10     & 10    & 16         & 16        & 19     & 24     & 13    \\
-    100    & 10    & 16         & 16        & 19     & 29     & 23    \\
-    1000   & 10    & 23         & 31        & 50     & 257    & 984   \\
-    5000   & 10    & 69         & 109       & 190    & 1273   & 24082 \\ \midrule
-    10     & 1000  & 19         & 25        & 51     & 268    & 26    \\
-    100    & 1000  & 19         & 31        & 51     & 268    & 113   \\
-    1000   & 1000  & 24         & 32        & 51     & 268    & 985   \\
-    5000   & 1000  & 70         & 109       & 191    & 1273   & 24083 \\ \bottomrule
-    \end{tabular}
-    \caption{Memory usage of the models in MB under inference using $N_c$ context points and $N_t$ target points on the 2D datasets.}
-    \label{tab:memory-usage-comparison-2D-lin}
-\end{table}
-\FloatBarrier
+% \begin{table}[H]
+%     \centering
+%     \begin{tabular}{@{}llccccc@{}}
+%     \toprule
+%     &  & \multicolumn{3}{c}{Linear} & \multicolumn{2}{c}{Quadratic} \\ \cmidrule(lr){3-5} \cmidrule(lr){6-7}
+%     $N_c$ & $N_t$  & HyperMixNP & LinearTNP & PT-TNP & ConvNP & TETNP \\ \midrule
+%     10     & 10    & 16         & 16        & 19     & 24     & 13    \\
+%     100    & 10    & 16         & 16        & 19     & 29     & 23    \\
+%     1000   & 10    & 23         & 31        & 50     & 257    & 984   \\
+%     5000   & 10    & 69         & 109       & 190    & 1273   & 24082 \\ \midrule
+%     10     & 1000  & 19         & 25        & 51     & 268    & 26    \\
+%     100    & 1000  & 19         & 31        & 51     & 268    & 113   \\
+%     1000   & 1000  & 24         & 32        & 51     & 268    & 985   \\
+%     5000   & 1000  & 70         & 109       & 191    & 1273   & 24083 \\ \bottomrule
+%     \end{tabular}
+%     \caption{Memory usage of the models in MB under inference using $N_c$ context points and $N_t$ target points on the 2D datasets.}
+%     \label{tab:memory-usage-comparison-2D-lin}
+% \end{table}
+% \FloatBarrier
 
-\autoref{tab:memory-usage-comparison-2D-lin} demonstrates the drastic improvement in memory usage of the linear models compared to the quadratic models. The linear models are able to scale to larger datasets with a much smaller memory footprint, making them suitable for large-scale applications where data is smooth, and the quadratic models are infeasible to use. 
+% ./fig/runtimelinear.pdf 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.97\textwidth]{fig/runtimelinear.pdf}
+    \caption{Memory usage (MB) of the models on the 2D datasets using $N_t = 10$ (left) and $N_t = 1000$ (right). The $y$-axis is in log scale.}
+    \label{fig:runtime-linear}
+\end{figure}
+
+
+
+\autoref{fig:runtime-linear} demonstrates the drastic improvement in memory usage of the linear models compared to the quadratic models. The linear models are able to scale to larger datasets with a much smaller memory footprint, making them suitable for large-scale applications where data is smooth, and the quadratic models are infeasible to use. 
 
 \section{Summary}
 

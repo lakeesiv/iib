@@ -14,7 +14,7 @@ The Convolutional Neural Process (ConvNP) model has no issues with learning thes
 
 In \autoref{sec:tetnp}  we proposed a novel method for introducing Translation Equivariance into the Transformer model by modifying the attention mechanism to only depend on the relative position of the tokens. This gives us the Transformer Equivariant Neural Process (TETNP) model.
 
-Investigation into the TETNP model on the 1D dataset showed a substantial improvement in performance over the TNP model for the sawtooth dataset, highlighting the importance of translation equivariance when modelling structured data with discontinuities. As a result the TETNP model out performs the ConvNP in the 1D dataset.
+Investigation into the TETNP model on the 1D dataset showed a substantial improvement in performance over the TNP model for the sawtooth dataset, highlighting the importance of translation equivariance when modelling structured data with discontinuities. As a result the TETNP model performs comparably to the ConvNP in the 1D dataset.
 
 Taking the experiments to 2D revealed the TETNP is able to massively outperform the ConvNP, especially on the sawtooth dataset. We highlight that with a simpler `restricted' version of the Sawtooth dataset, the TETNP does not learn the proper underlying structure of the `unrestricted' sawtooth dataset. Such behavior the limitation of the Transformer to learn structure without access to the full dataset. On the other hand, the ConvNP performs excellently on the restricted dataset, since the CNNs learn the filters for this simple dataset. On the full dataset, the ConvNP fails, we hypothesize that the CNN struggles to learn the sawtooth filter in all directions, leading to poor performance.
 

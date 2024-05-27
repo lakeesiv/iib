@@ -4,7 +4,6 @@
 
 
 \ifSubfilesClassLoaded{%
-    \vspace{-15cm}
     \section*{Unifying Transformers and Convolutional \\Neural Processes}
     \textbf{Name}: Lakee Sivaraya \\\textbf{College}: Emmanuel College\\ \textbf{Supervisor}: Prof. Richard E. Turner\\
     \noindent\rule{\textwidth}{1pt}
@@ -16,7 +15,7 @@ Knowledge of the uncertainty in predictions is crucial for real-world applicatio
 
 Standard DeepSet based NP models exhibit some limitations, particularly its inability to model complicated relationships in high dimensional data. To extend the capabilities of NPs, we replace the DeepSet with two powerful architectures: Convolutional Neural Networks (CNNs) and Transformers giving rise to the Convolutional Neural Processes (ConvNPs) and the Transformer Neural Processes (TNPs) respectively. 
 
-Both models are based off two powerful archiectures which are bound to have their own strengths and weaknesses. The ConvNP is based off CNNs, which are known for their ability to learn spatial patterns in the data via convolutional filters. The TNP is based off Transformers, which are known for their ability to model long-range dependencies in the data. We compare the ConvNP and TNP on a range of datasets, including smooth, discontinuous and periodic datasets to quantify their performance.
+Both models are based off two powerful architectures which are bound to have their own strengths and weaknesses. The ConvNP is based off CNNs, which are known for their ability to learn spatial patterns in the data via convolutional filters. The TNP is based off Transformers, which are known for their ability to model long-range dependencies in the data. We compare the ConvNP and TNP on a range of datasets, including smooth, discontinuous and periodic datasets to quantify their performance.
 
 Our experiments demonstrate that the TNP outperforms the ConvNP, especially in higher dimensions. However, TNPs display unpredictable behavior when extrapolating outside the training data, while ConvNPs remain stable. We hypothesize the stability of the ConvNP is due to the \emph{translation equivariance} property of CNNs. Translation equivariance enforces the model to produce the same output when the input is translated, such property is greatly beneficial when modelling stationary or periodic data, e.g. spatio-temporal data.
 We hypothesize, the lack of translation equivariance in TNPs leads to poor generalization on data far from the training distribution.

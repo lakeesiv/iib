@@ -99,56 +99,67 @@ From \autoref{fig:hyperparam-optimization} it is clear that reducing the token e
 
 % \subsection{Model Fits}
 
-Using the `best' TNP model, we will compare the performance of the ConvNP and TNP on fitting sawtooth and GP (using EQ Kernel) data using 1 million parameters. The details technical details of the models of the ConvNP and TNP are given in \autoref{sec:convnp-1d-appendix} and \autoref{sec:tnp-appendix} respectively.
-
-% result.png
+Using the `best' TNP model, we will compare the performance of the ConvNP, TNP and TETNP on fitting sawtooth and GP (using EQ Kernel) data with 1 million parameter models. The details technical details of the models of the ConvNP and TETNP/TNP are given in \autoref{sec:convnp-1d-appendix} and \autoref{sec:tnp-appendix} respectively.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\linewidth]{./convcnp-vs-tetnp-saw-gp.pdf}
-	\caption{ConvNP vs TNP on Sawtooth and GP Data}
+	\subfloat[GP]{\includegraphics[width=0.7\linewidth]{./fig/gp-loss.pdf}}\\
+	\subfloat[Sawtooth]{\includegraphics[width=0.7\linewidth]{./fig/saw-loss.pdf}}
+	\caption{Validation Loss Curves for the ConvNP, TNP and TETNP on 1D datasets. Lower validation loss is better.}
 	\label{fig:conv-tnp-1d-result}
 \end{figure}
 
-\autoref{fig:conv-tnp-1d-result} shows the validation loss curves for the ConvNP and TNP on sawtooth and GP data. The validation loss for the TNP is lower than the ConvNP for both datasets which is very promising and indicates the TNP is a better model than the ConvNP. 
-
+\autoref{fig:conv-tnp-1d-result} shows the validation loss curves for the ConvNP, TNP and TETNP on sawtooth and GP data. On both datasets we observe the ConvNP learning very quickly and achieving a low validation loss. All models perform well on the GP dataset, with no stand out model. However, on sawtooth dataset the TNP performs poorly, with the TETNP able to reach the same validation loss as the ConvNP.
 
 \begin{figure}[H]
 	\centering
-	\subfloat[TNP]{\includegraphics[width=0.47\linewidth]{./tnp_saw.png}\label{fig:1d-sawtooth-comparisons-tnp_saw}}
+	\subfloat[TNP]{\includegraphics[width=0.47\linewidth]{./fig/1d-saw/tnp.png}\label{fig:1d-sawtooth-comparisons-tnp_saw}}
 	\qquad
-	\subfloat[ConvNP]{\includegraphics[width=0.47\linewidth]{./convnp_saw.png}\label{fig:1d-sawtooth-comparisons-convnp_saw}}
-	\caption{ConvNP vs TNP on Sawtooth Data. The context set inputs are between [-4, 4] and the target set inputs are between [-10, 10] which extends beyond the context set to test the models' extrapolation capabilities.} 
+	\subfloat[TETNP]{\includegraphics[width=0.47\linewidth]{./fig/1d-saw/tetnp.png}\label{fig:1d-sawtooth-comparisons-tetnp_saw}}
+	\qquad
+	\subfloat[ConvNP]{\includegraphics[width=0.47\linewidth]{./fig/1d-saw/convnp.png}\label{fig:1d-sawtooth-comparisons-convnp_saw}}
+	\caption{Model comparisons on Sawtooth Data. The context set inputs are between [-4, 4] and the target set inputs are between [-10, 10] which extends beyond the context set to test the models' extrapolation capabilities. The bottom plot shows inference on a dataset translated by 10 units to test the models' generalization capabilities.}
 	\label{fig:1d-sawtooth-comparisons}
 \end{figure}
 
-Inspecting the model fits on sawtooth data \autoref{fig:1d-sawtooth-comparisons}, we observe that the TNP can extrapolate the structure of the sawtooth function beyond the range of the context set (black points) whilst the ConvNP performs decently but fails to retain the structure as well as the TNP, since the amplitude of the sawtooth reduces the further away from the context set. Hence, we can conclude that the TNP can better understand the structure of the data than the ConvNP.
+Inspecting the model fits on sawtooth data \autoref{fig:1d-sawtooth-comparisons}, near the edge of the target region, we observe that the TETNP performs at best at retaining the structure, followed by the ConvNP and then the TNP. Due to TE both the TETNP and ConvNP work perfectly when the data is translated by 10 units (as shown by the bottom plots). On the other hand, the TNP fails completely in this case. As a result we can conclude that TE equivariance is an excellent property to have in a model, and the TETNP and ConvNP are ideal models for this task.
 
 \section{Computational Complexity}
 
-\begin{table}[H]
+% \begin{table}[H]
+% 	\centering
+% 	\begin{tabular}{@{}llccc@{}}
+% 	\toprule
+% 	$N_c$ & $N_t$ & ConvNP  & TNP   & TETNP \\ \midrule
+% 	10    & 10    & 18                 & 13               &  13\\
+% 	100   & 10    & 16                 & 18               &  23\\
+% 	1000  & 10    & 16                 & 339              &  980 \\
+% 	5000  & 10    & 124                & 9357             &  23060\\ \midrule
+% 	10    & 1000  & 36                 & 399              &  25\\
+% 	100   & 1000  & 36                 & 469              &  100\\
+% 	1000  & 1000  & 36                 & 1510             &  1012\\
+% 	5000  & 1000  & 124                & 13480            &  24082\\ \bottomrule
+% 	\end{tabular}
+% 	\caption{Memory Usage in inference of the ConvNP and TETNP on 1D data using $N_c$ context points and $N_t$ target points.}
+% 	\label{tab:memory-usage-comparison}
+% \end{table}
+
+% % ./runtime1d.pdd
+
+\begin{figure}[H]
 	\centering
-	\begin{tabular}{@{}llccc@{}}
-	\toprule
-	$N_c$ & $N_t$ & ConvNP  & TNP   & TETNP \\ \midrule
-	10    & 10    & 18                 & 13               &  13\\
-	100   & 10    & 16                 & 18               &  23\\
-	1000  & 10    & 16                 & 339              &  980 \\
-	5000  & 10    & 124                & 9357             &  23060\\ \midrule
-	10    & 1000  & 36                 & 399              &  25\\
-	100   & 1000  & 36                 & 469              &  100\\
-	1000  & 1000  & 36                 & 1510             &  1012\\
-	5000  & 1000  & 124                & 13480            &  24082\\ \bottomrule
-	\end{tabular}
-	\caption{Memory Usage in inference of the ConvNP and TETNP on 1D data using $N_c$ context points and $N_t$ target points.}
+	\includegraphics[width=0.97\linewidth]{./runtime1d.pdf}
+	\caption{Memory Usage of the models on 1D data using $N_c$ context points and $N_t = 10$ (left) $N_t = 1000$ (right) points. Log scale is used for the y-axis.}
 	\label{tab:memory-usage-comparison}
-\end{table}
+\end{figure}
 
 \autoref{tab:memory-usage-comparison} shows that the TETNP uses drastically more memory than the ConvNP for the same number of context and target points. This is due to the quadratic complexity of the TETNP which scales with $\mathcal{O}(N_c^2 + N_cN_t)$ compared to the linear complexity of the ConvNP which scales with $\mathcal{O}(N_cD_x^3 + N_tD_x)$. Whilst on the 1D dataset the ConvNP is more memory efficient, the TETNPs complexity does not scale with the number of dimensions of the data, whilst the ConvNP \emph{scales cubically with the number of dimensions}. This may suggest that the TETNP is more suitable for high-dimensional data than the ConvNP since the TETNP has a fixed memory cost per dimension. We will investigate this in the next chapter on 2D datasets to see if the discrepancy in memory usage is still present.
 
 \section{Summary}
 
-In this chapter, we have optimized the hyperparameters of the TNP model and compared the performance of the ConvNP and TNP on 1D datasets. We found that the TNP outperforms the ConvNP on both the sawtooth and GP datasets. The TNP is able to better understand the structure of the data and extrapolate beyond the context set. However, the TNP is more memory intensive than the ConvNP and scales quadratically with the number of context points. The ConvNP scales cubically with the number of dimensions of the data, potentially making the TNP more suitable for high-dimensional data. As such, we will investigate the performance of the models on 2D datasets in the next chapter to see if the difference between the models is exacerbated in higher dimensions.
+In this chapter, we have optimized the hyperparameters of the TETNP/TNP model and compared the performance of the ConvNP, TNP and TETNP on 1D datasets. We found that the TETNP outperforms the TNP on the sawtooth dataset highlighting the importance of translation equivariance in this mask. Overall the TETNP performs comparably to the ConvNP on both datasets in terms of validation loss.
+
+However, the TETNP/TNP is more memory intensive than the ConvNP and scales quadratically with the number of context points. On the other hand, the ConvNP scales cubically with the data dimensionality, potentially making the TETNP/TNP more suitable for high-dimensional data. As such, we will investigate the performance of the models on 2D datasets in the next chapter to see if the difference between the models is exacerbated in higher dimensions.
 
 
 \ifSubfilesClassLoaded{%
